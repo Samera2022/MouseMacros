@@ -1,0 +1,23 @@
+{
+  "title": "鼠标宏录制器",
+  "save_macro": "保存宏",
+  "load_macro": "加载宏",
+  "settings": "设置",
+  "custom_hotkey": "自定义热键",
+  "switch_lang": "切换语言",
+  "choose_lang": "请选择语言：",
+  "confirm": "确定",
+  "start_record": "开始录制",
+  "stop_record": "停止录制",
+  "execute_macro": "执行宏",
+  "start_recording": "开始录制...",
+  "recording_msg1": "记录：按下",
+  "recording_msg2": "记录：松开",
+  "stop_recording_msg1": "录制结束，共记录 ",
+  "stop_recording_msg2": " 个操作",
+  "no_recorded_actions": "没有录制内容",
+  "start_playback": "开始回放...",
+  "playback_complete": "回放结束",
+  "playback_error": "回放异常: "
+}
+
