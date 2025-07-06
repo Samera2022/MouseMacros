@@ -1,3 +1,5 @@
+package io.github.samera2022.mouse_macros;
+
 import java.util.stream.Stream;
 
 public enum UpdateInfo {
@@ -32,5 +34,10 @@ public enum UpdateInfo {
                 .filter(log -> log.version.equals(version))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid version"));
+    }
+
+    // 新增：获取所有版本号的String数组
+    public static String[] getAllVersions() {
+        return Stream.of(values()).map(log -> log.version).toArray(String[]::new);
     }
 }
