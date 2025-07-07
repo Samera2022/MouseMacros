@@ -589,7 +589,7 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
 
     // 热键设置对话框（使用JNativeHook的keyCode）
     private void showHotkeyDialog() {
-        JDialog dialog = new JDialog(this, Localizer.get("custom_hotkey"), true);
+        JDialog dialog = new JDialog(this, Localizer.get("settings.custom_hotkey"), true);
         dialog.setLayout(new GridLayout(4, 2, 5, 5));
         JLabel l1 = new JLabel(Localizer.get("start_record") + ":");
         JLabel l2 = new JLabel(Localizer.get("stop_record") + ":");
