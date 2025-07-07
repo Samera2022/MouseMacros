@@ -512,11 +512,11 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
         content.add(pathPanel);
 
         // 热键自定义 + 关于作者 + 更新日志 三列按钮
-        JButton hotkeyBtn = new JButton(Localizer.get("custom_hotkey"));
+        JButton hotkeyBtn = new JButton(Localizer.get("settings.custom_hotkey"));
         hotkeyBtn.addActionListener(e -> showHotkeyDialog());
-        JButton aboutBtn = new JButton(Localizer.get("about_author"));
+        JButton aboutBtn = new JButton(Localizer.get("settings.about_author"));
         aboutBtn.addActionListener(e -> showAboutDialog());//
-        JButton updateInfoBtn = new JButton(Localizer.get("update_info"));
+        JButton updateInfoBtn = new JButton(Localizer.get("settings.update_info"));
         updateInfoBtn.addActionListener(e -> showUpdateInfoDialog());
         JPanel hotkeyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         hotkeyPanel.add(hotkeyBtn);
@@ -601,7 +601,7 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
         t2.setText(getNativeKeyDisplayText(keyStop));
         t3.setText(getNativeKeyDisplayText(keyPlay));
         t1.setEditable(false); t2.setEditable(false); t3.setEditable(false);
-        JButton confirm = new JButton(Localizer.get("confirm"));
+        JButton confirm = new JButton(Localizer.get("settings.custom_hotkey.confirm"));
         dialog.add(l1); dialog.add(t1);
         dialog.add(l2); dialog.add(t2);
         dialog.add(l3); dialog.add(t3);
@@ -678,13 +678,13 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
     }
     
     private void showAboutDialog() {
-        JDialog aboutDialog = new JDialog(this, Localizer.get("about_author"), true);
+        JDialog aboutDialog = new JDialog(this, Localizer.get("settings.about_author"), true);
         aboutDialog.setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
-        JLabel aboutTitle = new JLabel(Localizer.get("about_author"));
+        JLabel aboutTitle = new JLabel(Localizer.get("settings.about_author"));
         aboutTitle.setFont(aboutTitle.getFont().deriveFont(Font.BOLD, 18f));
         aboutTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(aboutTitle);
@@ -715,24 +715,32 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
     }
     // 更新日志弹窗
     private void showUpdateInfoDialog() {
-        JDialog updateInfoDialog = new JDialog(this, Localizer.get("update_info"), true);
+        JDialog updateInfoDialog = new JDialog(this, Localizer.get("settings.update_info"), true);
         updateInfoDialog.setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
-        JLabel updateInfoTitle = new JLabel(Localizer.get("update_info"));
+        JLabel updateInfoTitle = new JLabel(Localizer.get("settings.update_info"));
         updateInfoTitle.setFont(updateInfoTitle.getFont().deriveFont(Font.BOLD, 18f));
         updateInfoTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(updateInfoTitle);
         content.add(Box.createVerticalStrut(10));
         content.add(new JSeparator());
 
-        // 正确类型的JComboBox，显示版本号或标题
-        JComboBox<String> infoCombo = new JComboBox<>(UpdateInfo.getAllVersions()); // 只显示标题
-        infoCombo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // 添加“选择版本”标签和自适应宽度的JComboBox
+        JPanel comboPanel = new JPanel();
+        comboPanel.setLayout(new BoxLayout(comboPanel, BoxLayout.X_AXIS));
+        comboPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel selectLabel = new JLabel(Localizer.get("settings.update_info.select_version"));
+        selectLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        comboPanel.add(selectLabel);
+        comboPanel.add(Box.createHorizontalStrut(8));
+
+        JComboBox<String> infoCombo = getJComboBox();
+        comboPanel.add(infoCombo);
         content.add(Box.createVerticalStrut(10));
-        content.add(infoCombo);
+        content.add(comboPanel);
 
         // JTextArea显示内容，初始为第一个内容
         String firstContent = UpdateInfo.values().length > 0 ? UpdateInfo.values()[0].getFormattedLog() : "";
@@ -765,6 +773,24 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
         updateInfoDialog.setLocationRelativeTo(this);
         updateInfoDialog.setVisible(true);
     }
+
+    private static JComboBox<String> getJComboBox() {
+        JComboBox<String> infoCombo = new JComboBox<>(UpdateInfo.getAllDisplayNames());
+        infoCombo.setAlignmentY(Component.CENTER_ALIGNMENT);
+        // 计算最大显示宽度
+        int maxWidth = 0;
+        FontMetrics fm = infoCombo.getFontMetrics(infoCombo.getFont());
+        for (UpdateInfo info : UpdateInfo.values()) {
+            int w = fm.stringWidth(info.getDisplayName());
+            if (w > maxWidth) maxWidth = w;
+        }
+        // 适当加点padding
+        maxWidth += 32;
+        infoCombo.setMaximumSize(new Dimension(maxWidth, infoCombo.getPreferredSize().height));
+        infoCombo.setPreferredSize(new Dimension(maxWidth, infoCombo.getPreferredSize().height));
+        return infoCombo;
+    }
+
     // 获取设置对话框的大小
     private Dimension getSettingsDialogSize() {
         // 参考showSettingsDialog的pack后大小
@@ -845,11 +871,12 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
             comp.setForeground(pfg);
         } else if (comp instanceof JSeparator) {
             comp.setBackground(pbg);
-        } else {
-            System.out.println("INCOMPATIBLE COMPONENT: "+comp.getName());
-            comp.setBackground(bg);
-            comp.setForeground(fg);
         }
+//        else {
+//            System.out.println("INCOMPATIBLE COMPONENT: "+comp.getName());
+//            comp.setBackground(bg);
+//            comp.setForeground(fg);
+//        }
     }
 
     // 获取系统语言（如lang文件夹无该语言则返回en_us）

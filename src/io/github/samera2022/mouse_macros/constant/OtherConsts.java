@@ -8,6 +8,6 @@ public class OtherConsts {
             "    噢，还没有介绍这个项目的Github地址！但是想必聪明的你已经猜出来这个项目应该就是Samera2022/MouseMacros了。没错！本项目的地址为https://github.com/Samera2022/MouseMacros，如果帮到你的话还请不要吝啬你的star啦！\n";
 
     public static void main(String[] args) {
-        System.out.println(ABOUT_AUTHOR);
+        System.out.println(UpdateInfo.VERSION_0_0_2.getFormattedLog());
     }
 }
