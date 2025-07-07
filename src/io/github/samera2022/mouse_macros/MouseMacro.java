@@ -48,12 +48,12 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
         Localizer.setRuntimeSwitch(enableLangSwitch);
         // 3. 初始化热键（如keyMap有值则覆盖设定的默认值）
         if (config.keyMap != null) {
-            if (config.keyMap.containsKey("record")) {
-                try { keyRecord = Integer.parseInt(config.keyMap.get("record")); } catch (Exception ignored) {} }
-            if (config.keyMap.containsKey("stop")) {
-                try { keyStop = Integer.parseInt(config.keyMap.get("stop")); } catch (Exception ignored) {} }
-            if (config.keyMap.containsKey("play")) {
-                try { keyPlay = Integer.parseInt(config.keyMap.get("play")); } catch (Exception ignored) {} }
+            if (config.keyMap.containsKey("start_record")) {
+                try { keyRecord = Integer.parseInt(config.keyMap.get("start_record")); } catch (Exception ignored) {} }
+            if (config.keyMap.containsKey("stop_record")) {
+                try { keyStop = Integer.parseInt(config.keyMap.get("stop_record")); } catch (Exception ignored) {} }
+            if (config.keyMap.containsKey("execute_macro")) {
+                try { keyPlay = Integer.parseInt(config.keyMap.get("execute_macro")); } catch (Exception ignored) {} }
         }
         setTitle(Localizer.get("title"));
         setSize((int) (1200/getScale()[0]), (int) (660/getScale()[1]));
@@ -665,11 +665,19 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
             keyRecord = tempRecord[0];
             keyStop = tempStop[0];
             keyPlay = tempPlay[0];
-            GlobalScreen.removeNativeKeyListener(keyListener);
-            // 更新主界面 含按键名称的按钮 文本
+            // 存储到keyMap，key与本地化一致
+            config.keyMap.put("start_record", String.valueOf(keyRecord));
+            config.keyMap.put("stop_record", String.valueOf(keyStop));
+            config.keyMap.put("execute_macro", String.valueOf(keyPlay));
+            ConfigManager.saveConfig(config); // 保存配置
+            // 全局刷新热键绑定
+            unregisterAllHotkeys(); // 先注销旧热键
+            registerAllHotkeys();  // 重新注册新热键
+            // 更新主界面按钮文本
             startBtn.setText(getStartBtnText());
             stopBtn.setText(getStopBtnText());
             playBtn.setText(getPlayBtnText());
+            GlobalScreen.removeNativeKeyListener(keyListener);
             dialog.dispose();
         });
         dialog.setSize(300, 180);
@@ -916,6 +924,18 @@ public class MouseMacro extends JFrame implements NativeKeyListener, NativeMouse
         }
         // 其他平台可扩展
         return false;
+    }
+
+    // 注销所有全局热键监听器（只保留当前实例）
+    private void unregisterAllHotkeys() {
+        // JNativeHook 没有 getNativeKeyListeners 方法，只能移除本实例
+        GlobalScreen.removeNativeKeyListener(this);
+    }
+
+    // 注册当前实例为全局热键监听器
+    private void registerAllHotkeys() {
+        // 直接注册本实例（JNativeHook 会自动去重）
+        GlobalScreen.addNativeKeyListener(this);
     }
 
 }
