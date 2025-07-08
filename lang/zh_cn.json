@@ -27,6 +27,13 @@
   "no_recorded_actions": "没有录制内容",
   "start_playback": "开始回放...",
   "playback_complete": "回放结束",
-  "playback_error": "回放异常: "
+  "playback_error": "回放异常: ",
+  "macro_saved": "宏已保存：",
+  "macro_saving_failed": "保存失败：",
+  "macro_loaded_msg1": "宏已加载",
+  "macro_loaded_msg2": "步",
+  "macro_loading_failed": "加载失败：",
+
+  "hook_registration_failed": "全局钩子注册失败："
 }
 

@@ -66,9 +66,7 @@ public class MacroManager {
         return actions;
     }
 
-    public static void clear() {
-        actions.clear();
-    }
+    public static void clear() {actions.clear();}
 
     public static void saveToFile(Component parent) {
         JFileChooser chooser = new JFileChooser();
@@ -77,9 +75,9 @@ public class MacroManager {
                 for (MouseAction a : actions) {
                     out.println(a.x + "," + a.y + "," + a.type + "," + a.button + "," + a.delay);
                 }
-                io.github.samera2022.mouse_macros.manager.LogManager.log("宏已保存: " + chooser.getSelectedFile().getAbsolutePath());
+                log(Localizer.get("macro_saved") + chooser.getSelectedFile().getAbsolutePath());
             } catch (Exception ex) {
-                io.github.samera2022.mouse_macros.manager.LogManager.log("保存失败: " + ex.getMessage());
+                log(Localizer.get("macro_saving_failed") + ex.getMessage());
             }
         }
     }
@@ -101,9 +99,9 @@ public class MacroManager {
                         actions.add(new MouseAction(x, y, type, button, delay));
                     }
                 }
-                io.github.samera2022.mouse_macros.manager.LogManager.log("宏已加载: " + chooser.getSelectedFile().getAbsolutePath() + " (" + actions.size() + " 步)");
+                log(Localizer.get("macro_loaded_msg1") + chooser.getSelectedFile().getAbsolutePath() + " (" + actions.size() + " " + Localizer.get("macro_loaded_msg2") + ")");
             } catch (Exception ex) {
-                io.github.samera2022.mouse_macros.manager.LogManager.log("加载失败: " + ex.getMessage());
+                log(Localizer.get("macro_loading_failed") + ex.getMessage());
             }
         }
     }

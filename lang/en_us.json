@@ -27,6 +27,13 @@
   "no_recorded_actions": "No recorded actions",
   "start_playback": "Start playback...",
   "playback_complete": "Playback complete",
-  "playback_error": "Playback error: "
+  "playback_error": "Playback error: ",
+  "macro_saved": "Macro is saved as ",
+  "macro_saving_failed": "Macro saving failed: ",
+  "macro_loaded_msg1": "Macro is loaded: ",
+  "macro_loaded_msg2": "Steps",
+  "macro_loading_failed": "Macro loading failed: ",
+
+  "hook_registration_failed": "Global hook registration failed: "
 }
 

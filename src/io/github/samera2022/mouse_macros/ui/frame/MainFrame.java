@@ -3,34 +3,24 @@ package io.github.samera2022.mouse_macros.ui.frame;
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
-import com.github.kwhat.jnativehook.mouse.NativeMouseEvent;
 import com.github.kwhat.jnativehook.mouse.NativeMouseInputListener;
 import io.github.samera2022.mouse_macros.Localizer;
-import io.github.samera2022.mouse_macros.action.MouseAction;
 import io.github.samera2022.mouse_macros.listener.GlobalMouseListener;
 import io.github.samera2022.mouse_macros.manager.MacroManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
-import io.github.samera2022.mouse_macros.util.ScreenUtil;
 import io.github.samera2022.mouse_macros.util.SystemUtil;
 import static io.github.samera2022.mouse_macros.manager.LogManager.log;
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainFrame extends JFrame implements NativeKeyListener, NativeMouseInputListener {
     public static JTextArea logArea;
     public final JButton startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn;
-    //hotkey等按钮在showSettingsDialog()内
-    private static volatile boolean recording = false;
-    private static List<MouseAction> actions = new ArrayList<>();
-    private static long lastTime = 0;
 
     // 热键自定义
     public static int keyRecord = NativeKeyEvent.VC_F2;
@@ -120,7 +110,7 @@ public class MainFrame extends JFrame implements NativeKeyListener, NativeMouseI
         try {
             GlobalScreen.registerNativeHook();
         } catch (Exception e) {
-            log("全局钩子注册失败: " + e.getMessage());
+            log(Localizer.get("hook_registration_failed") + e.getMessage());
         }
         GlobalScreen.addNativeKeyListener(GML);
         GlobalScreen.addNativeMouseListener(GML);
