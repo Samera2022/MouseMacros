@@ -4,7 +4,7 @@
   "load_macro": "加载宏",
   "start_record": "开始录制",
   "stop_record": "停止录制",
-  "execute_macro": "执行宏",
+  "play_macro": "执行宏",
 
   "settings": "设置",
   "settings.follow_system_settings": "跟随系统设置",

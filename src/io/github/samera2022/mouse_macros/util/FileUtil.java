@@ -1,4 +1,4 @@
-package io.github.samera2022.mouse_macros;
+package io.github.samera2022.mouse_macros.util;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

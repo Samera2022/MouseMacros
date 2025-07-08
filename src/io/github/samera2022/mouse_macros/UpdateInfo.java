@@ -24,9 +24,11 @@ public enum UpdateInfo {
                      "目前已添加以下可配置项：\n" +
                      "(boolean)跟随系统设置，(boolean)启用深色模式，(String)切换语言，(String)默认鼠标宏存储地址，[未实装，不可用](Map<String,String>)按键映射表，\n" +
                      "注意：\"跟随系统设置\"与(\"启用深色模式\", \"切换语言\")存在上位关系。如果选择了\"跟随系统设置\"，那么后二者就不再接受用户更改，直接读取系统的相应设置。"),
-    VERSION_0_0_3("0.0.3","",
+    VERSION_0_1_0("0.1.0","2025-07-08 15:08",
             "##[Added]\n" +
-                     " - 实装配置文件的keyMap");
+                     " - 实装配置文件的keyMap\n" +
+                     "##[Changed]\n" +
+                     " - 重构项目整体结构，降低代码耦合度");
 
     private final String version;
     private final String releaseDate;

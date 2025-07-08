@@ -4,7 +4,7 @@
   "load_macro": "Load Macro",
   "start_record": "Start Recording",
   "stop_record": "Stop Recording",
-  "execute_macro": "Play Macro",
+  "play_macro": "Play Macro",
 
   "settings": "Settings",
   "settings.follow_system_settings": "Follow System Settings",
