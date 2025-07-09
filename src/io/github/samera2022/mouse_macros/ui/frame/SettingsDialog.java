@@ -3,7 +3,9 @@ package io.github.samera2022.mouse_macros.ui.frame;
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
+import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
+import io.github.samera2022.mouse_macros.ui.component.CustomFileChooser;
 import io.github.samera2022.mouse_macros.ui.frame.settings.AboutDialog;
 import io.github.samera2022.mouse_macros.ui.frame.settings.HotkeyDialog;
 import io.github.samera2022.mouse_macros.ui.frame.settings.UpdateInfoDialog;
@@ -87,6 +89,7 @@ public class SettingsDialog extends JDialog {
         JTextField pathField = new JTextField(config.defaultMmcStoragePath, 20);
         JButton browseBtn = new JButton(Localizer.get("settings.browse"));
         browseBtn.addActionListener(e -> {
+//            CustomFileChooser chooser = new CustomFileChooser(config.enableDarkMode? OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
             JFileChooser chooser = new JFileChooser();
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             if (!pathField.getText().isEmpty())
@@ -132,18 +135,15 @@ public class SettingsDialog extends JDialog {
             config.enableDarkMode = darkModeBox.isSelected();
             // 热键配置保存到config.keyMap（假设已有相关逻辑）
             ConfigManager.saveConfig(config);
+            ConfigManager.reloadConfig();
             Localizer.load(config.lang);
             MAIN_FRAME.refreshMainFrameTexts();
             // 此处是保存时使用暗色
             // Question: RootPane比ContentPane范围更广，那么此处用getRootPane是否更好？
             // 但是似乎用到ContentPane就已经把能看到的组件都设置好了
-            if (config.enableDarkMode) {
-                ComponentUtil.applyDarkMode(getContentPane(),MAIN_FRAME);
-                ComponentUtil.applyDarkMode(this.getContentPane(),MAIN_FRAME);
-            } else {
-                ComponentUtil.applyLightMode(getContentPane(),MAIN_FRAME);
-                ComponentUtil.applyLightMode(this.getContentPane(),MAIN_FRAME);
-            }
+            ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+            ComponentUtil.setMode(MAIN_FRAME.getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+            MainFrame.adjustFrameWidth();
             dispose();
         });
         JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -170,13 +170,8 @@ public class SettingsDialog extends JDialog {
         add(content, BorderLayout.CENTER);
         add(savePanel, BorderLayout.SOUTH);
         // 此处是初始化时设置暗色
-        if (config.enableDarkMode) {
-            ComponentUtil.applyDarkMode(getContentPane(), MAIN_FRAME);
-            ComponentUtil.applyDarkMode(this.getContentPane(),MAIN_FRAME);
-        } else {
-            ComponentUtil.applyLightMode(getContentPane(),MAIN_FRAME);
-            ComponentUtil.applyLightMode(this.getContentPane(),MAIN_FRAME);
-        }
+        ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+
         pack();
         SizeCache.SIZE = getSize();
         setLocationRelativeTo(this);
