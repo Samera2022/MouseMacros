@@ -3,6 +3,7 @@ package io.github.samera2022.mouse_macros.ui.frame;
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.listener.GlobalMouseListener;
 import io.github.samera2022.mouse_macros.manager.MacroManager;
@@ -58,6 +59,7 @@ public class MainFrame extends JFrame{
                 try { keyAbort = Integer.parseInt(config.keyMap.get("abort_macro_operation")); } catch (Exception ignored) {} }
         }
         setTitle(Localizer.get("title"));
+        setName(Localizer.get("title"));
 //        ComponentUtil.setCorrectSize(this,1200,660);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -142,20 +144,7 @@ public class MainFrame extends JFrame{
         ComponentUtil.applyWindowSizeCache(this, "MainFrame", 1200, 660);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
-        // 关闭时保存当前尺寸
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                int w = getWidth(), h = getHeight();
-                CacheManager.setWindowSize("MainFrame", w + "," + h);
-            }
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                int w = getWidth(), h = getHeight();
-                CacheManager.setWindowSize("MainFrame", w + "," + h);
-            }
-        });
+        addWindowListener(new WindowClosingAdapter());
 
     }
 

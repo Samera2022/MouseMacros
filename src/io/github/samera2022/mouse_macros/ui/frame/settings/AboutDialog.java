@@ -1,6 +1,7 @@
 package io.github.samera2022.mouse_macros.ui.frame.settings;
 
 import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
@@ -14,6 +15,7 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 public class AboutDialog extends JDialog{
     public AboutDialog(){
         setTitle(Localizer.get("settings.about_author"));
+        setName(Localizer.get("settings.about_author"));
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -42,18 +44,6 @@ public class AboutDialog extends JDialog{
         ComponentUtil.applyWindowSizeCache(this, "AboutDialog", 500, 360);
         setLocationRelativeTo(this);
 
-        // 关闭时保存当前尺寸
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                int w = getWidth(), h = getHeight();
-                CacheManager.setWindowSize("AboutDialog", w + "," + h);
-            }
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                int w = getWidth(), h = getHeight();
-                CacheManager.setWindowSize("AboutDialog", w + "," + h);
-            }
-        });
+        addWindowListener(new WindowClosingAdapter());
     }
 }

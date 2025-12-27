@@ -2,6 +2,7 @@ package io.github.samera2022.mouse_macros.ui.frame.settings;
 
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.UpdateInfo;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
@@ -15,6 +16,7 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 public class UpdateInfoDialog extends JDialog {
     public UpdateInfoDialog() {
         setTitle(Localizer.get("settings.update_info"));
+        setName(Localizer.get("settings.update_info"));
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -66,19 +68,7 @@ public class UpdateInfoDialog extends JDialog {
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         ComponentUtil.applyWindowSizeCache(this, "UpdateInfoDialog", 500, 360);
         setLocationRelativeTo(this);
-        // 关闭时保存当前尺寸
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                int w = getWidth(), h = getHeight();
-                CacheManager.setWindowSize("UpdateInfoDialog", w + "," + h);
-            }
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                int w = getWidth(), h = getHeight();
-                CacheManager.setWindowSize("UpdateInfoDialog", w + "," + h);
-            }
-        });
+        addWindowListener(new WindowClosingAdapter());
     }
     //要求JComboBox的宽度恰好能显示list中最长的元素
     private static JComboBox<String> getJComboBox() {

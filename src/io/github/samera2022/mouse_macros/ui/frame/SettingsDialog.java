@@ -1,6 +1,7 @@
 package io.github.samera2022.mouse_macros.ui.frame;
 
 import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.ColorConsts;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
@@ -25,6 +26,7 @@ public class SettingsDialog extends JDialog {
 
     public SettingsDialog(){
         setTitle(Localizer.get("settings"));
+        setName(Localizer.get("settings"));
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -203,5 +205,6 @@ public class SettingsDialog extends JDialog {
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         ComponentUtil.applyWindowSizeCache(this, "SettingsDialog", 500, 360);
         setLocationRelativeTo(this);
+        addWindowListener(new WindowClosingAdapter());
     }
 }

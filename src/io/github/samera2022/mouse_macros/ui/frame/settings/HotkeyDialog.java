@@ -4,6 +4,7 @@ import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
@@ -23,6 +24,7 @@ public class HotkeyDialog extends JDialog {
         inHotKeyDialog = true;
         //owner
         setTitle(Localizer.get("settings.custom_hotkey"));
+        setName(Localizer.get("settings.custom_hotkey"));
         setModal(true);
         setLayout(new GridLayout(4, 2, 5, 5));
         JLabel l1 = new JLabel(Localizer.get("start_record") + ":");
@@ -140,18 +142,6 @@ public class HotkeyDialog extends JDialog {
 //            setSize(400, 300); // 你可以根据实际默认值调整
 //        }
         setLocationRelativeTo(this);
-        // 关闭时保存当前尺寸
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                int w = getWidth(), h = getHeight();
-                CacheManager.setWindowSize("HotkeyDialog", w + "*" + h);
-            }
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                int w = getWidth(), h = getHeight();
-                CacheManager.setWindowSize("HotkeyDialog", w + "*" + h);
-            }
-        });
+        addWindowListener(new WindowClosingAdapter());
     }
 }
