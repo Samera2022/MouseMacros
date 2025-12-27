@@ -14,7 +14,5 @@ public class MouseMacro {
         System.setProperty("jnativehook.lib.path", libDir.getAbsolutePath());
         // ====== 启动主界面 ======
         SwingUtilities.invokeLater(() -> MAIN_FRAME.setVisible(true));
-        System.out.println("当前 UI 外观: " + UIManager.getLookAndFeel().getName());
-        System.out.println("当前 UI 类名: " + UIManager.getLookAndFeel().getClass().getName());
     }
 }
