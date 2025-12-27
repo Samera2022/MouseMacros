@@ -84,7 +84,19 @@ public class SettingsDialog extends JDialog {
 
         content.add(subSettingsPanel);
 
-        // 默认存储路径
+        // 默认存储路径启用开关（无缩进，文字在左，勾选框在右）
+        JPanel enableDefaultStoragePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JLabel enableDefaultStorageLabel = new JLabel(Localizer.get("settings.enable_default_storage"));
+        JCheckBox enableDefaultStorageBox = new JCheckBox(IconConsts.CHECK_BOX);
+        enableDefaultStorageBox.setSelected(config.enableDefaultStorage); // 需要在ConfigManager.config中有此字段
+        enableDefaultStoragePanel.add(enableDefaultStorageLabel);
+        enableDefaultStoragePanel.add(Box.createHorizontalStrut(10));
+        enableDefaultStoragePanel.add(enableDefaultStorageBox);
+        enableDefaultStoragePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(Box.createVerticalStrut(10));
+        content.add(enableDefaultStoragePanel);
+
+        // 默认存储路径（缩进）
         JLabel pathLabel = new JLabel(Localizer.get("settings.default_mmc_storage_path"));
         JTextField pathField = new JTextField(config.defaultMmcStoragePath, 20);
         JButton browseBtn = new JButton(Localizer.get("settings.browse"));
@@ -99,6 +111,14 @@ public class SettingsDialog extends JDialog {
                 pathField.setText(chooser.getSelectedFile().getAbsolutePath());
             }
         });
+        // 联动逻辑：enableDefaultStorage控制pathField和browseBtn的可用性
+        pathField.setEnabled(enableDefaultStorageBox.isSelected());
+        browseBtn.setEnabled(enableDefaultStorageBox.isSelected());
+        enableDefaultStorageBox.addItemListener(e -> {
+            boolean enabled = enableDefaultStorageBox.isSelected();
+            pathField.setEnabled(enabled);
+            browseBtn.setEnabled(enabled);
+        });
         JPanel pathPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pathPanel.add(pathLabel);
         pathPanel.add(Box.createHorizontalStrut(10));
@@ -106,8 +126,14 @@ public class SettingsDialog extends JDialog {
         pathPanel.add(Box.createHorizontalStrut(10));
         pathPanel.add(browseBtn);
         pathPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // 新增：加缩进
+        JPanel pathIndentPanel = new JPanel();
+        pathIndentPanel.setLayout(new BoxLayout(pathIndentPanel, BoxLayout.Y_AXIS));
+        pathIndentPanel.setBorder(BorderFactory.createEmptyBorder(0, 32, 0, 0)); // 四个空格缩进
+        pathIndentPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pathIndentPanel.add(pathPanel);
         content.add(Box.createVerticalStrut(10));
-        content.add(pathPanel);
+        content.add(pathIndentPanel);
 
         // 热键自定义 + 关于作者 + 更新日志 三列按钮
         JButton hotkeyBtn = new JButton(Localizer.get("settings.custom_hotkey"));
@@ -133,6 +159,7 @@ public class SettingsDialog extends JDialog {
             config.lang = (String) langCombo.getSelectedItem();
             config.defaultMmcStoragePath = pathField.getText();
             config.enableDarkMode = darkModeBox.isSelected();
+            config.enableDefaultStorage = enableDefaultStorageBox.isSelected(); // 新增保存
             // 热键配置保存到config.keyMap（假设已有相关逻辑）
             ConfigManager.saveConfig(config);
             ConfigManager.reloadConfig();

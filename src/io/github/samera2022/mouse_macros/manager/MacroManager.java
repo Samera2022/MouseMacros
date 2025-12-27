@@ -4,7 +4,6 @@ import io.github.samera2022.mouse_macros.action.MouseAction;
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.constant.FileConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
-import io.github.samera2022.mouse_macros.manager.config.FileChooserConfig;
 import io.github.samera2022.mouse_macros.ui.component.CustomFileChooser;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
 
@@ -105,20 +104,34 @@ public class MacroManager {
     public static void clear() {actions.clear();}
 
     public static void saveToFile(Component parent) {
-//        CustomFileChooser chooser = new CustomFileChooser(config.enableDarkMode? OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         JFileChooser chooser = new JFileChooser();
-        // 设置初始目录
-        if (fc_config.getLastSaveDirectory() != null)
-            chooser.setCurrentDirectory(fc_config.getLastSaveDirectory());
+        if (ConfigManager.config.enableDefaultStorage) {
+            // 只用defaultMmcStoragePath
+            String defaultPath = ConfigManager.config.defaultMmcStoragePath;
+            if (defaultPath != null && !defaultPath.isEmpty()) {
+                File dir = new File(defaultPath);
+                if (!dir.exists()) dir.mkdirs();
+                chooser.setCurrentDirectory(dir);
+            }
+        } else {
+            // 只用lastSaveDirectory
+            String lastSaveDir = CacheManager.getLastSaveDirectory();
+            if (lastSaveDir != null && !lastSaveDir.isEmpty()) {
+                File dir = new File(lastSaveDir);
+                if (!dir.exists()) dir.mkdirs();
+                chooser.setCurrentDirectory(dir);
+            }
+        }
         chooser.setFileFilter(FileConsts.MMC_FILTER);
         if (chooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            // 自动添加缺失的 .mmc 后缀
-            if (!selectedFile.getName().toLowerCase().endsWith(".mmc")) 
+            if (!selectedFile.getName().toLowerCase().endsWith(".mmc"))
                 selectedFile = new File(selectedFile.getAbsolutePath() + ".mmc");
-            fc_config.setLastSaveDirectory(selectedFile.getParentFile());
-            saveFileChooserConfig(fc_config);
-            reloadFileChooserConfig();
+            CacheManager.setLastSaveDirectory(selectedFile.getParent());
+            // 若lastLoadDirectory为空，则同步
+            if (CacheManager.getLastLoadDirectory() == null || CacheManager.getLastLoadDirectory().isEmpty()) {
+                CacheManager.setLastLoadDirectory(selectedFile.getParent());
+            }
             try (PrintWriter out = new PrintWriter(selectedFile, StandardCharsets.UTF_8)) {
                 for (MouseAction a : actions) {
                     out.println(a.x + "," + a.y + "," + a.type + "," + a.button + "," + a.delay + "," + a.wheelAmount + "," + a.keyCode + "," + a.awtKeyCode);
@@ -131,17 +144,32 @@ public class MacroManager {
     }
 
     public static void loadFromFile(Component parent) {
-//        CustomFileChooser chooser = new CustomFileChooser(config.enableDarkMode? OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         JFileChooser chooser = new JFileChooser();
-        if (fc_config.getLastLoadDirectory() != null)
-            chooser.setCurrentDirectory(fc_config.getLastLoadDirectory());
+        if (ConfigManager.config.enableDefaultStorage) {
+            // 只用defaultMmcStoragePath
+            String defaultPath = ConfigManager.config.defaultMmcStoragePath;
+            if (defaultPath != null && !defaultPath.isEmpty()) {
+                File dir = new File(defaultPath);
+                if (!dir.exists()) dir.mkdirs();
+                chooser.setCurrentDirectory(dir);
+            }
+        } else {
+            // 只用lastLoadDirectory
+            String lastLoadDir = CacheManager.getLastLoadDirectory();
+            if (lastLoadDir != null && !lastLoadDir.isEmpty()) {
+                File dir = new File(lastLoadDir);
+                if (!dir.exists()) dir.mkdirs();
+                chooser.setCurrentDirectory(dir);
+            }
+        }
         chooser.setFileFilter(FileConsts.MMC_FILTER);
         if (chooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            // 确保读取的文件是 UTF-8 编码（避免乱码问题）
-            fc_config.setLastLoadDirectory(selectedFile.getParentFile());
-            saveFileChooserConfig(fc_config);
-            reloadFileChooserConfig();
+            CacheManager.setLastLoadDirectory(selectedFile.getParent());
+            // 若lastSaveDirectory为空，则同步
+            if (CacheManager.getLastSaveDirectory() == null || CacheManager.getLastSaveDirectory().isEmpty()) {
+                CacheManager.setLastSaveDirectory(selectedFile.getParent());
+            }
             try (BufferedReader in = new BufferedReader(
                     new InputStreamReader(
                             new FileInputStream(selectedFile),
