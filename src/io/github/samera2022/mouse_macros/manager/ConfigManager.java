@@ -7,11 +7,7 @@ import io.github.samera2022.mouse_macros.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,7 +69,6 @@ public class ConfigManager {
         if (Localizer.isDevMode()) {
             String langDir = "lang";
             String[] files = FileUtil.listFileNames(langDir);
-            System.out.println("[DEBUG] DevMode: langDir=" + langDir + ", files=" + java.util.Arrays.toString(files));
             if (files != null) {
                 for (String name : files) {
                     int idx = name.lastIndexOf('.');
@@ -121,7 +116,6 @@ public class ConfigManager {
                 e.printStackTrace();
             }
         }
-        System.out.println("[DEBUG] langs result: " + langs);
         return langs.toArray(new String[0]);
     }
 }

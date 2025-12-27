@@ -5,6 +5,7 @@ import io.github.samera2022.mouse_macros.UpdateInfo;
 import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,10 +64,21 @@ public class UpdateInfoDialog extends JDialog {
 
         add(content, BorderLayout.CENTER);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(SizeCache.SIZE);
+        ComponentUtil.applyWindowSizeCache(this, "UpdateInfoDialog", 500, 360);
         setLocationRelativeTo(this);
+        // 关闭时保存当前尺寸
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                int w = getWidth(), h = getHeight();
+                CacheManager.setWindowSize("UpdateInfoDialog", w + "," + h);
+            }
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                int w = getWidth(), h = getHeight();
+                CacheManager.setWindowSize("UpdateInfoDialog", w + "," + h);
+            }
+        });
     }
     //要求JComboBox的宽度恰好能显示list中最长的元素
     private static JComboBox<String> getJComboBox() {

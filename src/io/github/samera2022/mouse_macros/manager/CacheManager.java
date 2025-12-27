@@ -19,6 +19,7 @@ public class CacheManager {
     public static class FileChooserCache {
         public String lastLoadDirectory = "";
         public String lastSaveDirectory = "";
+        public java.util.Map<String, String> windowSizeMap = new java.util.HashMap<>(); // 窗体尺寸记忆
     }
 
     public static FileChooserCache getCache() {
@@ -70,6 +71,16 @@ public class CacheManager {
     }
     public static void setLastSaveDirectory(String dir) {
         cache.lastSaveDirectory = dir;
+        saveCache();
+    }
+    // 窗体尺寸记忆
+    public static String getWindowSize(String windowName) {
+        if (cache.windowSizeMap == null) cache.windowSizeMap = new java.util.HashMap<>();
+        return cache.windowSizeMap.get(windowName);
+    }
+    public static void setWindowSize(String windowName, String size) {
+        if (cache.windowSizeMap == null) cache.windowSizeMap = new java.util.HashMap<>();
+        cache.windowSizeMap.put(windowName, size);
         saveCache();
     }
 }

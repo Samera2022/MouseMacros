@@ -2,8 +2,10 @@ package io.github.samera2022.mouse_macros.ui.frame;
 
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.cache.SizeCache;
+import io.github.samera2022.mouse_macros.constant.ColorConsts;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
 import io.github.samera2022.mouse_macros.ui.component.CustomFileChooser;
 import io.github.samera2022.mouse_macros.ui.frame.settings.AboutDialog;
@@ -13,6 +15,7 @@ import io.github.samera2022.mouse_macros.util.ComponentUtil;
 import io.github.samera2022.mouse_macros.util.SystemUtil;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
@@ -198,10 +201,7 @@ public class SettingsDialog extends JDialog {
         add(savePanel, BorderLayout.SOUTH);
         // 此处是初始化时设置暗色
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-
-        pack();
-        SizeCache.SIZE = getSize();
+        ComponentUtil.applyWindowSizeCache(this, "SettingsDialog", 500, 360);
         setLocationRelativeTo(this);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 }

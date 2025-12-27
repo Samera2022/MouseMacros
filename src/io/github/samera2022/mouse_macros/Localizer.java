@@ -47,7 +47,7 @@ public class Localizer {
     public static void load(String lang) {
         try {
             if (isDevMode) {
-                File file = new File("res/resource/lang/" + lang + ".json");
+                File file = new File("/lang/" + lang + ".json");
                 if (!file.exists()) file = new File("lang/" + lang + ".json");
                 translations = new Gson().fromJson(new FileReader(file), Map.class);
             } else {
@@ -80,7 +80,7 @@ public class Localizer {
                     String path = "lang/en_us.json";
                     try (InputStream in = Localizer.class.getClassLoader().getResourceAsStream(path)) {
                         if (in != null) {
-                            InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+                            InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
                             Map<String, String> enMap = new Gson().fromJson(reader, Map.class);
                             String enValue = enMap.get(key);
                             if (enValue != null) return enValue;

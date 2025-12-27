@@ -7,6 +7,7 @@ import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.listener.GlobalMouseListener;
 import io.github.samera2022.mouse_macros.manager.MacroManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
 import io.github.samera2022.mouse_macros.ui.frame.settings.HotkeyDialog;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
@@ -137,14 +138,24 @@ public class MainFrame extends JFrame{
         GlobalScreen.addNativeMouseMotionListener(GML);
         // 4. 启动时根据配置应用暗色模式
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+        // 统一应用窗体大小缓存（优先cache.json，无则默认）
+        ComponentUtil.applyWindowSizeCache(this, "MainFrame", 1200, 660);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        // 注册中止宏操作的全局快捷键监听
-//        getRootPane().registerKeyboardAction(e -> MacroManager.abort(),
-//                KeyStroke.getKeyStroke(keyAbort, 0),
-//                JComponent.WHEN_IN_FOCUSED_WINDOW);
-        pack();
-        setSize(getWidth(),(int) (660/SystemUtil.getScale()[1]));
+        // 关闭时保存当前尺寸
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                int w = getWidth(), h = getHeight();
+                CacheManager.setWindowSize("MainFrame", w + "," + h);
+            }
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                int w = getWidth(), h = getHeight();
+                CacheManager.setWindowSize("MainFrame", w + "," + h);
+            }
+        });
 
     }
 

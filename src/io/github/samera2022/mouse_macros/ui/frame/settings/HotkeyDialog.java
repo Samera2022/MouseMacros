@@ -5,6 +5,7 @@ import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
 import io.github.samera2022.mouse_macros.ui.frame.MainFrame;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
@@ -64,6 +65,8 @@ public class HotkeyDialog extends JDialog {
         mainPanel.add(confirmPanel);
         setContentPane(mainPanel);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode? OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+        ComponentUtil.applyWindowSizeCache(this, "HotkeyDialog", 500, 360);
+        setLocationRelativeTo(this);
 
         // 捕获JNativeHook按键
         final int[] tempRecord = {keyRecord};
@@ -128,6 +131,27 @@ public class HotkeyDialog extends JDialog {
         });
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         ComponentUtil.setCorrectSize(this, 500, 380);
+        // 读取缓存尺寸
+//        String sizeStr = CacheManager.getWindowSize("HotkeyDialog");
+//        if (sizeStr != null && sizeStr.matches("\\d+\\*\\d+")) {
+//            String[] arr = sizeStr.split("\\*");
+//            setSize(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
+//        } else {
+//            setSize(400, 300); // 你可以根据实际默认值调整
+//        }
         setLocationRelativeTo(this);
+        // 关闭时保存当前尺寸
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                int w = getWidth(), h = getHeight();
+                CacheManager.setWindowSize("HotkeyDialog", w + "*" + h);
+            }
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                int w = getWidth(), h = getHeight();
+                CacheManager.setWindowSize("HotkeyDialog", w + "*" + h);
+            }
+        });
     }
 }

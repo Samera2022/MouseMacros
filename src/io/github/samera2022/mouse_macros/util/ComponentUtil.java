@@ -72,8 +72,30 @@ public class ComponentUtil {
                 comp.setBackground(bbg);
                 comp.setForeground(bfg);
             } else if (comp instanceof JTextField) {
-                comp.setBackground(pbg);
-                comp.setForeground(pfg);
+                // 已经不便于用上面的Color...来表示了
+                switch (mode) {
+                    case OtherConsts.DARK_MODE:
+                        UIManager.put("TextField.background", DARK_MODE_PANEL_BACKGROUND);
+                        UIManager.put("TextField.foreground", DARK_MODE_PANEL_FOREGROUND);
+                        UIManager.put("TextField.disabledBackground", DARK_MODE_DISABLED_BACKGROUND);
+                        UIManager.put("TextField.disabledForeground", DARK_MODE_DISABLED_FOREGROUND);
+                        UIManager.put("TextField.inactiveForeground", DARK_MODE_DISABLED_FOREGROUND);
+                        UIManager.put("TextField.selectionBackground", DARK_MODE_BACKGROUND);
+                        UIManager.put("TextField.selectionForeground", DARK_MODE_FOREGROUND);
+                        UIManager.put("TextField.caretForeground", DARK_MODE_CARET);
+                        break;
+                    case OtherConsts.LIGHT_MODE:
+                        UIManager.put("TextField.background", LIGHT_MODE_PANEL_BACKGROUND);
+                        UIManager.put("TextField.foreground", LIGHT_MODE_PANEL_FOREGROUND);
+                        UIManager.put("TextField.disabledBackground", LIGHT_MODE_DISABLED_BACKGROUND);
+                        UIManager.put("TextField.disabledForeground", LIGHT_MODE_DISABLED_FOREGROUND);
+                        UIManager.put("TextField.inactiveForeground", LIGHT_MODE_DISABLED_FOREGROUND);
+//                        UIManager.put("TextField.selectionBackground", Color.BLUE);
+//                        UIManager.put("TextField.selectionForeground", Color.WHITE);
+                        UIManager.put("TextField.caretForeground", LIGHT_MODE_CARET);
+                        break;
+                }
+                SwingUtilities.updateComponentTreeUI(comp);
                 ((JTextField) comp).setCaretColor(caret);
             } else if (comp instanceof JTextArea) {
                 comp.setBackground(pbg);
@@ -135,5 +157,40 @@ public class ComponentUtil {
                 c.setForeground(LIGHT_MODE_FOREGROUND);
                 break;
         }
+    }
+
+    public static void applyWindowSizeCache(Window window, String key, int defaultW, int defaultH) {
+        io.github.samera2022.mouse_macros.manager.CacheManager.reloadCache(); // 每次都重新读取cache.json
+        String sizeStr = io.github.samera2022.mouse_macros.manager.CacheManager.getWindowSize(key);
+        if (sizeStr != null) {
+            String[] arr = null;
+            if (sizeStr.matches("\\d+,\\d+")) {
+                arr = sizeStr.split(",");
+            } else if (sizeStr.matches("\\d+\\*\\d+")) {
+                arr = sizeStr.split("\\*");
+            }
+            if (arr != null && arr.length == 2) {
+                try {
+                    int w = Integer.parseInt(arr[0]);
+                    int h = Integer.parseInt(arr[1]);
+                    window.setSize(w, h);
+                } catch (Exception e) {
+                    setCorrectSize(window, defaultW, defaultH);
+                }
+            } else {
+                setCorrectSize(window, defaultW, defaultH);
+            }
+        } else {
+            setCorrectSize(window, defaultW, defaultH);
+        }
+        // 监听关闭事件，写入最新大小
+        window.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                int w = window.getWidth();
+                int h = window.getHeight();
+                io.github.samera2022.mouse_macros.manager.CacheManager.setWindowSize(key, w + "," + h);
+            }
+        });
     }
 }

@@ -4,6 +4,7 @@ import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
 
 import javax.swing.*;
@@ -127,19 +128,8 @@ public class MacroSettingsDialog extends JDialog {
         followSysListener.itemStateChanged(null);
 
         add(content, BorderLayout.CENTER);
-        add(savePanel, BorderLayout.SOUTH);
-        ComponentUtil.setMode(getContentPane(), config.enableDarkMode ? OtherConsts.DARK_MODE : OtherConsts.LIGHT_MODE);
-
-        ComponentUtil.setCorrectSize(this, 600, 500);
+        ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+        ComponentUtil.applyWindowSizeCache(this, "MacroSettingsDialog", 500, 360);
         setLocationRelativeTo(this);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        // 添加content的MouseListener用于强制修正焦点
-        content.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                content.requestFocusInWindow();
-            }
-        });
     }
 }
