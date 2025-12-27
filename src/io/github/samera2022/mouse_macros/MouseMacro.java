@@ -1,7 +1,6 @@
 package io.github.samera2022.mouse_macros;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import static io.github.samera2022.mouse_macros.ui.frame.MainFrame.MAIN_FRAME;
 
