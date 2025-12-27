@@ -26,7 +26,7 @@ public class SettingsDialog extends JDialog {
 
     public SettingsDialog(){
         setTitle(Localizer.get("settings"));
-        setName(Localizer.get("settings"));
+        setName("settings");
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -203,7 +203,7 @@ public class SettingsDialog extends JDialog {
         add(savePanel, BorderLayout.SOUTH);
         // 此处是初始化时设置暗色
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "SettingsDialog", 500, 360);
+        ComponentUtil.applyWindowSizeCache(this, "settings", 500, 360);
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }

@@ -15,7 +15,7 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 public class AboutDialog extends JDialog{
     public AboutDialog(){
         setTitle(Localizer.get("settings.about_author"));
-        setName(Localizer.get("settings.about_author"));
+        setName("settings.about_author");
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -41,7 +41,7 @@ public class AboutDialog extends JDialog{
 
         add(content, BorderLayout.CENTER);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "AboutDialog", 500, 360);
+        ComponentUtil.applyWindowSizeCache(this, "settings.about_author", 500, 360);
         setLocationRelativeTo(this);
 
         addWindowListener(new WindowClosingAdapter());

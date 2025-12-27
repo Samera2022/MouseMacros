@@ -17,7 +17,7 @@ public class MacroSettingsDialog extends JDialog {
 
     public MacroSettingsDialog() {
         setTitle(Localizer.get("macro_settings"));
-        setName(Localizer.get("macro_settings"));
+        setName("macro_settings");
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -131,7 +131,7 @@ public class MacroSettingsDialog extends JDialog {
 
         add(content, BorderLayout.CENTER);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "MacroSettingsDialog", 500, 360);
+        ComponentUtil.applyWindowSizeCache(this, "macro_settings", 500, 360);
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }

@@ -59,7 +59,7 @@ public class MainFrame extends JFrame{
                 try { keyAbort = Integer.parseInt(config.keyMap.get("abort_macro_operation")); } catch (Exception ignored) {} }
         }
         setTitle(Localizer.get("title"));
-        setName(Localizer.get("title"));
+        setName("title");
 //        ComponentUtil.setCorrectSize(this,1200,660);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -141,7 +141,7 @@ public class MainFrame extends JFrame{
         // 4. 启动时根据配置应用暗色模式
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         // 统一应用窗体大小缓存（优先cache.json，无则默认）
-        ComponentUtil.applyWindowSizeCache(this, "MainFrame", 1200, 660);
+        ComponentUtil.applyWindowSizeCache(this, "title", 1200, 660);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         addWindowListener(new WindowClosingAdapter());

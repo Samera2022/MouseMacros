@@ -16,7 +16,7 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 public class TestDialog extends JDialog {
     public TestDialog(){
         setTitle(Localizer.get("settings"));
-        setName(Localizer.get("settings"));
+        setName("settings");
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();

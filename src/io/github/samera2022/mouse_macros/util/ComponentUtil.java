@@ -80,8 +80,8 @@ public class ComponentUtil {
                         UIManager.put("TextField.disabledBackground", DARK_MODE_DISABLED_BACKGROUND);
                         UIManager.put("TextField.disabledForeground", DARK_MODE_DISABLED_FOREGROUND);
                         UIManager.put("TextField.inactiveForeground", DARK_MODE_DISABLED_FOREGROUND);
-                        UIManager.put("TextField.selectionBackground", DARK_MODE_BACKGROUND);
-                        UIManager.put("TextField.selectionForeground", DARK_MODE_FOREGROUND);
+                        UIManager.put("TextField.selectionBackground", DARK_MODE_PANEL_BACKGROUND);
+                        UIManager.put("TextField.selectionForeground", DARK_MODE_PANEL_FOREGROUND);
                         UIManager.put("TextField.caretForeground", DARK_MODE_CARET);
                         break;
                     case OtherConsts.LIGHT_MODE:
@@ -90,8 +90,8 @@ public class ComponentUtil {
                         UIManager.put("TextField.disabledBackground", LIGHT_MODE_DISABLED_BACKGROUND);
                         UIManager.put("TextField.disabledForeground", LIGHT_MODE_DISABLED_FOREGROUND);
                         UIManager.put("TextField.inactiveForeground", LIGHT_MODE_DISABLED_FOREGROUND);
-//                        UIManager.put("TextField.selectionBackground", Color.BLUE);
-//                        UIManager.put("TextField.selectionForeground", Color.WHITE);
+                        UIManager.put("TextField.selectionBackground", LIGHT_MODE_PANEL_BACKGROUND);
+                        UIManager.put("TextField.selectionForeground", LIGHT_MODE_PANEL_FOREGROUND);
                         UIManager.put("TextField.caretForeground", LIGHT_MODE_CARET);
                         break;
                 }

@@ -16,7 +16,7 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 public class UpdateInfoDialog extends JDialog {
     public UpdateInfoDialog() {
         setTitle(Localizer.get("settings.update_info"));
-        setName(Localizer.get("settings.update_info"));
+        setName("settings.update_info");
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -66,7 +66,7 @@ public class UpdateInfoDialog extends JDialog {
 
         add(content, BorderLayout.CENTER);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "UpdateInfoDialog", 500, 360);
+        ComponentUtil.applyWindowSizeCache(this, "settings.update_info", 500, 360);
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }

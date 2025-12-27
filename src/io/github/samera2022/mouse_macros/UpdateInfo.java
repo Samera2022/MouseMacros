@@ -38,7 +38,16 @@ public enum UpdateInfo {
                     " - 添加保留上次存储/读取鼠标宏路径的功能\n\n" +
                     "##[Warn]\n" +
                     " - 在创建settings.custom_hotkey界面后，不点击任何对话框直接按键盘，将会直接改动start_record的按键设置。\n" +
-                    " - JFileChooser的界面无法应用暗色模式……要重写这个类实在太费劲了。");
+                    " - JFileChooser的界面无法应用暗色模式……要重写这个类实在太费劲了。"),
+    VERSION_1_0_1("1.0.1","2025-12-27 21:23",
+            "##[Added]\n" +
+                    " - 将窗体大小添加进cache.json，现在MouseMacros将能记忆你的每个窗体的大小。\n" +
+                    " - 为Settings添加enable_default_storage的按钮，具体逻辑详见Description。\n" +
+                    " - 配置了一键打包的脚本，现在的Release将会提供exe版本的程序下载。\n" +
+                    " - 引入DeepWiki的docs来辅助代码理解。\n" +
+                    "##[Changed]\n" +
+                    " - 修改为更加细致的README.md。\n" +
+                    " - 文件结构略有修改，主要是lang文件移动到src下。\n");
 
     private final String version;
     private final String releaseDate;
