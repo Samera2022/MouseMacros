@@ -1,6 +1,7 @@
 package io.github.samera2022.mouse_macros;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
@@ -24,7 +25,7 @@ public class Localizer {
         // 检查本地化文件是否存在，否则用en_us
         if (isDevMode) {
             File langFile = new File("lang/" + sysLang + ".json");
-            if (!langFile.exists()) langFile = new File("./lang/" + sysLang + ".json");
+            if (!langFile.exists()) langFile = new File("lang/" + sysLang + ".json");
             if (!langFile.exists()) sysLang = "en_us";
         }
         currentLang = sysLang;
@@ -46,14 +47,14 @@ public class Localizer {
     public static void load(String lang) {
         try {
             if (isDevMode) {
-                File file = new File("lang/" + lang + ".json");
-                if (!file.exists()) file = new File("./lang/" + lang + ".json");
+                File file = new File("res/resource/lang/" + lang + ".json");
+                if (!file.exists()) file = new File("lang/" + lang + ".json");
                 translations = new Gson().fromJson(new FileReader(file), Map.class);
             } else {
                 String path = "lang/" + lang + ".json";
                 try (InputStream in = Localizer.class.getClassLoader().getResourceAsStream(path)) {
                     if (in == null) throw new FileNotFoundException(path);
-                    InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+                    InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
                     translations = new Gson().fromJson(reader, Map.class);
                 }
             }
@@ -71,7 +72,7 @@ public class Localizer {
             try {
                 if (isDevMode) {
                     File file = new File("lang/en_us.json");
-                    if (!file.exists()) file = new File("./lang/en_us.json");
+                    if (!file.exists()) file = new File("lang/en_us.json");
                     Map<String, String> enMap = new Gson().fromJson(new FileReader(file), Map.class);
                     String enValue = enMap.get(key);
                     if (enValue != null) return enValue;

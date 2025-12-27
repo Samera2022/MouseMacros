@@ -14,9 +14,6 @@ import java.awt.*;
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
 public class TestDialog extends JDialog {
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(()->new TestDialog().setVisible(true));
-    }
     public TestDialog(){
         setTitle(Localizer.get("settings"));
         setModal(true);

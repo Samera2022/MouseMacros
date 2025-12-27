@@ -8,6 +8,7 @@ import io.github.samera2022.mouse_macros.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,13 +17,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigManager {
-    private static final String CONFIG_DIR = "D" + System.getProperty("user.home").substring(1).replace('\\','/') + "/AppData/MouseMacros/";
-    private static final String CONFIG_PATH = CONFIG_DIR + "config.cfg";
-    private static final String FILE_CHOOSER_CONFIG_PATH = CONFIG_DIR + "cache.json";
-    private static final Gson gson = new Gson();
+    public static String CONFIG_DIR;
+//    public static String CONFIG_DIR = "D" + System.getProperty("user.home").substring(1).replace('\\','/') + "/AppData/MouseMacros/";
+    private static final String CONFIG_PATH;
+    private static final String FILE_CHOOSER_CONFIG_PATH;
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static Config config ;
     public static FileChooserConfig fc_config;
+
     static {
+        CONFIG_DIR = FileUtil.getLocalStoragePath().toString();
+        CONFIG_PATH = CONFIG_DIR + "\\config.cfg";
+        FILE_CHOOSER_CONFIG_PATH = CONFIG_DIR + "\\cache.json";
         config = loadConfig();
         fc_config = loadFileChooserConfig();
     }
@@ -71,6 +77,7 @@ public class ConfigManager {
         if (Localizer.isDevMode()) {
             String langDir = "lang";
             String[] files = FileUtil.listFileNames(langDir);
+            System.out.println("[DEBUG] DevMode: langDir=" + langDir + ", files=" + java.util.Arrays.toString(files));
             if (files != null) {
                 for (String name : files) {
                     int idx = name.lastIndexOf('.');
@@ -83,7 +90,14 @@ public class ConfigManager {
             try {
                 java.net.URL dirURL = ConfigManager.class.getClassLoader().getResource("lang/");
                 if (dirURL != null && dirURL.getProtocol().equals("jar")) {
-                    String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!"));
+                    String rawPath = dirURL.getPath();
+                    int sepIdx = rawPath.indexOf("!");
+                    String jarPath = rawPath.substring(0, sepIdx);
+                    if (jarPath.startsWith("file:")) jarPath = jarPath.substring(5);
+                    jarPath = java.net.URLDecoder.decode(jarPath, StandardCharsets.UTF_8);
+                    if (jarPath.startsWith("/") && System.getProperty("os.name").toLowerCase().contains("win")) {
+                        jarPath = jarPath.substring(1);
+                    }
                     java.util.jar.JarFile jar = new java.util.jar.JarFile(jarPath);
                     java.util.Enumeration<java.util.jar.JarEntry> entries = jar.entries();
                     while (entries.hasMoreElements()) {
@@ -95,7 +109,6 @@ public class ConfigManager {
                     }
                     jar.close();
                 } else if (dirURL != null && dirURL.getProtocol().equals("file")) {
-                    // 兼容未打包但以file协议运行的情况
                     File dir = new File(dirURL.toURI());
                     File[] files = dir.listFiles((d, n) -> n.endsWith(".json"));
                     if (files != null) {
@@ -108,8 +121,11 @@ public class ConfigManager {
                         }
                     }
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        System.out.println("[DEBUG] langs result: " + langs);
         return langs.toArray(new String[0]);
     }
 
@@ -143,4 +159,6 @@ public class ConfigManager {
             System.err.println("Failed to save config: " + e.getMessage());
         }
     }
+
+
 }

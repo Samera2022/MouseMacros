@@ -2,17 +2,13 @@ package io.github.samera2022.mouse_macros.ui.frame;
 
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
-import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
-import com.github.kwhat.jnativehook.mouse.NativeMouseInputListener;
 import io.github.samera2022.mouse_macros.Localizer;
-import io.github.samera2022.mouse_macros.constant.ColorConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.listener.GlobalMouseListener;
 import io.github.samera2022.mouse_macros.manager.MacroManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
 import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
 import io.github.samera2022.mouse_macros.ui.frame.settings.HotkeyDialog;
-import io.github.samera2022.mouse_macros.ui.frame.settings.MacroSettingsDialogTest;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
 import io.github.samera2022.mouse_macros.util.OtherUtil;
 import io.github.samera2022.mouse_macros.util.SystemUtil;
@@ -37,15 +33,6 @@ public class MainFrame extends JFrame{
     public static final GlobalMouseListener GML = new GlobalMouseListener();
 
     public static final MainFrame MAIN_FRAME = new MainFrame();
-    // 主入口
-    public static void main(String[] args) {
-        try {
-            // 设置与系统一致的外观
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public MainFrame() {
         // 1.1 若开启跟随系统设置，自动同步语言和深色模式
@@ -132,7 +119,7 @@ public class MainFrame extends JFrame{
         saveBtn.addActionListener(e -> {if (!MacroManager.isRecording()) MacroManager.saveToFile(this);});
         loadBtn.addActionListener(e -> {if (!MacroManager.isRecording()) MacroManager.loadFromFile(this);});
         settingsBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new SettingsDialog().setVisible(true)));
-        macroSettingsBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new MacroSettingsDialogTest().setVisible(true)));
+        macroSettingsBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new MacroSettingsDialog().setVisible(true)));
 
         // 禁用JNativeHook日志
         Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
