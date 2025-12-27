@@ -1,7 +1,7 @@
 # MouseMacros
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Samera2022/MouseMacros/docs/main/images/MouseMacrosIcon.png" alt="MouseMacros Logo" width="120">
+  <img src="https://raw.githubusercontent.com/Samera2022/MouseMacros/main/docs/images/MouseMacrosIcon.png" alt="MouseMacros Logo" width="120">
   <br>
   <b>A lightweight, cross-platform Java tool for recording and replaying mouse and keyboard macros.</b>
   <br>
