@@ -40,12 +40,14 @@ public class UpdateInfoDialog extends JDialog {
         comboPanel.add(Box.createHorizontalStrut(8));
 
         JComboBox<String> infoCombo = getJComboBox();
+        int length = UpdateInfo.values().length;
+        infoCombo.setSelectedIndex(length-1);
         comboPanel.add(infoCombo);
         content.add(Box.createVerticalStrut(10));
         content.add(comboPanel);
 
-        // JTextArea显示内容，初始为第一个内容
-        String firstContent = UpdateInfo.values().length > 0 ? UpdateInfo.values()[0].getFormattedLog() : "";
+        // JTextArea显示内容，初始为最后一个内容
+        String firstContent = UpdateInfo.values().length > 0 ? UpdateInfo.values()[length-1].getFormattedLog() : "";
         JTextArea updateInfoArea = new JTextArea(firstContent);
         updateInfoArea.setEditable(false);
         updateInfoArea.setLineWrap(true);
@@ -66,7 +68,7 @@ public class UpdateInfoDialog extends JDialog {
 
         add(content, BorderLayout.CENTER);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "settings.update_info", 500, 360);
+        ComponentUtil.applyWindowSizeCache(this, "settings.update_info", 521, 361);
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }

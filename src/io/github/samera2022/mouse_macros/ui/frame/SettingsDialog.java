@@ -119,11 +119,21 @@ public class SettingsDialog extends JDialog {
         // 联动逻辑：enableDefaultStorage控制pathField和browseBtn的可用性
         pathField.setEnabled(enableDefaultStorageBox.isSelected());
         browseBtn.setEnabled(enableDefaultStorageBox.isSelected());
-        enableDefaultStorageBox.addItemListener(e -> {
+        java.awt.event.ItemListener enableDefaultStorageListener = e -> {
             boolean enabled = enableDefaultStorageBox.isSelected();
             pathField.setEnabled(enabled);
             browseBtn.setEnabled(enabled);
-        });
+            //MetalLookAndFeel没有关于disabledBackground或者类似的属性……所以只能在这里硬改了
+            if (!enabled) {
+                pathField.setBackground(config.enableDarkMode?ColorConsts.DARK_MODE_DISABLED_BACKGROUND:ColorConsts.LIGHT_MODE_DISABLED_BACKGROUND);
+                pathField.setForeground(config.enableDarkMode?ColorConsts.DARK_MODE_DISABLED_FOREGROUND:ColorConsts.LIGHT_MODE_DISABLED_FOREGROUND);
+            } else {
+                pathField.setBackground(config.enableDarkMode?ColorConsts.DARK_MODE_PANEL_BACKGROUND:ColorConsts.LIGHT_MODE_PANEL_BACKGROUND);
+                pathField.setForeground(config.enableDarkMode?ColorConsts.DARK_MODE_PANEL_FOREGROUND:ColorConsts.LIGHT_MODE_PANEL_FOREGROUND);
+            }
+        };
+        enableDefaultStorageBox.addItemListener(enableDefaultStorageListener);
+        enableDefaultStorageListener.itemStateChanged(null);
         JPanel pathPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pathPanel.add(pathLabel);
         pathPanel.add(Box.createHorizontalStrut(10));
@@ -203,7 +213,7 @@ public class SettingsDialog extends JDialog {
         add(savePanel, BorderLayout.SOUTH);
         // 此处是初始化时设置暗色
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "settings", 500, 360);
+        ComponentUtil.applyWindowSizeCache(this, "settings", 521, 359);
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }

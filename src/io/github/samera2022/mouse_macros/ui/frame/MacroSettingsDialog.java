@@ -131,7 +131,7 @@ public class MacroSettingsDialog extends JDialog {
 
         add(content, BorderLayout.CENTER);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "macro_settings", 500, 360);
+        ComponentUtil.applyWindowSizeCache(this, "macro_settings", 280, 181);
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }

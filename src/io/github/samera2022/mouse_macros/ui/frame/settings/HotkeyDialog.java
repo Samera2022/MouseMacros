@@ -112,7 +112,7 @@ public class HotkeyDialog extends JDialog {
             @Override
             public void focusGained(FocusEvent e) {
                 // 获得焦点时，变色提醒正在录制（可选优化）
-                ((JTextField)e.getSource()).setBackground(Color.decode("#E3F2FD"));
+                ((JTextField)e.getSource()).setBackground(UIManager.getColor("TextField.inactiveForeground"));
                 GlobalScreen.addNativeKeyListener(keyListener);
             }
 
@@ -164,7 +164,7 @@ public class HotkeyDialog extends JDialog {
         // 窗体收尾工作
         ComponentUtil.setMode(getContentPane(), config.enableDarkMode ? OtherConsts.DARK_MODE : OtherConsts.LIGHT_MODE);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        ComponentUtil.applyWindowSizeCache(this, "settings.custom_hotkey", 500, 360);
+        ComponentUtil.applyWindowSizeCache(this, "settings.custom_hotkey", 250, 225);
         setLocationRelativeTo(null); // 居中
         addWindowListener(new WindowClosingAdapter());
     }

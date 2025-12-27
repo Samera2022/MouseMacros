@@ -72,27 +72,19 @@ public class ComponentUtil {
                 comp.setBackground(bbg);
                 comp.setForeground(bfg);
             } else if (comp instanceof JTextField) {
-                // 已经不便于用上面的Color...来表示了
+                    //MetalLookAndFeel没有关于disabledBackground或者类似的属性……
                 switch (mode) {
                     case OtherConsts.DARK_MODE:
                         UIManager.put("TextField.background", DARK_MODE_PANEL_BACKGROUND);
                         UIManager.put("TextField.foreground", DARK_MODE_PANEL_FOREGROUND);
-                        UIManager.put("TextField.disabledBackground", DARK_MODE_DISABLED_BACKGROUND);
-                        UIManager.put("TextField.disabledForeground", DARK_MODE_DISABLED_FOREGROUND);
                         UIManager.put("TextField.inactiveForeground", DARK_MODE_DISABLED_FOREGROUND);
-                        UIManager.put("TextField.selectionBackground", DARK_MODE_PANEL_BACKGROUND);
-                        UIManager.put("TextField.selectionForeground", DARK_MODE_PANEL_FOREGROUND);
-                        UIManager.put("TextField.caretForeground", DARK_MODE_CARET);
+                        UIManager.put("TextField.inactiveBackground", DARK_MODE_DISABLED_BACKGROUND);
                         break;
                     case OtherConsts.LIGHT_MODE:
                         UIManager.put("TextField.background", LIGHT_MODE_PANEL_BACKGROUND);
                         UIManager.put("TextField.foreground", LIGHT_MODE_PANEL_FOREGROUND);
-                        UIManager.put("TextField.disabledBackground", LIGHT_MODE_DISABLED_BACKGROUND);
-                        UIManager.put("TextField.disabledForeground", LIGHT_MODE_DISABLED_FOREGROUND);
                         UIManager.put("TextField.inactiveForeground", LIGHT_MODE_DISABLED_FOREGROUND);
-                        UIManager.put("TextField.selectionBackground", LIGHT_MODE_PANEL_BACKGROUND);
-                        UIManager.put("TextField.selectionForeground", LIGHT_MODE_PANEL_FOREGROUND);
-                        UIManager.put("TextField.caretForeground", LIGHT_MODE_CARET);
+                        UIManager.put("TextField.inactiveBackground", LIGHT_MODE_DISABLED_BACKGROUND);
                         break;
                 }
                 SwingUtilities.updateComponentTreeUI(comp);

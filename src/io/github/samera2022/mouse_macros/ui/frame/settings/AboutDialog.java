@@ -41,7 +41,7 @@ public class AboutDialog extends JDialog{
 
         add(content, BorderLayout.CENTER);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "settings.about_author", 500, 360);
+        ComponentUtil.applyWindowSizeCache(this, "settings.about_author", 481, 274);
         setLocationRelativeTo(this);
 
         addWindowListener(new WindowClosingAdapter());

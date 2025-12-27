@@ -39,15 +39,25 @@ public enum UpdateInfo {
                     "##[Warn]\n" +
                     " - 在创建settings.custom_hotkey界面后，不点击任何对话框直接按键盘，将会直接改动start_record的按键设置。\n" +
                     " - JFileChooser的界面无法应用暗色模式……要重写这个类实在太费劲了。"),
-    VERSION_1_0_1("1.0.1","2025-12-27 21:23",
+    VERSION_1_0_1("1.0.1","2025-12-27 23:16",
             "##[Added]\n" +
                     " - 将窗体大小添加进cache.json，现在MouseMacros将能记忆你的每个窗体的大小。\n" +
                     " - 为Settings添加enable_default_storage的按钮，具体逻辑详见Description。\n" +
                     " - 配置了一键打包的脚本，现在的Release将会提供exe版本的程序下载。\n" +
+                    " - 为settings.custom_hotkey界面的TextField添加了鼠标焦点提示。\n" +
                     " - 引入DeepWiki的docs来辅助代码理解。\n" +
                     "##[Changed]\n" +
                     " - 修改为更加细致的README.md。\n" +
-                    " - 文件结构略有修改，主要是lang文件移动到src下。\n");
+                    " - 文件结构略有修改，主要是lang文件移动到src下。\n" +
+                    "##[Description]\n" +
+                    " - 当enable_default_storage为true时，在loadMacros和saveMacros时均只会采用config中的default_mmc_storage_path。" +
+                    "且在FileChooser窗体中找到其他目录保存并不会修改cache.json中的lastSaveDirectory和lastLoadDirectory。\n" +
+                    " - 当enable_default_storage为false时，在loadMacros和saveMacros时均只会采用cache.json中的lastSaveDirectory和lastLoadDirectory。" +
+                    "当二者均为空时为默认目录，当二者其中一者为空时，在选择好文件夹（关闭FileChooser）后会默认将有值的数据复制到空的那一者。\n" +
+                    "##[Fixed]\n" +
+                    " - 修复了1.0.0中settings.custom_hotkey的异常。\n" +
+                    "##[To-do]\n" +
+                    " - 可能考虑切换UIManager的样式，当前的Metal样式较为简陋且缺乏较多的属性，可能会考虑切换至Nimbus、System或者第三方的FlatLightLaf。");
 
     private final String version;
     private final String releaseDate;

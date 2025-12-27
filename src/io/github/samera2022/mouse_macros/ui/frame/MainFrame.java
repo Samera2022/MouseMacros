@@ -49,8 +49,8 @@ public class MainFrame extends JFrame{
         Localizer.setRuntimeSwitch(enableLangSwitch);
         // 3. 初始化热键（如keyMap有值则覆盖设定的默认值）
         if (config.keyMap != null) {
-            if (config.keyMap.containsKey("start_macro")) {
-                try { keyRecord = Integer.parseInt(config.keyMap.get("start_macro")); } catch (Exception ignored) {} }
+            if (config.keyMap.containsKey("start_record")) {
+                try { keyRecord = Integer.parseInt(config.keyMap.get("start_record")); } catch (Exception ignored) {} }
             if (config.keyMap.containsKey("stop_record")) {
                 try { keyStop = Integer.parseInt(config.keyMap.get("stop_record")); } catch (Exception ignored) {} }
             if (config.keyMap.containsKey("play_macro")) {
@@ -141,7 +141,7 @@ public class MainFrame extends JFrame{
         // 4. 启动时根据配置应用暗色模式
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         // 统一应用窗体大小缓存（优先cache.json，无则默认）
-        ComponentUtil.applyWindowSizeCache(this, "title", 1200, 660);
+        ComponentUtil.applyWindowSizeCache(this, "title", 430, 330);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         addWindowListener(new WindowClosingAdapter());
