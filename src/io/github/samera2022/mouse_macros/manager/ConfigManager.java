@@ -32,6 +32,7 @@ public class ConfigManager {
         public Map<String, String> keyMap = new HashMap<>();
         public boolean enableCustomMacroSettings = false;
         public int repeatTime = 1;
+        public int repeatDelay = 0;
         public boolean enableDefaultStorage = false;
         public boolean enableQuickMode = false;
     }

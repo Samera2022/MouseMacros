@@ -25,6 +25,7 @@
 
   "macro_settings.enable_custom_macro_settings": "启用自定义宏",
   "macro_settings.repeat_times": "执行重复次数",
+  "macro_settings.repeat_delay": "每次执行延迟(ms)",
   "macro_settings.save_settings": "保存并应用所有宏配置",
 
   "start_recording": "开始录制...",
