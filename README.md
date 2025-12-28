@@ -15,15 +15,16 @@
 
 ---
 
-## 📸 Preview
+## Preview
 <p align="center">
-  <img src="docs/images/MouseMacrosMainFrame.png" width="600" alt="Main Interface">
+  <img src="docs/images/MouseMacrosMainFrame.png" width="300" alt="Main Interface">
+<br>
+  <sub style="font-size: 14px;"><i>The main interface of MouseMacros.</i></sub>
 </p>
-*The main interface of MouseMacros.*
 
 ---
 
-## ✨ Features
+## Features
 
 * **Comprehensive Recording**: Capture Mouse Left/Right/Middle clicks, Scroll Wheel movements, and Keyboard inputs seamlessly.
 * **Global Hotkeys**: Control the application even when it's minimized. Fully customizable keys for:
@@ -37,9 +38,9 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-### Installation
+### Quick Launch
 I. Jar User
 1. Make sure that you have installed JRE 1.8 or above. If not, you can download [here](https://www.oracle.com/technetwork/cn/java/javase/downloads/jre8-downloads-2133155-zhs.html).
 2. Download the latest `.jar` file from the [Releases](https://github.com/Samera2022/MouseMacros/releases) page.
@@ -52,17 +53,20 @@ II. Exe User
 2. Click to start! All environments are integrated into one `exe` file!
 
 ### Usage
-![Settings Dialog](docs/images/MouseMacrosSettingsDialog.png)
+<p align="center">
+  <img src="docs/images/MouseMacrosSettingsDialog.png" width="300" alt="Settings Dialog">
+<br>
+
 1. **Adjust**: The choose of language will determine the words in the frame, thus resulting in some buttons not being displayed in the frame.
    In this case, you will need to adjust the frame to the appropriate size.
-2. **Configure**: Open the Settings dialog and Macros Settings dialog to set your preferred hotkeys. For detailed configuration docs, please refer to [Configuration](#%EF%B8%8F-configuration).
+2. **Configure**: Open the Settings dialog and Macros Settings dialog to set your preferred hotkeys. For detailed configuration docs, please refer to [Configuration](#configuration).
 3. **Record**: Press your "Start Recording" hotkey or press this button in the frame and perform the actions.
 4. **Save**: Use "Save Macros" to export your recording to a `.mmc` file.
 5. **Replay**: Use "Load Macro" to load a `.mmc` file and press "Play Macro".
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 The application stores settings in the user's AppData directory:
 `%USERPROFILE%/AppData/MouseMacros/`
@@ -84,12 +88,12 @@ The application stores settings in the user's AppData directory:
 
 ---
 
-## 📄 Others
+## Others
 
-### 🤝 Contributing
+### Contributing
 Contributions are welcome! If you find a bug or have a feature request, please open an issue.
-### 👤 Author
+### Author
 **Developer: Samera2022**
 * **GitHub**: [@Samera2022](https://github.com/Samera2022)
-### 📄 License
+### License
 This project is licensed under the GNU General Public License v3.0 License - see the `LICENSE` file for details.
