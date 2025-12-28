@@ -50,7 +50,8 @@ public class MacroManager {
                         if (Thread.interrupted()) {
                             return;
                         }
-                        Thread.sleep(action.delay);
+                        long sleepTime = config.enableQuickMode ? 0 : action.delay;
+                        Thread.sleep(sleepTime);
                         action.perform();
                     }
                 }
