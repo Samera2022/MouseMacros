@@ -96,8 +96,6 @@ public class MacroSettingsDialog extends JDialog {
         subSettingsPanel.add(Box.createHorizontalStrut(10));
         content.add(subSettingsPanel);
 
-
-
         // 保存按钮单独底部居中
         JButton saveSettingsBtn = new JButton(Localizer.get("macro_settings.save_settings"));
         saveSettingsBtn.addActionListener(e -> {
@@ -119,7 +117,6 @@ public class MacroSettingsDialog extends JDialog {
         JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         savePanel.add(saveSettingsBtn);
         savePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
         //联动
         java.awt.event.ItemListener followSysListener = e -> {
             boolean enabled = enableCustomSettingsBox.isSelected();
@@ -130,6 +127,7 @@ public class MacroSettingsDialog extends JDialog {
         followSysListener.itemStateChanged(null);
 
         add(content, BorderLayout.CENTER);
+        add(savePanel, BorderLayout.SOUTH);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         ComponentUtil.applyWindowSizeCache(this, "macro_settings", 280, 181);
         setLocationRelativeTo(this);

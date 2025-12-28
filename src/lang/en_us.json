@@ -24,7 +24,7 @@
   "settings.enable_quick_mode": "Enable Quick Mode",
 
   "macro_settings.enable_custom_macro_settings": "Enable Custom Macro Settings",
-  "macro_settings.repeat_times": "Execution Repeat Times: ",
+  "macro_settings.repeat_times": "Execution Repeat Times",
   "macro_settings.save_settings": "Save and Apply All Macro Settings",
 
   "start_recording": "Start recording...",
