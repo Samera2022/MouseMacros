@@ -2,13 +2,10 @@ package io.github.samera2022.mouse_macros.ui.frame;
 
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
-import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.ColorConsts;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
-import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
-import io.github.samera2022.mouse_macros.ui.component.CustomFileChooser;
 import io.github.samera2022.mouse_macros.ui.frame.settings.AboutDialog;
 import io.github.samera2022.mouse_macros.ui.frame.settings.HotkeyDialog;
 import io.github.samera2022.mouse_macros.ui.frame.settings.UpdateInfoDialog;
@@ -16,7 +13,6 @@ import io.github.samera2022.mouse_macros.util.ComponentUtil;
 import io.github.samera2022.mouse_macros.util.SystemUtil;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;

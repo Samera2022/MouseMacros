@@ -1,7 +1,6 @@
 package io.github.samera2022.mouse_macros.ui.frame.settings;
 
 import io.github.samera2022.mouse_macros.Localizer;
-import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
@@ -97,7 +96,6 @@ public class TestDialog extends JDialog {
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
 
         pack();
-        SizeCache.SIZE = getSize();
         setLocationRelativeTo(this);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }

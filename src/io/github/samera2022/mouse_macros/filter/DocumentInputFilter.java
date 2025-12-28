@@ -4,6 +4,7 @@ import javax.swing.text.DocumentFilter;
 
 public class DocumentInputFilter extends DocumentFilter {
 
+    // 这是一个必须要被重写的方法
     public boolean isValidContent(String input) { return true; }
 
     @Override

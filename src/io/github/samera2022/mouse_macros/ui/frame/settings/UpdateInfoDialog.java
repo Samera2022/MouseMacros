@@ -3,10 +3,8 @@ package io.github.samera2022.mouse_macros.ui.frame.settings;
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.UpdateInfo;
 import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
-import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
-import io.github.samera2022.mouse_macros.manager.CacheManager;
 
 import javax.swing.*;
 import java.awt.*;

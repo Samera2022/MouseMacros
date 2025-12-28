@@ -1,8 +1,6 @@
 package io.github.samera2022.mouse_macros.util;
 
-import io.github.samera2022.mouse_macros.constant.ColorConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
-import io.github.samera2022.mouse_macros.ui.component.CustomFileChooser;
 import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
 
 import javax.swing.*;
