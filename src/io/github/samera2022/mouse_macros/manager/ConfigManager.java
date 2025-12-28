@@ -33,6 +33,7 @@ public class ConfigManager {
         public boolean enableCustomMacroSettings = false;
         public int repeatTime = 1;
         public boolean enableDefaultStorage = false;
+        public boolean enableQuickMode = false;
     }
 
     public static void reloadConfig(){config = loadConfig();}

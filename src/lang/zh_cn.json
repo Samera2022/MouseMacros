@@ -21,6 +21,7 @@
   "settings.update_info": "更新日志",
   "settings.update_info.select_version": "选择版本",
   "settings.save_settings": "保存并应用所有配置",
+  "settings.enable_quick_mode": "启用快速模式",
 
   "macro_settings.enable_custom_macro_settings": "启用自定义宏",
   "macro_settings.repeat_times": "执行重复次数：",
@@ -55,4 +56,3 @@
   "hook_registration_failed": "全局钩子注册失败："
 
 }
-

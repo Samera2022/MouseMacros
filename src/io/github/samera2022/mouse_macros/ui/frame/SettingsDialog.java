@@ -150,6 +150,18 @@ public class SettingsDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(pathIndentPanel);
 
+        // 快速模式勾选框（参照follow_system_settings样式）
+        JPanel quickModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JLabel quickModeLabel = new JLabel(Localizer.get("settings.enable_quick_mode"));
+        JCheckBox quickModeBox = new JCheckBox(IconConsts.CHECK_BOX);
+        quickModeBox.setSelected(config.enableQuickMode);
+        quickModePanel.add(quickModeLabel);
+        quickModePanel.add(Box.createHorizontalStrut(10));
+        quickModePanel.add(quickModeBox);
+        quickModePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(Box.createVerticalStrut(10));
+        content.add(quickModePanel);
+
         // 热键自定义 + 关于作者 + 更新日志 三列按钮
         JButton hotkeyBtn = new JButton(Localizer.get("settings.custom_hotkey"));
         hotkeyBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new HotkeyDialog().setVisible(true)));
@@ -175,6 +187,7 @@ public class SettingsDialog extends JDialog {
             config.defaultMmcStoragePath = pathField.getText();
             config.enableDarkMode = darkModeBox.isSelected();
             config.enableDefaultStorage = enableDefaultStorageBox.isSelected(); // 新增保存
+            config.enableQuickMode = quickModeBox.isSelected(); // 新增保存
             // 热键配置保存到config.keyMap（假设已有相关逻辑）
             ConfigManager.saveConfig(config);
             ConfigManager.reloadConfig();

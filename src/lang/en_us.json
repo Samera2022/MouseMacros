@@ -21,6 +21,7 @@
   "settings.update_info": "Update Info",
   "settings.update_info.select_version": "Select Version",
   "settings.save_settings": "Save and Apply All Settings",
+  "settings.enable_quick_mode": "Enable Quick Mode",
 
   "macro_settings.enable_custom_macro_settings": "Enable Custom Macro Settings",
   "macro_settings.repeat_times": "Execution Repeat Times: ",
@@ -52,4 +53,3 @@
 
   "hook_registration_failed": "Global hook registration failed: "
 }
-
