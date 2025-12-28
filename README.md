@@ -25,8 +25,8 @@
 * **Comprehensive Recording**: Capture Mouse Left/Right/Middle clicks, Scroll Wheel movements, and Keyboard inputs seamlessly.
 * **Global Hotkeys**: Control the application even when it's minimized. Fully customizable keys for:
     * Start/Stop Recording
-    * Start Playback
-    * **Force Abort** (Emergency stop for runaway macros)
+    * Play Macro
+    * Abort Operation (Emergency stop for runaway macros)
 * **Multi-Language Support**: Built-in localization for **English (US)** and **Simplified Chinese**.
 * **Theme Engine**: Supports **Light** and **Dark** modes, with an option to follow system settings automatically.
 * **Persistence**: Macros are saved as `.mmc` (CSV-formatted) files, allowing for easy sharing and manual editing.
