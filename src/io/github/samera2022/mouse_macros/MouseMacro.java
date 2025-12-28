@@ -11,7 +11,6 @@ public class MouseMacro {
         java.io.File libDir = new java.io.File(configDir+"/libs/", dllName);
         if (!libDir.exists()) libDir.mkdirs();
         System.setProperty("jnativehook.lib.path", libDir.getAbsolutePath());
-        // ====== 启动主界面 ======
         SwingUtilities.invokeLater(() -> MAIN_FRAME.setVisible(true));
     }
 }

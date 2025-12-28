@@ -61,7 +61,13 @@ public enum UpdateInfo {
                     "## [Note]\n" +
                     " - 源代码大概其实只有1MB左右的大小，但是带上精简的运行环境就需要34.2MB了……\n" +
                     " - 有人可能会说，为什么1.0.0的软件包要2.84MB，而这一次的只要1.05MB了呢？是不是压缩水平提升了？" +
-                    "啊其实不是啊，是因为我之前不小心把项目的根目录放进源代码目录里面了……在我编写EVB和Jpackage打包的时候才发现这一点，然后才改过来。");
+                    "啊其实不是啊，是因为我之前不小心把项目的根目录放进源代码目录里面了……在我编写EVB和Jpackage打包的时候才发现这一点，然后才改过来。"),
+    VERSION_1_0_2("1.0.2","2025-12-28 16:52",
+            "## [Added]\n" +
+                    " - 在SettingsDialog添加了QuickMode，现在MouseMacros可以无视鼠标键盘的等待时间，快速执行了。\n" +
+                    " - 在MacroSettingsDialog的Enable Custom Macro Settings条目下添加了Execution Repeat Delay (s)，可以在每次重复的执行之中等待指定的秒数。秒数最大支持三位小数（到毫秒）。\n\n" +
+                    "## [Fixed]\n" +
+                    " - 1.0.0中不小心删除了Macro Settings的保存设置按钮，这次重新添加了进去。");
 
     private final String version;
     private final String releaseDate;

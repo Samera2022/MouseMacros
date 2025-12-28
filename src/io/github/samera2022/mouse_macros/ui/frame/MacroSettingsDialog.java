@@ -56,11 +56,6 @@ public class MacroSettingsDialog extends JDialog {
         // 计算能完全显示2147483647所需的宽度
         // 先临时设置字体，确保FontMetrics获取准确
         repeatField.setFont(repeatField.getFont());
-        //70是显示2147483647所需的宽度，再加10是为了紧凑
-//        int maxWidth = 50;
-//        repeatField.setPreferredSize(new Dimension(maxWidth, 25));
-//        repeatField.setMinimumSize(new Dimension(maxWidth, 25));
-//        repeatField.setMaximumSize(new Dimension(maxWidth, 25));
         // 只允许输入全体正整数，或唯��允许的负数为-1，允许输入"-"便于编辑
         ((javax.swing.text.AbstractDocument) repeatField.getDocument()).setDocumentFilter(new javax.swing.text.DocumentFilter() {
             private boolean isValidInt(String text) {
@@ -93,14 +88,15 @@ public class MacroSettingsDialog extends JDialog {
         repeatDelayField.setColumns(7);
         repeatDelayField.setFont(repeatDelayField.getFont());
         ((javax.swing.text.AbstractDocument) repeatDelayField.getDocument()).setDocumentFilter(new javax.swing.text.DocumentFilter() {
-            private boolean isValidInt(String text) {
-                return text.matches("\\d+") || text.isEmpty();
+            private boolean isValidDouble(String text) {
+                // 允许整数或最多三位小数
+                return text.matches("\\d*(\\.\\d{0,3})?") || text.isEmpty();
             }
             @Override
             public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws javax.swing.text.BadLocationException {
                 StringBuilder sb = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
                 sb.insert(offset, string);
-                if (isValidInt(sb.toString())) {
+                if (isValidDouble(sb.toString())) {
                     super.insertString(fb, offset, string, attr);
                 }
             }
@@ -108,7 +104,7 @@ public class MacroSettingsDialog extends JDialog {
             public void replace(FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws javax.swing.text.BadLocationException {
                 StringBuilder sb = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
                 sb.replace(offset, offset + length, text);
-                if (isValidInt(sb.toString())) {
+                if (isValidDouble(sb.toString())) {
                     super.replace(fb, offset, length, text, attrs);
                 }
             }
@@ -145,7 +141,7 @@ public class MacroSettingsDialog extends JDialog {
             }
             if (!delayText.isEmpty()) {
                 try {
-                    config.repeatDelay = Integer.parseInt(delayText);
+                    config.repeatDelay = Double.parseDouble(delayText);
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
@@ -178,4 +174,3 @@ public class MacroSettingsDialog extends JDialog {
         addWindowListener(new WindowClosingAdapter());
     }
 }
-

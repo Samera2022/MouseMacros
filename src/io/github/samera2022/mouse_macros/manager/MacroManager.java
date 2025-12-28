@@ -54,6 +54,10 @@ public class MacroManager {
                         Thread.sleep(sleepTime);
                         action.perform();
                     }
+                    // 每次执行之间延迟（最后一次不延迟）
+                    if (i < config.repeatTime - 1 && config.repeatDelay > 0) {
+                        Thread.sleep((long)(config.repeatDelay * 1000));
+                    }
                 }
                 log(Localizer.get("playback_complete"));
             } catch (InterruptedException e) {
