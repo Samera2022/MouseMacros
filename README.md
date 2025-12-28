@@ -15,7 +15,7 @@
 
 ## Preview
 <p align="center">
-  <img src="docs/images/MouseMacrosMainFrame.png" width="300" alt="Main Interface">
+  <img src="docs/images/MouseMacrosMainFrame.png" width="400" alt="Main Interface">
 <br>
   <sub style="font-size: 14px;"><i>The main interface of MouseMacros.</i></sub>
 </p>
@@ -36,7 +36,7 @@
 
 ### Quick Launch
 I. Jar User
-1. Make sure that you have installed JRE 1.8 or above. If not, you can download [here](https://www.oracle.com/technetwork/cn/java/javase/downloads/jre8-downloads-2133155-zhs.html).
+1. Make sure that you have installed JRE 1.8 or above. If not, you can download [HERE](https://www.oracle.com/technetwork/cn/java/javase/downloads/jre8-downloads-2133155-zhs.html).
 2. Download the latest `.jar` file from the [Releases](https://github.com/Samera2022/MouseMacros/releases) page.
 3. Double-click the jar file OR use cmd to run the application:
     ```bash
@@ -48,7 +48,7 @@ II. Exe User
 
 ### Usage
 <p align="center">
-  <img src="docs/images/MouseMacrosSettingsDialog.png" width="300" alt="Settings Dialog">
+  <img src="docs/images/MouseMacrosSettingsDialog.png" width="400" alt="Settings Dialog">
 <br>
 
 1. **Adjust**: The choose of language will determine the words in the frame, thus resulting in some buttons not being displayed in the frame.
