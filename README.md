@@ -1,28 +1,25 @@
 # MouseMacros
 
-<div style="display: flex; justify-content: center; align-items: center;">
-  <img src="docs/images/MouseMacrosIcon.png" alt="MouseMacros Logo" width="120">
-  <p style="margin-top: 10px;">
-    <br>
-    <b>A lightweight, cross-platform Java tool for recording and replaying mouse and keyboard macros.</b>
-    <br>
-  </p>
-</div>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Samera2022/MouseMacros/main/docs/images/MouseMacrosIcon.png" alt="MouseMacros Logo" width="120">
+  <br>
+  <b>A lightweight, cross-platform Java tool for recording and replaying mouse and keyboard macros.</b>
+  <br>
+</p>
 
-<div style="display: flex; justify-content: center;">
+<p align="center">
   <img src="https://img.shields.io/badge/Java-1.8%2B-orange.svg" alt="Java Version">
   <img src="https://img.shields.io/badge/License-GPL--3.0-blue.svg" alt="License">
   <img src="https://img.shields.io/github/v/release/Samera2022/MouseMacros" alt="Latest Release">
-</div>
+</p>
 
 ---
 
 ## 📸 Preview
-
-<div style="display: flex; justify-content: center; align-items: center;">
-  <img src="docs/images/MouseMacrosMainFrame.png" width="300" alt="Main Interface">
-  <p style="margin-top: 10px;"><i>The main interface of MouseMacros.</i></p>
-</div>
+<p align="center">
+  <img src="docs/images/MouseMacrosMainFrame.png" width="600" alt="Main Interface">
+</p>
+*The main interface of MouseMacros.*
 
 ---
 
@@ -44,8 +41,8 @@
 
 ### Installation
 I. Jar User
-1. Make sure that you have installed JRE 1.8 or above. If not, you can download [here](https://www.oracle.com/technetwork/cn/java/javase/downloads/jre8-downloads-2133155-zhs.html). 
-2. Download the latest `.jar` file from the [Releases](https://github.com/Samera2022/MouseMacros/releases) page. 
+1. Make sure that you have installed JRE 1.8 or above. If not, you can download [here](https://www.oracle.com/technetwork/cn/java/javase/downloads/jre8-downloads-2133155-zhs.html).
+2. Download the latest `.jar` file from the [Releases](https://github.com/Samera2022/MouseMacros/releases) page.
 3. Double-click the jar file OR use cmd to run the application:
     ```bash
     java -jar MouseMacros.jar
@@ -55,12 +52,9 @@ II. Exe User
 2. Click to start! All environments are integrated into one `exe` file!
 
 ### Usage
-<div style="display: flex; justify-content: center; align-items: center;">
-  <img src="docs/images/MouseMacrosSettingsDialog.png" width="300" alt="Settings Dialog">
-</div>
-
-1. **Adjust**: The choose of language will determine the words in the frame, thus resulting in some buttons not being displayed in the frame. 
-In this case, you will need to adjust the frame to the appropriate size.
+![Settings Dialog](docs/images/MouseMacrosSettingsDialog.png)
+1. **Adjust**: The choose of language will determine the words in the frame, thus resulting in some buttons not being displayed in the frame.
+   In this case, you will need to adjust the frame to the appropriate size.
 2. **Configure**: Open the Settings dialog and Macros Settings dialog to set your preferred hotkeys. For detailed configuration docs, please refer to [Configuration](#%EF%B8%8F-configuration).
 3. **Record**: Press your "Start Recording" hotkey or press this button in the frame and perform the actions.
 4. **Save**: Use "Save Macros" to export your recording to a `.mmc` file.
