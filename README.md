@@ -16,8 +16,9 @@
 ---
 
 ## 📸 Preview
-
-![Main Interface](docs/images/MouseMacrosMainFrame.png)
+<p align="center">
+  <img src="docs/images/MouseMacrosMainFrame.png" width="600" alt="Main Interface">
+</p>
 *The main interface of MouseMacros.*
 
 ---
@@ -54,7 +55,7 @@ II. Exe User
 ![Settings Dialog](docs/images/MouseMacrosSettingsDialog.png)
 1. **Adjust**: The choose of language will determine the words in the frame, thus resulting in some buttons not being displayed in the frame. 
 In this case, you will need to adjust the frame to the appropriate size.
-2. **Configure**: Open the Settings dialog and Macros Settings dialog to set your preferred hotkeys. For detailed configuration docs, please refer to [Configuration](#%EF%B8%8F-configuration)
+2. **Configure**: Open the Settings dialog and Macros Settings dialog to set your preferred hotkeys. For detailed configuration docs, please refer to [Configuration](#%EF%B8%8F-configuration).
 3. **Record**: Press your "Start Recording" hotkey or press this button in the frame and perform the actions.
 4. **Save**: Use "Save Macros" to export your recording to a `.mmc` file.
 5. **Replay**: Use "Load Macro" to load a `.mmc` file and press "Play Macro".
@@ -91,4 +92,4 @@ Contributions are welcome! If you find a bug or have a feature request, please o
 **Developer: Samera2022**
 * **GitHub**: [@Samera2022](https://github.com/Samera2022)
 ### 📄 License
-This project is licensed under the GPL-3.0 License - see the `LICENSE` file for details.
+This project is licensed under the GNU General Public License v3.0 License - see the `LICENSE` file for details.
