@@ -1,25 +1,28 @@
 # MouseMacros
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Samera2022/MouseMacros/main/docs/images/MouseMacrosIcon.png" alt="MouseMacros Logo" width="120">
-  <br>
-  <b>A lightweight, cross-platform Java tool for recording and replaying mouse and keyboard macros.</b>
-  <br>
-</p>
+<div style="display: flex; justify-content: center; align-items: center;">
+  <img src="docs/images/MouseMacrosIcon.png" alt="MouseMacros Logo" width="120">
+  <p style="margin-top: 10px;">
+    <br>
+    <b>A lightweight, cross-platform Java tool for recording and replaying mouse and keyboard macros.</b>
+    <br>
+  </p>
+</div>
 
-<p align="center">
+<div style="display: flex; justify-content: center;">
   <img src="https://img.shields.io/badge/Java-1.8%2B-orange.svg" alt="Java Version">
   <img src="https://img.shields.io/badge/License-GPL--3.0-blue.svg" alt="License">
   <img src="https://img.shields.io/github/v/release/Samera2022/MouseMacros" alt="Latest Release">
-</p>
+</div>
 
 ---
 
 ## 📸 Preview
-<p align="center">
-  <img src="docs/images/MouseMacrosMainFrame.png" width="600" alt="Main Interface">
-</p>
-*The main interface of MouseMacros.*
+
+<div style="display: flex; justify-content: center; align-items: center;">
+  <img src="docs/images/MouseMacrosMainFrame.png" width="300" alt="Main Interface">
+  <p style="margin-top: 10px;"><i>The main interface of MouseMacros.</i></p>
+</div>
 
 ---
 
@@ -52,7 +55,10 @@ II. Exe User
 2. Click to start! All environments are integrated into one `exe` file!
 
 ### Usage
-![Settings Dialog](docs/images/MouseMacrosSettingsDialog.png)
+<div style="display: flex; justify-content: center; align-items: center;">
+  <img src="docs/images/MouseMacrosSettingsDialog.png" width="300" alt="Settings Dialog">
+</div>
+
 1. **Adjust**: The choose of language will determine the words in the frame, thus resulting in some buttons not being displayed in the frame. 
 In this case, you will need to adjust the frame to the appropriate size.
 2. **Configure**: Open the Settings dialog and Macros Settings dialog to set your preferred hotkeys. For detailed configuration docs, please refer to [Configuration](#%EF%B8%8F-configuration).
