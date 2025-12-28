@@ -45,8 +45,6 @@ public class SettingsDialog extends JDialog {
         JLabel followSysLabel = new JLabel(Localizer.get("settings.follow_system_settings"));
         JCheckBox followSysBox = new JCheckBox(IconConsts.CHECK_BOX);
         followSysBox.setSelected(config.followSystemSettings);
-//        followSysBox.setIcon(IconConsts.UNSELECTED_ICON);
-//        followSysBox.setSelectedIcon(IconConsts.SELECTED_ICON);
         followSysPanel.add(followSysLabel);
         followSysPanel.add(Box.createHorizontalStrut(10));
         followSysPanel.add(followSysBox);
@@ -78,8 +76,6 @@ public class SettingsDialog extends JDialog {
         JLabel darkModeLabel = new JLabel(Localizer.get("settings.enable_dark_mode"));
         JCheckBox darkModeBox = new JCheckBox(IconConsts.CHECK_BOX);
         darkModeBox.setSelected(config.enableDarkMode);
-//        darkModeBox.setIcon(IconConsts.UNSELECTED_ICON);
-//        darkModeBox.setSelectedIcon(IconConsts.SELECTED_ICON);
         darkModePanel.add(darkModeLabel);
         darkModePanel.add(Box.createHorizontalStrut(10));
         darkModePanel.add(darkModeBox);
@@ -88,6 +84,23 @@ public class SettingsDialog extends JDialog {
         subSettingsPanel.add(Box.createVerticalStrut(10));
 
         content.add(subSettingsPanel);
+
+        // 联动逻辑：根据followSysBox状态控制langCombo和darkModeBox可编辑性，并同步系统设置
+        java.awt.event.ItemListener followSysListener = e -> {
+            boolean enabled = !followSysBox.isSelected();
+            langCombo.setEnabled(enabled);
+            darkModeBox.setEnabled(enabled);
+            if (!enabled) {
+                // 跟随系统，自动设置语言和暗色模式
+                String sysLang = SystemUtil.getSystemLang(ConfigManager.getAvailableLangs());
+                boolean sysDark = SystemUtil.isSystemDarkMode();
+                langCombo.setSelectedItem(sysLang);
+                darkModeBox.setSelected(sysDark);
+            }
+        };
+        followSysBox.addItemListener(followSysListener);
+        // 初始化时同步一次
+        followSysListener.itemStateChanged(null);
 
         // 默认存储路径启用开关（无缩进，文字在左，勾选框在右）
         JPanel enableDefaultStoragePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -101,12 +114,17 @@ public class SettingsDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(enableDefaultStoragePanel);
 
-        // 默认存储路径（缩进）
+        // 二级设置面板（缩进）
+        JPanel subSettingsPanel2 = new JPanel();
+        subSettingsPanel2.setLayout(new BoxLayout(subSettingsPanel2, BoxLayout.Y_AXIS));
+        subSettingsPanel2.setBorder(BorderFactory.createEmptyBorder(0, 32, 0, 0)); // 四个空格缩进
+        subSettingsPanel2.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // 默认存储路径
         JLabel pathLabel = new JLabel(Localizer.get("settings.default_mmc_storage_path"));
         JTextField pathField = new JTextField(config.defaultMmcStoragePath, 20);
         JButton browseBtn = new JButton(Localizer.get("settings.browse"));
         browseBtn.addActionListener(e -> {
-//            CustomFileChooser chooser = new CustomFileChooser(config.enableDarkMode? OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
             JFileChooser chooser = new JFileChooser();
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             if (!pathField.getText().isEmpty())
@@ -141,14 +159,9 @@ public class SettingsDialog extends JDialog {
         pathPanel.add(Box.createHorizontalStrut(10));
         pathPanel.add(browseBtn);
         pathPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        // 新增：加缩进
-        JPanel pathIndentPanel = new JPanel();
-        pathIndentPanel.setLayout(new BoxLayout(pathIndentPanel, BoxLayout.Y_AXIS));
-        pathIndentPanel.setBorder(BorderFactory.createEmptyBorder(0, 32, 0, 0)); // 四个空格缩进
-        pathIndentPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        pathIndentPanel.add(pathPanel);
+        subSettingsPanel2.add(pathPanel);
         content.add(Box.createVerticalStrut(10));
-        content.add(pathIndentPanel);
+        content.add(subSettingsPanel2);
 
         // 快速模式勾选框（参照follow_system_settings样式）
         JPanel quickModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -204,23 +217,6 @@ public class SettingsDialog extends JDialog {
         JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         savePanel.add(saveSettingsBtn);
         savePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
-        // 联动逻辑：根据followSysBox状态控制langCombo和darkModeBox可编辑性，并同步系统设置
-        java.awt.event.ItemListener followSysListener = e -> {
-            boolean enabled = !followSysBox.isSelected();
-            langCombo.setEnabled(enabled);
-            darkModeBox.setEnabled(enabled);
-            if (!enabled) {
-                // 跟随系统，自动设置语言和暗色模式
-                String sysLang = SystemUtil.getSystemLang(ConfigManager.getAvailableLangs());
-                boolean sysDark = SystemUtil.isSystemDarkMode();
-                langCombo.setSelectedItem(sysLang);
-                darkModeBox.setSelected(sysDark);
-            }
-        };
-        followSysBox.addItemListener(followSysListener);
-        // 初始化时同步一次
-        followSysListener.itemStateChanged(null);
 
         add(content, BorderLayout.CENTER);
         add(savePanel, BorderLayout.SOUTH);

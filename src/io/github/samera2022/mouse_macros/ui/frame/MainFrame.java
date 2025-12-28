@@ -8,7 +8,6 @@ import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.listener.GlobalMouseListener;
 import io.github.samera2022.mouse_macros.manager.MacroManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
-import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
 import io.github.samera2022.mouse_macros.ui.frame.settings.HotkeyDialog;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;

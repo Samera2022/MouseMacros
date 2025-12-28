@@ -3,9 +3,6 @@ package io.github.samera2022.mouse_macros.manager;
 import io.github.samera2022.mouse_macros.action.MouseAction;
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.constant.FileConsts;
-import io.github.samera2022.mouse_macros.constant.OtherConsts;
-import io.github.samera2022.mouse_macros.ui.component.CustomFileChooser;
-import io.github.samera2022.mouse_macros.util.ComponentUtil;
 
 import javax.swing.*;
 import java.io.*;
@@ -55,9 +52,7 @@ public class MacroManager {
                         action.perform();
                     }
                     // 每次执行之间延迟（最后一次不延迟）
-                    if (i < config.repeatTime - 1 && config.repeatDelay > 0) {
-                        Thread.sleep((long)(config.repeatDelay * 1000));
-                    }
+                    if (i < config.repeatTime - 1 && config.repeatDelay > 0) Thread.sleep((long)(config.repeatDelay * 1000));
                 }
                 log(Localizer.get("playback_complete"));
             } catch (InterruptedException e) {
