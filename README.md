@@ -18,7 +18,7 @@
 ## 📸 Preview
 
 ![Main Interface](docs/images/MouseMacrosMainFrame.png)
-*The clean and intuitive main interface of MouseMacros.*
+*The main interface of MouseMacros.*
 
 ---
 
