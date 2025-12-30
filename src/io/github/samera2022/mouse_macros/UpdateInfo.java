@@ -67,7 +67,10 @@ public enum UpdateInfo {
                     " - 在SettingsDialog添加了QuickMode，现在MouseMacros可以无视鼠标键盘的等待时间，快速执行了。\n" +
                     " - 在MacroSettingsDialog的Enable Custom Macro Settings条目下添加了Execution Repeat Delay (s)，可以在每次重复的执行之中等待指定的秒数。秒数最大支持三位小数（到毫秒）。\n\n" +
                     "## [Fixed]\n" +
-                    " - 1.0.0中不小心删除了Macro Settings的保存设置按钮，这次重新添加了进去。");
+                    " - 1.0.0中不小心删除了Macro Settings的保存设置按钮，这次重新添加了进去。"),
+    VERSION_1_0_3("1.0.3","",
+            "## [Fixed]\n" +
+                    " - 修正了Abort Operation的效果，使之可以在循环执行中正确地生效。");
 
     private final String version;
     private final String releaseDate;

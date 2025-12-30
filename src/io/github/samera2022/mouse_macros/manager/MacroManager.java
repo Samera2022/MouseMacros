@@ -43,16 +43,41 @@ public class MacroManager {
         playThread = new Thread(() -> {
             try {
                 for (int i = 0; i < config.repeatTime; i++) {
+                    if (!playing || Thread.interrupted()) {
+                        return;
+                    }
                     for (MouseAction action : actions) {
-                        if (Thread.interrupted()) {
+                        if (!playing || Thread.interrupted()) {
                             return;
                         }
                         long sleepTime = config.enableQuickMode ? 0 : action.delay;
-                        Thread.sleep(sleepTime);
+                        if (sleepTime > 0) {
+                            long slept = 0;
+                            while (slept < sleepTime) {
+                                if (!playing || Thread.interrupted()) {
+                                    return;
+                                }
+                                long toSleep = Math.min(50, sleepTime - slept);
+                                Thread.sleep(toSleep);
+                                slept += toSleep;
+                            }
+                        }
                         action.perform();
                     }
                     // 每次执行之间延迟（最后一次不延迟）
-                    if (i < config.repeatTime - 1 && config.repeatDelay > 0) Thread.sleep((long)(config.repeatDelay * 1000));
+                    if (i < config.repeatTime - 1 && config.repeatDelay > 0) {
+                        double delay = config.repeatDelay;
+                        long totalDelay = (long)(delay * 1000);
+                        long slept = 0;
+                        while (slept < totalDelay) {
+                            if (!playing || Thread.interrupted()) {
+                                return;
+                            }
+                            long toSleep = Math.min(50, totalDelay - slept);
+                            Thread.sleep(toSleep);
+                            slept += toSleep;
+                        }
+                    }
                 }
                 log(Localizer.get("playback_complete"));
             } catch (InterruptedException e) {
@@ -79,9 +104,7 @@ public class MacroManager {
         playing = false;
         if (playThread != null && playThread.isAlive()) {
             playThread.interrupt();
-            log(Localizer.get("macro_aborted"));
         }
-        log(Localizer.get("macro_not_running"));
     }
 
     public static void recordAction(MouseAction action) {
