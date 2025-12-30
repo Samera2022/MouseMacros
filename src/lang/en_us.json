@@ -52,5 +52,8 @@
   "macro_not_running": "Macro is not running currently",
   "macro_not_recording": "Macro is not being recorded currently",
 
+  "tray.show_main_menu": "Show Main Menu",
+  "tray.exit": "Exit",
+
   "hook_registration_failed": "Global hook registration failed: "
 }

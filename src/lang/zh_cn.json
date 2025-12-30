@@ -54,6 +54,9 @@
   "macro_not_running": "宏未被执行",
   "macro_not_recording": "宏未被录制",
 
+  "tray.show_main_menu": "显示主界面",
+  "tray.exit": "退出",
+
   "hook_registration_failed": "全局钩子注册失败："
 
 }

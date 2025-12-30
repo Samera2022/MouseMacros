@@ -160,8 +160,8 @@ public class MainFrame extends JFrame{
             tray = SystemTray.getSystemTray();
             Image trayImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage();
             PopupMenu popupMenu = new PopupMenu();
-            MenuItem showItem = new MenuItem("显示主界面");
-            MenuItem exitItem = new MenuItem("退出");
+            MenuItem showItem = new MenuItem(Localizer.get("tray.show_main_menu"));
+            MenuItem exitItem = new MenuItem(Localizer.get("tray.exit"));
             popupMenu.add(showItem);
             popupMenu.addSeparator();
             popupMenu.add(exitItem);
