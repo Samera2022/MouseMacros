@@ -10,6 +10,7 @@ import io.github.samera2022.mouse_macros.util.ComponentUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
@@ -18,6 +19,7 @@ public class MacroSettingsDialog extends JDialog {
     public MacroSettingsDialog() {
         setTitle(Localizer.get("macro_settings"));
         setName("macro_settings");
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();

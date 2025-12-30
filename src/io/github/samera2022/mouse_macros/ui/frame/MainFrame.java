@@ -18,6 +18,7 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +43,9 @@ public class MainFrame extends JFrame{
             config.lang = SystemUtil.getSystemLang(availableLangs);
             config.enableDarkMode = SystemUtil.isSystemDarkMode();
         }
+        setTitle(Localizer.get("title"));
+        setName("title");
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
         // 2. 用配置初始化本地化、热键、主题等
         Localizer.load(config.lang); // 动态加载语言
         boolean enableLangSwitch = true;
