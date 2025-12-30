@@ -18,6 +18,9 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +38,9 @@ public class MainFrame extends JFrame{
     public static final GlobalMouseListener GML = new GlobalMouseListener();
 
     public static final MainFrame MAIN_FRAME = new MainFrame();
+
+    private TrayIcon trayIcon;
+    private SystemTray tray;
 
     public MainFrame() {
         // 1.1 若开启跟随系统设置，自动同步语言和深色模式
@@ -64,7 +70,7 @@ public class MainFrame extends JFrame{
         setTitle(Localizer.get("title"));
         setName("title");
 //        ComponentUtil.setCorrectSize(this,1200,660);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
@@ -145,10 +151,36 @@ public class MainFrame extends JFrame{
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         // 统一应用窗体大小缓存（优先cache.json，无则默认）
         ComponentUtil.applyWindowSizeCache(this, "title", 430, 330);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         addWindowListener(new WindowClosingAdapter());
 
+        // 托盘相关初始化
+        if (SystemTray.isSupported()) {
+            tray = SystemTray.getSystemTray();
+            Image trayImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage();
+            PopupMenu popupMenu = new PopupMenu();
+            MenuItem showItem = new MenuItem("显示主界面");
+            MenuItem exitItem = new MenuItem("退出");
+            popupMenu.add(showItem);
+            popupMenu.addSeparator();
+            popupMenu.add(exitItem);
+            trayIcon = new TrayIcon(trayImage, Localizer.get("title"), popupMenu);
+            trayIcon.setImageAutoSize(true);
+            showItem.addActionListener(e -> restoreFromTray());
+            exitItem.addActionListener(e -> {
+                tray.remove(trayIcon);
+                System.exit(0);
+            });
+            trayIcon.addActionListener(e -> restoreFromTray());
+        }
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                minimizeToTray();
+            }
+        });
     }
 
     // 在MouseMacro类中添加
@@ -179,5 +211,27 @@ public class MainFrame extends JFrame{
     public static void adjustFrameWidth(){
         MAIN_FRAME.pack();
         MAIN_FRAME.setSize(MAIN_FRAME.getWidth(),(int) (660/SystemUtil.getScale()[1]));
+    }
+
+    private void minimizeToTray() {
+        if (tray != null && trayIcon != null) {
+            try {
+                tray.add(trayIcon);
+                setVisible(false);
+            } catch (AWTException ex) {
+                log("无法添加到系统托盘: " + ex.getMessage());
+                dispose();
+            }
+        } else {
+            dispose();
+        }
+    }
+    private void restoreFromTray() {
+        setVisible(true);
+        setExtendedState(JFrame.NORMAL);
+        if (tray != null && trayIcon != null) {
+            tray.remove(trayIcon);
+        }
+        toFront();
     }
 }
