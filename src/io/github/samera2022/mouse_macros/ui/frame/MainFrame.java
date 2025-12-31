@@ -6,6 +6,7 @@ import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.listener.GlobalMouseListener;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.manager.MacroManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
 import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
@@ -18,7 +19,6 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Objects;
@@ -154,31 +154,20 @@ public class MainFrame extends JFrame{
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         addWindowListener(new WindowClosingAdapter());
-
-        // 托盘相关初始化
-        if (SystemTray.isSupported()) {
-            tray = SystemTray.getSystemTray();
-            Image trayImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage();
-            PopupMenu popupMenu = new PopupMenu();
-            MenuItem showItem = new MenuItem(Localizer.get("tray.show_main_menu"));
-            MenuItem exitItem = new MenuItem(Localizer.get("tray.exit"));
-            popupMenu.add(showItem);
-            popupMenu.addSeparator();
-            popupMenu.add(exitItem);
-            trayIcon = new TrayIcon(trayImage, Localizer.get("title"), popupMenu);
-            trayIcon.setImageAutoSize(true);
-            showItem.addActionListener(e -> restoreFromTray());
-            exitItem.addActionListener(e -> {
-                tray.remove(trayIcon);
-                System.exit(0);
-            });
-            trayIcon.addActionListener(e -> restoreFromTray());
-        }
-
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                minimizeToTray();
+                switch (CacheManager.getDefaultCloseOperation()) {
+                    case CacheManager.UNKNOWN:
+                        new ExitDialog(MainFrame.this).setVisible(true);
+                        break;
+                    case CacheManager.EXIT_ON_CLOSE:
+                        System.exit(0);
+                        break;
+                    case CacheManager.MINIMIZE_TO_TRAY:
+                        minimizeToTray();
+                        break;
+                }
             }
         });
     }
@@ -222,7 +211,32 @@ public class MainFrame extends JFrame{
         MAIN_FRAME.setSize(MAIN_FRAME.getWidth(),(int) (660/SystemUtil.getScale()[1]));
     }
 
-    private void minimizeToTray() {
+    private void initTrayIcon() {
+        if (!SystemTray.isSupported()) return;
+        if (tray == null) {
+            tray = SystemTray.getSystemTray();
+        }
+        if (trayIcon == null) {
+            Image trayImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage();
+            PopupMenu popupMenu = new PopupMenu();
+            MenuItem showItem = new MenuItem(Localizer.get("tray.show_main_menu"));
+            MenuItem exitItem = new MenuItem(Localizer.get("tray.exit"));
+            popupMenu.add(showItem);
+            popupMenu.addSeparator();
+            popupMenu.add(exitItem);
+            trayIcon = new TrayIcon(trayImage, Localizer.get("title"), popupMenu);
+            trayIcon.setImageAutoSize(true);
+            showItem.addActionListener(e -> restoreFromTray());
+            exitItem.addActionListener(e -> {
+                tray.remove(trayIcon);
+                System.exit(0);
+            });
+            trayIcon.addActionListener(e -> restoreFromTray());
+        }
+    }
+
+    public void minimizeToTray() {
+        initTrayIcon();
         if (tray != null && trayIcon != null) {
             try {
                 tray.add(trayIcon);

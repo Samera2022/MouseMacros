@@ -16,10 +16,15 @@ public class CacheManager {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static FileChooserCache cache = loadCache();
 
+    public static final String EXIT_ON_CLOSE = "exit_on_close";
+    public static final String MINIMIZE_TO_TRAY = "minimize_to_tray";
+    public static final String UNKNOWN = "";
+
     public static class FileChooserCache {
         public String lastLoadDirectory = "";
         public String lastSaveDirectory = "";
         public java.util.Map<String, String> windowSizeMap = new java.util.HashMap<>(); // 窗体尺寸记忆
+        public String defaultCloseOperation = "";
     }
 
     public static FileChooserCache getCache() {
@@ -81,6 +86,11 @@ public class CacheManager {
     public static void setWindowSize(String windowName, String size) {
         if (cache.windowSizeMap == null) cache.windowSizeMap = new java.util.HashMap<>();
         cache.windowSizeMap.put(windowName, size);
+        saveCache();
+    }
+    public static String getDefaultCloseOperation() { return cache.defaultCloseOperation; }
+    public static void setDefaultCloseOperation(String defaultCloseOperation) {
+        cache.defaultCloseOperation = defaultCloseOperation;
         saveCache();
     }
 }
