@@ -1,6 +1,7 @@
 package io.github.samera2022.mouse_macros.ui.frame;
 
 import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.adapter.MouseCheckAdapter;
 import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.constant.ColorConsts;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
@@ -161,9 +162,10 @@ public class SettingsDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(subSettingsPanel2);
 
-        // 快速模式勾选框（参照follow_system_settings样式）
         JPanel quickModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel quickModeLabel = new JLabel(Localizer.get("settings.enable_quick_mode"));
+        quickModePanel.setToolTipText(Localizer.get("settings.enable_quick_mode.tooltip"));
+        quickModePanel.addMouseListener(new MouseCheckAdapter());
         JCheckBox quickModeBox = new JCheckBox(IconConsts.CHECK_BOX);
         quickModeBox.setSelected(config.enableQuickMode);
         quickModePanel.add(quickModeLabel);
@@ -197,9 +199,8 @@ public class SettingsDialog extends JDialog {
             config.lang = (String) langCombo.getSelectedItem();
             config.defaultMmcStoragePath = pathField.getText();
             config.enableDarkMode = darkModeBox.isSelected();
-            config.enableDefaultStorage = enableDefaultStorageBox.isSelected(); // 新增保存
-            config.enableQuickMode = quickModeBox.isSelected(); // 新增保存
-            // 热键配置保存到config.keyMap（假设已有相关逻辑）
+            config.enableDefaultStorage = enableDefaultStorageBox.isSelected();
+            config.enableQuickMode = quickModeBox.isSelected();
             ConfigManager.saveConfig(config);
             ConfigManager.reloadConfig();
             Localizer.load(config.lang);

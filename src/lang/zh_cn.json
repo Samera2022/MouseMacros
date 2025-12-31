@@ -22,6 +22,8 @@
   "settings.save_settings": "保存并应用所有配置",
   "settings.enable_quick_mode": "启用快速模式",
 
+  "settings.enable_quick_mode.tooltip": "MouseMacros会在此模式下只按照鼠标和键盘操作的先后顺序进行复现，忽略中间所有停顿时间。",
+
   "macro_settings": "宏设置",
   "macro_settings.enable_custom_macro_settings": "启用自定义宏",
   "macro_settings.repeat_times": "重复执行次数",

@@ -72,6 +72,7 @@ public class UpdateInfoDialog extends JDialog {
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }
+
     //要求JComboBox的宽度恰好能显示list中最长的元素
     private static JComboBox<String> getJComboBox() {
         JComboBox<String> infoCombo = new JComboBox<>(UpdateInfo.getAllDisplayNames());

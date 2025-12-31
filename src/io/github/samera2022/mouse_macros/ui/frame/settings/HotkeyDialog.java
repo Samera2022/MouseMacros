@@ -47,7 +47,7 @@ public class HotkeyDialog extends JDialog {
         t3.setText(getNativeKeyDisplayText(keyPlay));
         t4.setText(getNativeKeyDisplayText(keyAbort));
 
-        // 禁止直接输入文本，仅通过键盘钩子捕获
+        // 禁止直接输入文本，仅通过键盘Hook捕获
         t1.setEditable(false); t2.setEditable(false); t3.setEditable(false); t4.setEditable(false);
         // 设置光标样式为默认（因为不可编辑），增强视觉一致性
         t1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -70,7 +70,7 @@ public class HotkeyDialog extends JDialog {
         mainPanel.add(gridPanel);
         mainPanel.add(confirmPanel);
 
-        // --- 核心改进：点击空白处失去焦点 ---
+        // 点击空白处失去焦点
         mainPanel.setFocusable(true); // 让面板可以接收焦点
         mainPanel.addMouseListener(new MouseAdapter() {
             @Override
@@ -78,8 +78,6 @@ public class HotkeyDialog extends JDialog {
                 mainPanel.requestFocusInWindow(); // 点击主面板，从文本框夺走焦点
             }
         });
-        // -------------------------------
-
         setContentPane(mainPanel);
 
         // 临时变量存储按键码
@@ -113,7 +111,7 @@ public class HotkeyDialog extends JDialog {
         FocusAdapter textFocusAdapter = new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                // 获得焦点时，变色提醒正在录制（可选优化）
+                // 获得焦点时，变色提醒正在录制
                 ((JTextField)e.getSource()).setBackground(UIManager.getColor("TextField.inactiveForeground"));
                 GlobalScreen.addNativeKeyListener(keyListener);
             }
@@ -138,7 +136,6 @@ public class HotkeyDialog extends JDialog {
             });
         }
 
-        // 确定按钮逻辑
         confirm.addActionListener(e -> {
             keyRecord = tempRecord[0];
             keyStop = tempStop[0];

@@ -52,10 +52,8 @@ public class MainFrame extends JFrame{
         setTitle(Localizer.get("main_frame"));
         setName("main_frame");
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
-        // 2. 用配置初始化本地化、热键、主题等
         boolean enableLangSwitch = true;
         Localizer.setRuntimeSwitch(enableLangSwitch);
-        // 3. 初始化热键（如keyMap有值则覆盖设定的默认值）
         if (config.keyMap != null) {
             if (config.keyMap.containsKey("start_record")) {
                 try { keyRecord = Integer.parseInt(config.keyMap.get("start_record")); } catch (Exception ignored) {} }
@@ -66,7 +64,6 @@ public class MainFrame extends JFrame{
             if (config.keyMap.containsKey("abort_macro_operation")) {
                 try { keyAbort = Integer.parseInt(config.keyMap.get("abort_macro_operation")); } catch (Exception ignored) {} }
         }
-//        ComponentUtil.setCorrectSize(this,1200,660);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -84,7 +81,7 @@ public class MainFrame extends JFrame{
 
         // 按钮分组布局，增加上下边距
         // 声明panel为成员变量
-        JPanel panel = new JPanel(); // 使用成员变量
+        JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 1, 5, 5));
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0)); // 上下各5像素边距
         // 第一行：开始录制、停止录制、执行宏
@@ -102,11 +99,11 @@ public class MainFrame extends JFrame{
         loadBtn = new JButton(Localizer.get("main_frame.load_macro"));
         settingsBtn = new JButton(Localizer.get("settings"));
         macroSettingsBtn = new JButton(Localizer.get("macro_settings"));
-        row2.add(abortBtn); // 添加到最前面
+        row2.add(abortBtn);
         row2.add(saveBtn);
         row2.add(loadBtn);
         row2.add(settingsBtn);
-        row2.add(macroSettingsBtn); // 添加到最后面
+        row2.add(macroSettingsBtn);
 
         panel.add(row1);
         panel.add(row2);
@@ -120,7 +117,6 @@ public class MainFrame extends JFrame{
         // 自动调整窗体宽度
         ComponentUtil.adjustFrameWidth(this, startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn);
 
-        //限制1/2
         startBtn.addActionListener(e -> {if ((!MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.startRecording();});
         stopBtn.addActionListener(e -> {if ((MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.stopRecording(); else log(Localizer.get("log.macro_not_recording"));});
         playBtn.addActionListener(e -> {if ((!MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.play();});
@@ -144,7 +140,6 @@ public class MainFrame extends JFrame{
         GlobalScreen.addNativeMouseListener(GML);
         GlobalScreen.addNativeMouseWheelListener(GML);
         GlobalScreen.addNativeMouseMotionListener(GML);
-        // 4. 启动时根据配置应用暗色模式
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         // 统一应用窗体大小缓存（优先cache.json，无则默认）
         ComponentUtil.applyWindowSizeCache(this, "main_frame", 430, 330);
@@ -169,7 +164,6 @@ public class MainFrame extends JFrame{
         });
     }
 
-    // 在MouseMacro类中添加
     public void refreshMainFrameTexts() {
         setTitle(Localizer.get("main_frame"));
         //本来想用循环的，但是因为热键显示不好操作，所以还得最后一个个手动加
@@ -182,7 +176,6 @@ public class MainFrame extends JFrame{
         if (trayIcon != null) {
             trayIcon.setToolTip(Localizer.get("main_frame"));
             if (trayIcon.getPopupMenu() != null && trayIcon.getPopupMenu().getItemCount() >= 2) {
-                // 第一个是showItem，第二个是exitItem
                 trayIcon.getPopupMenu().getItem(0).setLabel(Localizer.get("tray.show_main_menu"));
                 trayIcon.getPopupMenu().getItem(2).setLabel(Localizer.get("tray.exit"));
             }
@@ -197,7 +190,7 @@ public class MainFrame extends JFrame{
         playBtn.setText(getPlayBtnText());
         abortBtn.setText(getAbortBtnText());
     }
-    // 工具方法：根据当前热键动态生成按钮文本
+
     private String getStartBtnText() {return Localizer.get("main_frame.start_record") + " (" + OtherUtil.getNativeKeyDisplayText(keyRecord) + ")";}
     private String getStopBtnText() {return Localizer.get("main_frame.stop_record") + " (" + OtherUtil.getNativeKeyDisplayText(keyStop) + ")";}
     private String getPlayBtnText() {return Localizer.get("main_frame.play_macro") + " (" + OtherUtil.getNativeKeyDisplayText(keyPlay) + ")";}

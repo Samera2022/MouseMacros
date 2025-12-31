@@ -58,7 +58,7 @@ public class MacroSettingsDialog extends JDialog {
         // 计算能完全显示2147483647所需的宽度
         // 先临时设置字体，确保FontMetrics获取准确
         repeatField.setFont(repeatField.getFont());
-        // 只允许输入全体正整数，或唯��允许的负数为-1，允许输入"-"便于编辑
+        // 只允许输入全体正整数，或唯一允许的负数为-1，允许输入"-"便于编辑
         ((javax.swing.text.AbstractDocument) repeatField.getDocument()).setDocumentFilter(new DocumentInputFilter() {
             @Override
             public boolean isValidContent(String text) {
@@ -67,7 +67,6 @@ public class MacroSettingsDialog extends JDialog {
             }
         });
 
-        // 新增 repeatDelay 输入框
         JLabel repeatDelayLabel = new JLabel(Localizer.get("macro_settings.repeat_delay") + ": ");
         JTextField repeatDelayField = new JTextField(String.valueOf(config.repeatDelay));
         repeatDelayField.setColumns(7);
