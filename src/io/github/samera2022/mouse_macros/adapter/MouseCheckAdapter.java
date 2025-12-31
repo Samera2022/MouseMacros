@@ -8,9 +8,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class MouseCheckAdapter extends CustomMouseAdapter {
-    public MouseCheckAdapter(String tipText, boolean allowLongStr) {
-        super(tipText, allowLongStr);
-    }
+    public MouseCheckAdapter(String tipText) { super(tipText); }
+    public MouseCheckAdapter(String tipText, boolean allowLongStr) { super(tipText, allowLongStr); }
     @Override
     public void mouseEntered(MouseEvent e) {
         e.getComponent().setCursor(ConfigManager.config.enableDarkMode ? CustomCursor.DARK_HELP_CURSOR : CustomCursor.LIGHT_HELP_CURSOR);

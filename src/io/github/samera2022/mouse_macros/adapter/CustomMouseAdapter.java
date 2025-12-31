@@ -1,6 +1,7 @@
 package io.github.samera2022.mouse_macros.adapter;
 
-import io.github.samera2022.mouse_macros.ui.component.tooltip.CustomToolTipWindow;
+import io.github.samera2022.mouse_macros.manager.ConfigManager;
+import io.github.samera2022.mouse_macros.ui.component.CustomToolTipWindow;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,6 +10,11 @@ public abstract class CustomMouseAdapter extends MouseAdapter {
     private CustomToolTipWindow window;
     private final String tipText;
     private final boolean allowLongStr;
+
+    public CustomMouseAdapter(String tipText) {
+        this.tipText = tipText;
+        this.allowLongStr = ConfigManager.config.allowLongStr;
+    }
     public CustomMouseAdapter(String tipText, boolean allowLongStr) {
         this.tipText = tipText;
         this.allowLongStr = allowLongStr;

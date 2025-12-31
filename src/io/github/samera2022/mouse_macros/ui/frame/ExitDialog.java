@@ -79,7 +79,10 @@ public class ExitDialog extends JDialog {
 
         finishButton.addActionListener(e -> {
             String op = exitOnCloseRadio.isSelected() ? CacheManager.EXIT_ON_CLOSE : CacheManager.MINIMIZE_TO_TRAY;
-            if (rememberOptionBox.isSelected()) CacheManager.setDefaultCloseOperation(op);
+            if (rememberOptionBox.isSelected()) {
+                CacheManager.cache.defaultCloseOperation = op;
+                CacheManager.saveCache();
+            }
             dispose();
             if (CacheManager.EXIT_ON_CLOSE.equals(op)) System.exit(0);
             else mf.minimizeToTray();

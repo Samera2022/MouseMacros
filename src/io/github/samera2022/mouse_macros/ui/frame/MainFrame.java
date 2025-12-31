@@ -149,7 +149,7 @@ public class MainFrame extends JFrame{
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                switch (CacheManager.getDefaultCloseOperation()) {
+                switch (CacheManager.cache.defaultCloseOperation) {
                     case CacheManager.UNKNOWN:
                         new ExitDialog(MainFrame.this).setVisible(true);
                         break;

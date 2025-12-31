@@ -1,4 +1,4 @@
-package io.github.samera2022.mouse_macros.ui.component.tooltip;
+package io.github.samera2022.mouse_macros.ui.component;
 
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;

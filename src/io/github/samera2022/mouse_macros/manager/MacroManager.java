@@ -138,7 +138,7 @@ public class MacroManager {
             }
         } else {
             // 只用lastSaveDirectory
-            String lastSaveDir = CacheManager.getLastSaveDirectory();
+            String lastSaveDir = CacheManager.cache.lastSaveDirectory;
             if (lastSaveDir != null && !lastSaveDir.isEmpty()) {
                 File dir = new File(lastSaveDir);
                 if (!dir.exists()) dir.mkdirs();
@@ -150,10 +150,12 @@ public class MacroManager {
             File selectedFile = chooser.getSelectedFile();
             if (!selectedFile.getName().toLowerCase().endsWith(".mmc"))
                 selectedFile = new File(selectedFile.getAbsolutePath() + ".mmc");
-            CacheManager.setLastSaveDirectory(selectedFile.getParent());
+            CacheManager.cache.lastSaveDirectory = selectedFile.getParent();
+            CacheManager.saveCache();
             // 若lastLoadDirectory为空，则同步
-            if (CacheManager.getLastLoadDirectory() == null || CacheManager.getLastLoadDirectory().isEmpty()) {
-                CacheManager.setLastLoadDirectory(selectedFile.getParent());
+            if (CacheManager.cache.lastLoadDirectory == null || CacheManager.cache.lastLoadDirectory.isEmpty()) {
+                CacheManager.cache.lastLoadDirectory = selectedFile.getParent();
+                CacheManager.saveCache();
             }
             try (PrintWriter out = new PrintWriter(selectedFile, StandardCharsets.UTF_8)) {
                 for (MouseAction a : actions) {
@@ -178,7 +180,7 @@ public class MacroManager {
             }
         } else {
             // 只用lastLoadDirectory
-            String lastLoadDir = CacheManager.getLastLoadDirectory();
+            String lastLoadDir = CacheManager.cache.lastLoadDirectory;
             if (lastLoadDir != null && !lastLoadDir.isEmpty()) {
                 File dir = new File(lastLoadDir);
                 if (!dir.exists()) dir.mkdirs();
@@ -188,10 +190,12 @@ public class MacroManager {
         chooser.setFileFilter(FileConsts.MMC_FILTER);
         if (chooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            CacheManager.setLastLoadDirectory(selectedFile.getParent());
+            CacheManager.cache.lastLoadDirectory = selectedFile.getParent();
+            CacheManager.saveCache();
             // 若lastSaveDirectory为空，则同步
-            if (CacheManager.getLastSaveDirectory() == null || CacheManager.getLastSaveDirectory().isEmpty()) {
-                CacheManager.setLastSaveDirectory(selectedFile.getParent());
+            if (CacheManager.cache.lastSaveDirectory == null || CacheManager.cache.lastSaveDirectory.isEmpty()) {
+                CacheManager.cache.lastSaveDirectory = selectedFile.getParent();
+                CacheManager.saveCache();
             }
             try (BufferedReader in = new BufferedReader(
                     new InputStreamReader(
