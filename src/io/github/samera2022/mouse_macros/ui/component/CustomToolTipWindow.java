@@ -3,14 +3,17 @@ package io.github.samera2022.mouse_macros.ui.component;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
+import io.github.samera2022.mouse_macros.util.SystemUtil;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class CustomToolTipWindow extends JWindow {
-    private final JLabel label;
+    private JLabel label = null;
     private final boolean allowLongStr;
-    private final int FIXED_WIDTH = 260; // 可根据需要调整
+    // 本来考虑要不要用ComponentUtil的setSize方法的，后来试了下还是算了
+    private final int FIXED_WIDTH = (int) (520 / SystemUtil.getScale()[0]);
+
     public CustomToolTipWindow(String text, boolean allowLongStr) {
         super();
         this.allowLongStr = allowLongStr;
@@ -34,7 +37,7 @@ public class CustomToolTipWindow extends JWindow {
         label.setVerticalAlignment(SwingConstants.CENTER);
         panel.setLayout(new BorderLayout());
         panel.add(label, BorderLayout.CENTER);
-        panel.setBorder(BorderFactory.createLineBorder(new java.awt.Color(180,180,180), 1, true));
+        panel.setBorder(BorderFactory.createLineBorder(new Color(180,180,180), 1, true));
         setContentPane(panel);
         // 设置样式
         int mode = ConfigManager.config.enableDarkMode ? OtherConsts.DARK_MODE : OtherConsts.LIGHT_MODE;
@@ -44,17 +47,23 @@ public class CustomToolTipWindow extends JWindow {
     public void setText(String text) {
         String htmlShort = "<html><center>" + text.replace("\n", "<br>") + "</center></html>";
         label.setText(htmlShort);
+        System.out.println(label.getWidth());
         pack();
+        System.out.println(label.getWidth());
         if (allowLongStr) {
             Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-            if (getWidth() > screen.width * 0.8) {
+            if (label.getWidth() > screen.width * 0.8) {
                 int maxWidth = (int)(screen.width * 0.8);
                 label.setText("<html><div style='width: " + maxWidth + "px; text-align:center;'>" + text.replace("\n", "<br>") + "</div></html>");
                 pack();
             }
         } else {
-            if (getWidth() > FIXED_WIDTH) {
-                label.setText("<html><div style=text-align:center;'>" + text.replace("\n", "<br>") + "</div></html>");
+            if (label.getWidth() > FIXED_WIDTH) {
+                System.out.println(getWidth()+" : "+FIXED_WIDTH);
+                label.setText("<html><div style='width: " + FIXED_WIDTH + "px; text-align:center;'>" + text.replace("\n", "<br>") + "</div></html>");
+                pack();
+            } else {
+                label.setText("<html><div style='text-align:center;'>" + text.replace("\n", "<br>") + "</div></html>");
                 pack();
             }
         }
