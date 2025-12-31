@@ -65,8 +65,8 @@ public class ComponentUtil {
             } else if (comp instanceof JLabel) {
 //            comp.setBackground(bg);
                 comp.setForeground(fg);
-            } else if (comp instanceof JButton) {
-                ((JButton) comp).setFocusPainted(false);
+            } else if (comp instanceof JButton || comp instanceof JRadioButton) {
+                ((AbstractButton) comp).setFocusPainted(false);
                 comp.setBackground(bbg);
                 comp.setForeground(bfg);
             } else if (comp instanceof JTextField) {

@@ -70,10 +70,10 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
             int btn = e.getButton();
             // JNativeHook: 1=左键, 2=右键, 3=中键
             int macroBtn = btn == 2 ? 3 : btn == 3 ? 2 : btn; // 转换为AWT标准: 1=左,2=中,3=右
-            String btnName = macroBtn == 1 ? Localizer.get("mouse_left") : macroBtn == 2 ? Localizer.get("mouse_middle") : macroBtn == 3 ? Localizer.get("mouse_right") : ("btn"+macroBtn);
+            String btnName = macroBtn == 1 ? Localizer.get("log.mouse_left") : macroBtn == 2 ? Localizer.get("log.mouse_middle") : macroBtn == 3 ? Localizer.get("log.mouse_right") : ("btn"+macroBtn);
             MacroManager.recordAction(new MouseAction(p.x, p.y, 1, macroBtn, now - MacroManager.getLastTime()));
             MacroManager.setLastTime(now);
-            log(Localizer.get("recording_mouse_pressed")+" ["+btnName+"] (" + p.x + "," + p.y + ")");
+            log(Localizer.get("log.recording_mouse_pressed")+" ["+btnName+"] (" + p.x + "," + p.y + ")");
         }
     }
 
@@ -84,11 +84,11 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
             long now = System.currentTimeMillis();
             int btn = e.getButton();
             int macroBtn = btn == 2 ? 3 : btn == 3 ? 2 : btn; // 转换为AWT标准: 1=左,2=中,3=右
-            String btnName = macroBtn == 1 ? Localizer.get("mouse_left") : macroBtn == 2 ? Localizer.get("mouse_middle") : macroBtn == 3 ? Localizer.get("mouse_right") : ("btn"+macroBtn);
+            String btnName = macroBtn == 1 ? Localizer.get("log.mouse_left") : macroBtn == 2 ? Localizer.get("log.mouse_middle") : macroBtn == 3 ? Localizer.get("log.mouse_right") : ("btn"+macroBtn);
             long delay = now - MacroManager.getLastTime();
             MacroManager.recordAction(new MouseAction(p.x, p.y, 2, macroBtn, delay));
             MacroManager.setLastTime(now);
-            log(Localizer.get("recording_mouse_released")+" ["+btnName+"] (" + p.x + "," + p.y + ")");
+            log(Localizer.get("log.recording_mouse_released")+" ["+btnName+"] (" + p.x + "," + p.y + ")");
         }
     }
 
@@ -122,7 +122,7 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
             long delay = now - MacroManager.getLastTime();
             MacroManager.recordAction(new MouseAction(p.x, p.y, 3, 0, delay, wheelAmount));
             MacroManager.setLastTime(now);
-            log(Localizer.get("recording_scroll_msg1") + " ("+ Localizer.get("recording_scroll_msg2") + wheelAmount + ")");
+            log(Localizer.get("log.recording_scroll_msg1") + " ("+ Localizer.get("log.recording_scroll_msg2") + wheelAmount + ")");
         }
     }
 
