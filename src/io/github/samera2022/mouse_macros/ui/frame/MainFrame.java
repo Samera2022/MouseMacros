@@ -192,6 +192,15 @@ public class MainFrame extends JFrame{
         loadBtn.setText(Localizer.get("load_macro"));
         settingsBtn.setText(Localizer.get("settings"));
         macroSettingsBtn.setText(Localizer.get("macro_settings"));
+        // 托盘相关刷新
+        if (trayIcon != null) {
+            trayIcon.setToolTip(Localizer.get("title"));
+            if (trayIcon.getPopupMenu() != null && trayIcon.getPopupMenu().getItemCount() >= 2) {
+                // 第一个是showItem，第二个是exitItem
+                trayIcon.getPopupMenu().getItem(0).setLabel(Localizer.get("tray.show_main_menu"));
+                trayIcon.getPopupMenu().getItem(2).setLabel(Localizer.get("tray.exit"));
+            }
+        }
         // 如有其它需要本地化的组件，也可在此统一刷新
         ComponentUtil.adjustFrameWidth(this, startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn, abortBtn, macroSettingsBtn);
     }
