@@ -21,12 +21,24 @@
   "settings.update_info.select_version": "Select Version",
   "settings.save_settings": "Save and Apply All Settings",
   "settings.enable_quick_mode": "Enable Quick Mode",
+  "settings.allow_long_str": "Allow long tooltips to display in one line",
+
+  "settings.switch_lang.disabled.tooltip": "To edit this option, you must first disable Follow System Settings.",
+  "settings.enable_dark_mode.disabled.tooltip": "To edit this option, you must first disable Follow System Settings.",
+  "settings.default_mmc_storage_path.disabled.tooltip": "To edit this path, you must first enable Default Storage Mode.",
+  "settings.default_mmc_storage_path.tooltip": "This path is the default folder for saving/loading macros. Enabling this will disable the cache path memory function.",
+  "settings.enable_quick_mode.tooltip": "In this mode, MouseMacros will only replay mouse and keyboard actions in the order they occurred, ignoring all pauses in between.",
+  "settings.allow_long_str.tooltip": "When enabled, MouseMacros will try to display long tooltips in one line without wrapping.",
 
   "macro_settings": "Macro Settings",
   "macro_settings.enable_custom_macro_settings": "Enable Custom Macro Settings",
   "macro_settings.repeat_times": "Execution Repeat Times",
   "macro_settings.repeat_delay": "Execution Repeat Delay (s)",
   "macro_settings.save_settings": "Save and Apply All Macro Settings",
+
+  "macro_settings.repeat_times.disabled.tooltip": "To edit this option, you must first enable Custom Macro.",
+  "macro_settings.repeat_delay.tooltip": "The waiting time required for the next repeat execution, supports up to three decimal places (milliseconds).",
+  "macro_settings.repeat_delay.disabled.tooltip": "To edit this option, you must first enable Custom Macro.",
 
   "log.start_recording": "Start recording...",
   "log.recording_mouse_pressed": "Recording: Mouse Pressed",
