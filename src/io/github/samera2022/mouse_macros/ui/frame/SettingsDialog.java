@@ -2,6 +2,7 @@ package io.github.samera2022.mouse_macros.ui.frame;
 
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.adapter.MouseCheckAdapter;
+import io.github.samera2022.mouse_macros.adapter.MouseCheckDisabledAdapter;
 import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.constant.ColorConsts;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
@@ -135,6 +136,7 @@ public class SettingsDialog extends JDialog {
         });
         // 联动逻辑：enableDefaultStorage控制pathField和browseBtn的可用性
         pathField.setEnabled(enableDefaultStorageBox.isSelected());
+        pathField.addMouseListener(new MouseCheckDisabledAdapter(Localizer.get("settings.default_mmc_storage_path.disabled.tooltip"),false));
         browseBtn.setEnabled(enableDefaultStorageBox.isSelected());
         java.awt.event.ItemListener enableDefaultStorageListener = e -> {
             boolean enabled = enableDefaultStorageBox.isSelected();
@@ -164,8 +166,7 @@ public class SettingsDialog extends JDialog {
 
         JPanel quickModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel quickModeLabel = new JLabel(Localizer.get("settings.enable_quick_mode"));
-        quickModePanel.setToolTipText(Localizer.get("settings.enable_quick_mode.tooltip"));
-        quickModePanel.addMouseListener(new MouseCheckAdapter());
+        quickModeLabel.addMouseListener(new MouseCheckAdapter(Localizer.get("settings.enable_quick_mode.tooltip"),false));
         JCheckBox quickModeBox = new JCheckBox(IconConsts.CHECK_BOX);
         quickModeBox.setSelected(config.enableQuickMode);
         quickModePanel.add(quickModeLabel);
