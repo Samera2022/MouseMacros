@@ -43,17 +43,16 @@ public class MainFrame extends JFrame{
     private SystemTray tray;
 
     public MainFrame() {
-        // 1.1 若开启跟随系统设置，自动同步语言和深色模式
         if (config.followSystemSettings) {
             String[] availableLangs = ConfigManager.getAvailableLangs();
             config.lang = SystemUtil.getSystemLang(availableLangs);
             config.enableDarkMode = SystemUtil.isSystemDarkMode();
         }
+        Localizer.load(config.lang); // 动态加载语言
         setTitle(Localizer.get("main_frame"));
         setName("main_frame");
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
         // 2. 用配置初始化本地化、热键、主题等
-        Localizer.load(config.lang); // 动态加载语言
         boolean enableLangSwitch = true;
         Localizer.setRuntimeSwitch(enableLangSwitch);
         // 3. 初始化热键（如keyMap有值则覆盖设定的默认值）

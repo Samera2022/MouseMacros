@@ -68,10 +68,14 @@ public enum UpdateInfo {
                     " - 在MacroSettingsDialog的Enable Custom Macro Settings条目下添加了Execution Repeat Delay (s)，可以在每次重复的执行之中等待指定的秒数。秒数最大支持三位小数（到毫秒）。\n\n" +
                     "## [Fixed]\n" +
                     " - 1.0.0中不小心删除了Macro Settings的保存设置按钮，这次重新添加了进去。"),
-    VERSION_1_0_3("1.0.3","",
-            "## [Added]\n" +
+    VERSION_1_0_3("1.0.3","2025-12-31 15:45",
+            "这是2025年的最后一个release了呢\n\n" +
+                    "## [Added]\n" +
                     " - 给每个窗体都添加上了压缩后的图标，使得程序窗体和任务栏图标不再使用Java的默认图标了。\n" +
-                    " - 添加“最小化到系统托盘”的功能，在主窗体(MainFrame)关闭后会自动最小化到系统托盘。\n\n" +
+                    " - 添加“最小化到系统托盘”的功能，在主窗体(MainFrame)关闭后会自动最小化到系统托盘。\n" +
+                    " - 支持了更多的语言，包括西班牙语、法语、日语、韩语、俄语。\n\n" +
+                    "## [Changed]\n" +
+                    " - 修改了语言文件的部分键格式，使之条理更加清晰。\n\n" +
                     "## [Fixed]\n" +
                     " - 修正了Abort Operation的效果，使之可以在循环执行中正确地生效。");
 

@@ -11,6 +11,7 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
+import io.github.samera2022.mouse_macros.ui.component.CustomRadioButton;
 
 public class ExitDialog extends JDialog {
 
@@ -39,8 +40,8 @@ public class ExitDialog extends JDialog {
 
         // 单选框区（整体居中）
         ButtonGroup group = new ButtonGroup();
-        JRadioButton exitOnCloseRadio = new JRadioButton(Localizer.get("exit.exit_on_close"));
-        JRadioButton minimizeToTrayRadio = new JRadioButton(Localizer.get("exit.minimize_to_tray"));
+        CustomRadioButton exitOnCloseRadio = new CustomRadioButton(Localizer.get("exit.exit_on_close"));
+        CustomRadioButton minimizeToTrayRadio = new CustomRadioButton(Localizer.get("exit.minimize_to_tray"));
         group.add(exitOnCloseRadio);
         group.add(minimizeToTrayRadio);
         JPanel radioPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
