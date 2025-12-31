@@ -9,10 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CustomToolTipWindow extends JWindow {
-    private JLabel label = null;
+    private JLabel label;
     private final boolean allowLongStr;
     // 本来考虑要不要用ComponentUtil的setSize方法的，后来试了下还是算了
-    private final int FIXED_WIDTH = (int) (520 / SystemUtil.getScale()[0]);
+    private final int FIXED_WIDTH = (int) ( 520 / SystemUtil.getScale()[0]);
 
     public CustomToolTipWindow(String text, boolean allowLongStr) {
         super();
@@ -45,25 +45,22 @@ public class CustomToolTipWindow extends JWindow {
         setText(text);
     }
     public void setText(String text) {
-        String htmlShort = "<html><center>" + text.replace("\n", "<br>") + "</center></html>";
+        String htmlShort = "<html><div style='text-align:center;'>" + text.replace("\n", "<br>") + "</div></html>";
         label.setText(htmlShort);
-        System.out.println(label.getWidth());
         pack();
-        System.out.println(label.getWidth());
+        int labelWidth = label.getWidth();
         if (allowLongStr) {
+            // 2. 仅当超出屏幕80%宽度时才限制最大宽度
             Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-            if (label.getWidth() > screen.width * 0.8) {
-                int maxWidth = (int)(screen.width * 0.8);
+            int maxWidth = (int)(screen.width * 0.8);
+            if (labelWidth > maxWidth) {
                 label.setText("<html><div style='width: " + maxWidth + "px; text-align:center;'>" + text.replace("\n", "<br>") + "</div></html>");
                 pack();
             }
         } else {
-            if (label.getWidth() > FIXED_WIDTH) {
-                System.out.println(getWidth()+" : "+FIXED_WIDTH);
+            // 3. 仅当超出FIXED_WIDTH时才限制最大宽度
+            if (labelWidth*0.8 > FIXED_WIDTH) {
                 label.setText("<html><div style='width: " + FIXED_WIDTH + "px; text-align:center;'>" + text.replace("\n", "<br>") + "</div></html>");
-                pack();
-            } else {
-                label.setText("<html><div style='text-align:center;'>" + text.replace("\n", "<br>") + "</div></html>");
                 pack();
             }
         }

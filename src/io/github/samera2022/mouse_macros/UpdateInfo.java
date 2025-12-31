@@ -77,7 +77,13 @@ public enum UpdateInfo {
                     "## [Changed]\n" +
                     " - 修改了语言文件的部分键格式，使之条理更加清晰。\n\n" +
                     "## [Fixed]\n" +
-                    " - 修正了Abort Operation的效果，使之可以在循环执行中正确地生效。");
+                    " - 修正了Abort Operation的效果，使之可以在循环执行中正确地生效。"),
+    VERSION_1_0_4("1.0.4","2026-01-01 0:00",
+            "这是2026年新年的第一个release呢\n\n" +
+                    "## [Added]\n" +
+                    " - 添加了鼠标悬浮窗显示信息。\n\n" +
+                    "## [Changed]\n" +
+                    " - 修改了CacheManager的逻辑，使之和ConfigManager保持一致。");
 
     private final String version;
     private final String releaseDate;
@@ -115,5 +121,9 @@ public enum UpdateInfo {
 
     public static String[] getAllDisplayNames() {
         return Stream.of(values()).map(UpdateInfo::getDisplayName).toArray(String[]::new);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(VERSION_1_0_4.getFormattedLog());
     }
 }
