@@ -14,7 +14,6 @@
   "settings.enable_default_storage": "Enable Default Storage",
   "settings.default_mmc_storage_path": "Default Mouse Macros Storage Path",
   "settings.browse": "Browse",
-  "settings.about_author": "About Author",
   "settings.custom_hotkey": "Custom Hotkey",
   "settings.custom_hotkey.confirm": "Confirm",
   "settings.update_info": "Update Info",
@@ -29,6 +28,10 @@
   "settings.default_mmc_storage_path.tooltip": "This path is the default folder for saving/loading macros. Enabling this will disable the cache path memory function.",
   "settings.enable_quick_mode.tooltip": "In this mode, MouseMacros will only replay mouse and keyboard actions in the order they occurred, ignoring all pauses in between.",
   "settings.allow_long_str.tooltip": "When enabled, MouseMacros will try to display long tooltips in one line without wrapping.",
+
+  "settings.about_author": "About Author",
+  "settings.about_author.github.tooltip": "Visit Github Project Main Page",
+  "settings.about_author.browser_opening_failed": "Unable to open browser.",
 
   "macro_settings": "Macro Settings",
   "macro_settings.enable_custom_macro_settings": "Enable Custom Macro Settings",

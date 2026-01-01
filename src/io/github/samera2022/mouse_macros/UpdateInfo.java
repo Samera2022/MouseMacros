@@ -89,7 +89,10 @@ public enum UpdateInfo {
                     " - 从此版本开始，将严格按照语义化版本（SemVer）重新编写版号。\n" +
                     " - 在以往版本中，通常采用第三位表示小功能更新，第二位表示重构更新，第一位表示重大更新。现在将采用第三位表示修订更新，第二位表示次版本更新，第一位表示主版本更新。\n\n" +
                     "## [Fixed]\n" +
-                    " - 修复了1.0.4中的Tooltip长文本显示相关逻辑，使之更加准确地生效。");
+                    " - 修复了1.0.4中的Tooltip长文本显示相关逻辑，使之更加准确地生效。"),
+    VERSION_1_2_0_26m01a("1.2.0-26m01a","2026-01-01 17:15",
+            "## [Added]\n" +
+                    " - 为AboutDialog添加了Github跳转按钮。\n\n");
 
     private final String version;
     private final String releaseDate;

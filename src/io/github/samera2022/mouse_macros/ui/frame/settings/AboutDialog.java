@@ -39,7 +39,24 @@ public class AboutDialog extends JDialog{
         content.add(Box.createVerticalStrut(10));
         content.add(aboutArea);
 
+        // 创建底部面板用于居中显示 GitHub 按钮
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        bottomPanel.setOpaque(false);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        JButton githubButton = new JButton("GitHub");
+        githubButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        githubButton.setToolTipText(Localizer.get("settings.about_author.github_badge.tooltip"));
+        githubButton.addActionListener(e -> {
+            try {
+                Desktop.getDesktop().browse(new java.net.URI("https://github.com/Samera2022/MouseMacros"));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(AboutDialog.this, Localizer.get("settings.about_author.browser_opening_failed")+": " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        bottomPanel.add(githubButton);
+
         add(content, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         ComponentUtil.applyWindowSizeCache(this, "settings.about_author", 481, 274);
         setLocationRelativeTo(this);

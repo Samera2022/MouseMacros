@@ -14,7 +14,6 @@
   "settings.enable_default_storage": "デフォルトストレージを有効化",
   "settings.default_mmc_storage_path": "デフォルトのマウスマクロ保存パス",
   "settings.browse": "参照",
-  "settings.about_author": "著者について",
   "settings.custom_hotkey": "カスタムホットキー",
   "settings.custom_hotkey.confirm": "確認",
   "settings.update_info": "更新情報",
@@ -22,17 +21,24 @@
   "settings.save_settings": "すべての設定を保存して適用",
   "settings.enable_quick_mode": "クイックモードを有効化",
   "settings.allow_long_str": "長いツールチップを改行せずに表示する",
+
   "settings.switch_lang.disabled.tooltip": "このオプションを編集するには、まずシステム設定の追従を無効にしてください。",
   "settings.enable_dark_mode.disabled.tooltip": "このオプションを編集するには、まずシステム設定の追従を無効にしてください。",
   "settings.default_mmc_storage_path.disabled.tooltip": "このパスを編集するには、まずデフォルトストレージモードを有効にしてください。",
   "settings.default_mmc_storage_path.tooltip": "このパスはマクロの保存/読込のデフォルトフォルダです。有効にするとキャッシュパス記憶機能が無効になります。",
   "settings.enable_quick_mode.tooltip": "このモードでは、MouseMacrosはマウスとキーボードの操作順のみを再現し、すべての中間停止時間を無視します。",
   "settings.allow_long_str.tooltip": "有効にすると、MouseMacrosは長いツールチップを改行せずに表示しようとします。",
+
+  "settings.about_author": "著者について",
+  "settings.about_author.github.tooltip": "Githubプロジェクトメインページを訪問",
+  "settings.about_author.browser_opening_failed": "ブラウザを開けません。",
+
   "macro_settings": "マクロ設定",
   "macro_settings.enable_custom_macro_settings": "カスタムマクロ設定を有効化",
   "macro_settings.repeat_times": "実行回数",
   "macro_settings.repeat_delay": "実行間隔（秒）",
   "macro_settings.save_settings": "すべてのマクロ設定を保存して適用",
+
   "macro_settings.repeat_times.disabled.tooltip": "このオプションを編集するには、まずカスタムマクロを有効にしてください。",
   "macro_settings.repeat_delay.tooltip": "次の繰り返し実行までの待機時間（最大3桁の小数、ミリ秒まで対応）。",
   "macro_settings.repeat_delay.disabled.tooltip": "このオプションを編集するには、まずカスタムマクロを有効にしてください。",

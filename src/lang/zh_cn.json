@@ -14,7 +14,6 @@
   "settings.enable_default_storage": "启用默认存储模式",
   "settings.default_mmc_storage_path": "默认鼠标宏存储文件夹",
   "settings.browse": "浏览",
-  "settings.about_author": "关于作者",
   "settings.custom_hotkey": "自定义热键",
   "settings.custom_hotkey.confirm": "确定",
   "settings.update_info": "更新日志",
@@ -29,6 +28,10 @@
   "settings.default_mmc_storage_path.tooltip": "该路径为保存/加载宏的默认文件夹打开路径，启用后将禁用cache的路径记忆功能。",
   "settings.enable_quick_mode.tooltip": "MouseMacros在此模式下只按照鼠标和键盘操作的先后顺序进行复现，忽略中间所有停顿时间。",
   "settings.allow_long_str.tooltip": "启用后，MouseMacros将尝试把长的悬浮说明不换行地显示。",
+
+  "settings.about_author": "关于作者",
+  "settings.about_author.github.tooltip": "访问 Github 项目主页",
+  "settings.about_author.browser_opening_failed": "无法打开浏览器",
 
   "macro_settings": "宏设置",
   "macro_settings.enable_custom_macro_settings": "启用自定义宏",

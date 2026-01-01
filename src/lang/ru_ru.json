@@ -10,11 +10,10 @@
   "settings": "Настройки",
   "settings.follow_system_settings": "Следовать системным настройкам",
   "settings.switch_lang": "Сменить язык",
-  "settings.enable_dark_mode": "Включить темный режим",
+  "settings.enable_dark_mode": "Включить тёмный режим",
   "settings.enable_default_storage": "Включить хранилище по умолчанию",
   "settings.default_mmc_storage_path": "Путь хранения макросов мыши по умолчанию",
   "settings.browse": "Обзор",
-  "settings.about_author": "Об авторе",
   "settings.custom_hotkey": "Пользовательская горячая клавиша",
   "settings.custom_hotkey.confirm": "Подтвердить",
   "settings.update_info": "Информация об обновлении",
@@ -22,6 +21,7 @@
   "settings.save_settings": "Сохранить и применить все настройки",
   "settings.enable_quick_mode": "Включить быстрый режим",
   "settings.allow_long_str": "Разрешить отображение длинных всплывающих подсказок в одну строку",
+
   "settings.switch_lang.disabled.tooltip": "Чтобы изменить этот параметр, сначала отключите следование системным настройкам.",
   "settings.enable_dark_mode.disabled.tooltip": "Чтобы изменить этот параметр, сначала отключите следование системным настройкам.",
   "settings.default_mmc_storage_path.disabled.tooltip": "Чтобы изменить этот путь, сначала включите режим хранения по умолчанию.",
@@ -29,11 +29,16 @@
   "settings.enable_quick_mode.tooltip": "В этом режиме MouseMacros воспроизводит только действия мыши и клавиатуры в порядке их выполнения, игнорируя все паузы между ними.",
   "settings.allow_long_str.tooltip": "Если включено, MouseMacros попытается отобразить длинные подсказки в одну строку без переноса.",
 
+  "settings.about_author": "Об авторе",
+  "settings.about_author.github.tooltip": "Посетить главную страницу проекта Github",
+  "settings.about_author.browser_opening_failed": "Не удалось открыть браузер.",
+
   "macro_settings": "Настройки макроса",
   "macro_settings.enable_custom_macro_settings": "Включить пользовательские настройки макроса",
   "macro_settings.repeat_times": "Количество повторов выполнения",
   "macro_settings.repeat_delay": "Задержка между повторами (с)",
   "macro_settings.save_settings": "Сохранить и применить все настройки макроса",
+
   "macro_settings.repeat_times.disabled.tooltip": "Чтобы изменить этот параметр, сначала включите пользовательский макрос.",
   "macro_settings.repeat_delay.tooltip": "Время ожидания до следующего повторения, поддерживает до трёх знаков после запятой (миллисекунды).",
   "macro_settings.repeat_delay.disabled.tooltip": "Чтобы изменить этот параметр, сначала включите пользовательский макрос.",
