@@ -92,7 +92,10 @@ public enum UpdateInfo {
                     " - 修复了1.0.4中的Tooltip长文本显示相关逻辑，使之更加准确地生效。"),
     VERSION_1_2_0_26m01a("1.2.0-26m01a","2026-01-01 17:15",
             "## [Added]\n" +
-                    " - 为AboutDialog添加了Github跳转按钮。\n\n");
+                    " - 为AboutDialog添加了Github跳转按钮。\n\n" +
+                    "## [Changed]\n" +
+                    " - 修正了打包逻辑，在该版本之前打包的exe应当全部改名为MouseMacros.exe才能正常运行。\n" +
+                    " - 修改exe的文件名会导致无法找到启动文件……因此不建议修改发布时的程序名。");
 
     private final String version;
     private final String releaseDate;
@@ -133,6 +136,6 @@ public enum UpdateInfo {
     }
 
     public static void main(String[] args) {
-        System.out.println(VERSION_1_1_0.getFormattedLog());
+        System.out.println(VERSION_1_2_0_26m01a.getFormattedLog());
     }
 }
