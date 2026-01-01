@@ -21,7 +21,7 @@
   "settings.update_info.select_version": "Select Version",
   "settings.save_settings": "Save and Apply All Settings",
   "settings.enable_quick_mode": "Enable Quick Mode",
-  "settings.allow_long_str": "Allow long tooltips to display in one line",
+  "settings.allow_long_str": "Allow Long Tooltip",
 
   "settings.switch_lang.disabled.tooltip": "To edit this option, you must first disable Follow System Settings.",
   "settings.enable_dark_mode.disabled.tooltip": "To edit this option, you must first disable Follow System Settings.",
