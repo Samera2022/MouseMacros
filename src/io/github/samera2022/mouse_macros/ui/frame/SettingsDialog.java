@@ -41,10 +41,10 @@ public class SettingsDialog extends JDialog {
         content.add(new JSeparator());
 
         JLabel appearanceTitle = new JLabel(Localizer.get("settings.appearance_section"));
-        appearanceTitle.setFont(settingTitle.getFont().deriveFont(Font.BOLD, 15f));
+        appearanceTitle.setFont(settingTitle.getFont().deriveFont(Font.BOLD, 16f));
         appearanceTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(appearanceTitle);
-        content.add(Box.createVerticalStrut(8));
+        content.add(Box.createVerticalStrut(3));
 
         // --- 外观相关选项 ---
 
@@ -126,14 +126,13 @@ public class SettingsDialog extends JDialog {
         smallSep.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
         content.add(Box.createVerticalStrut(8));
         content.add(smallSep);
-        content.add(Box.createVerticalStrut(8));
 
         // --- 系统设置 ---
         JLabel systemTitle = new JLabel(Localizer.get("settings.system_section"));
-        systemTitle.setFont(settingTitle.getFont().deriveFont(Font.BOLD, 15f));
+        systemTitle.setFont(settingTitle.getFont().deriveFont(Font.BOLD, 16f));
         systemTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(systemTitle);
-        content.add(Box.createVerticalStrut(8));
+        content.add(Box.createVerticalStrut(3));
 
         JPanel quickModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel quickModeLabel = new JLabel(Localizer.get("settings.enable_quick_mode"));
