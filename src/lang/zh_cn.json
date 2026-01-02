@@ -8,6 +8,8 @@
   "main_frame.abort_macro_operation": "中止宏",
 
   "settings": "设置",
+  "settings.appearance_section": "外观",
+  "settings.system_section": "系统",
   "settings.follow_system_settings": "跟随系统设置",
   "settings.switch_lang": "切换语言",
   "settings.enable_dark_mode": "启用深色模式",
