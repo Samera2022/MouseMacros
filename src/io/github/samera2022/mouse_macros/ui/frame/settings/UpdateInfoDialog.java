@@ -13,15 +13,12 @@ import java.util.Objects;
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
 public class UpdateInfoDialog extends JDialog {
-    private final JTextArea updateInfoArea;
-    private final JComboBox<String> infoCombo;
-
     public UpdateInfoDialog() {
         setTitle(Localizer.get("settings.update_info"));
+//        setName("settings.update_info"); 不采用cache
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
         setModal(true);
         setLayout(new BorderLayout(10, 10));
-
         JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
@@ -33,6 +30,7 @@ public class UpdateInfoDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(new JSeparator());
 
+        // 添加“选择版本”标签和自适应宽度的JComboBox
         JPanel comboPanel = new JPanel();
         comboPanel.setLayout(new BoxLayout(comboPanel, BoxLayout.X_AXIS));
         comboPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -41,15 +39,16 @@ public class UpdateInfoDialog extends JDialog {
         comboPanel.add(selectLabel);
         comboPanel.add(Box.createHorizontalStrut(8));
 
-        this.infoCombo = getJComboBox();
+        JComboBox<String> infoCombo = getJComboBox();
         int length = UpdateInfo.values().length;
-        infoCombo.setSelectedIndex(length - 1);
+        infoCombo.setSelectedIndex(length-1);
         comboPanel.add(infoCombo);
         content.add(Box.createVerticalStrut(10));
         content.add(comboPanel);
 
-        String firstContent = UpdateInfo.values().length > 0 ? UpdateInfo.values()[length - 1].getFormattedLog() : "";
-        this.updateInfoArea = new JTextArea(firstContent);
+        // JTextArea显示内容，初始为最后一个内容
+        String firstContent = UpdateInfo.values().length > 0 ? UpdateInfo.values()[length-1].getFormattedLog() : "";
+        JTextArea updateInfoArea = new JTextArea(firstContent);
         updateInfoArea.setEditable(false);
         updateInfoArea.setLineWrap(true);
         updateInfoArea.setWrapStyleWord(true);
@@ -59,62 +58,42 @@ public class UpdateInfoDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(updateInfoArea);
 
+        // ComboBox切换事件
         infoCombo.addActionListener(e -> {
             int idx = infoCombo.getSelectedIndex();
             if (idx >= 0 && idx < UpdateInfo.values().length) {
                 updateInfoArea.setText(UpdateInfo.values()[idx].getFormattedLog());
-                adaptWindowSize();
+                updateInfoArea.setSize(340, Short.MAX_VALUE);
+                updateInfoArea.revalidate();
+                updateInfoArea.repaint();
+                int hAdjust = 60;
+                ComponentUtil.adjustFrameWithCache(this, hAdjust, new JComponent[]{updateInfoArea});
             }
         });
 
         add(content, BorderLayout.CENTER);
-        ComponentUtil.setMode(getContentPane(), config.enableDarkMode ? OtherConsts.DARK_MODE : OtherConsts.LIGHT_MODE);
-
-        adaptWindowSize();
-        setLocationRelativeTo(null);
+        ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+        // 初始化时也设置内容区宽度，确保高度自适应
+        updateInfoArea.setSize(340, Short.MAX_VALUE);
+        updateInfoArea.revalidate();
+        updateInfoArea.repaint();
+        ComponentUtil.adjustFrameWithCache(this, 60, new JComponent[]{updateInfoArea});
+        setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }
 
-    private void adaptWindowSize() {
-        int baseWidth = 400;
-        int textHeight = getTextAreaRealHeight(updateInfoArea, baseWidth);
-
-        int hAdjust = 160;
-        int wPadding = 80;
-
-        int contentWidth = baseWidth + wPadding;
-        int contentHeight = textHeight + hAdjust;
-
-        int[] finalSize = fitSize(contentWidth, contentHeight);
-        setSize(finalSize[0], finalSize[1]);
-        revalidate();
-        repaint();
-    }
-
-    private int getTextAreaRealHeight(JTextArea textArea, int width) {
-        textArea.setSize(width, Short.MAX_VALUE);
-        return (int) textArea.getUI().getRootView(textArea).getPreferredSpan(javax.swing.text.View.Y_AXIS);
-    }
-
-    private int[] fitSize(int width, int height) {
-        int targetH = height;
-        int targetW = (int) Math.ceil(height * 3.0 / 2.0);
-        if (targetW < width) {
-            targetW = width;
-            targetH = (int) Math.ceil(width * 2.0 / 3.0);
-        }
-        return new int[]{targetW, targetH};
-    }
-
+    //要求JComboBox的宽度恰好能显示list中最长的元素
     private static JComboBox<String> getJComboBox() {
         JComboBox<String> infoCombo = new JComboBox<>(UpdateInfo.getAllDisplayNames());
         infoCombo.setAlignmentY(Component.CENTER_ALIGNMENT);
+        // 计算最大显示宽度
         int maxWidth = 0;
         FontMetrics fm = infoCombo.getFontMetrics(infoCombo.getFont());
         for (UpdateInfo info : UpdateInfo.values()) {
             int w = fm.stringWidth(info.getDisplayName());
             if (w > maxWidth) maxWidth = w;
         }
+        // 适当加点padding
         maxWidth += 32;
         infoCombo.setMaximumSize(new Dimension(maxWidth, infoCombo.getPreferredSize().height));
         infoCombo.setPreferredSize(new Dimension(maxWidth, infoCombo.getPreferredSize().height));
