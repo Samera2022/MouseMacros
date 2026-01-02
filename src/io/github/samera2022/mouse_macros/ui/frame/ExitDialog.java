@@ -1,6 +1,7 @@
 package io.github.samera2022.mouse_macros.ui.frame;
 
 import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.manager.CacheManager;
 
 import javax.swing.*;
@@ -75,7 +76,7 @@ public class ExitDialog extends JDialog {
         ComponentUtil.setMode(getContentPane(), mode);
 
         setLocationRelativeTo(mf);
-        ComponentUtil.applyWindowSizeCache(this, "exit", 481, 274);
+        ComponentUtil.adjustFrameWithCache(this, 70, new JComponent[]{titleLabel}, new JComponent[]{exitOnCloseRadio, minimizeToTrayRadio}, new JComponent[]{rememberLabel, rememberOptionBox}, new JComponent[]{finishButton});
 
         finishButton.addActionListener(e -> {
             String op = exitOnCloseRadio.isSelected() ? CacheManager.EXIT_ON_CLOSE : CacheManager.MINIMIZE_TO_TRAY;
@@ -87,5 +88,6 @@ public class ExitDialog extends JDialog {
             if (CacheManager.EXIT_ON_CLOSE.equals(op)) System.exit(0);
             else mf.minimizeToTray();
         });
+        addWindowListener(new WindowClosingAdapter());
     }
 }

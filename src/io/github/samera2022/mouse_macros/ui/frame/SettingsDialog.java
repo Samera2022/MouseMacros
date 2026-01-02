@@ -240,7 +240,17 @@ public class SettingsDialog extends JDialog {
         add(savePanel, BorderLayout.SOUTH);
         // 此处是初始化时设置暗色
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "settings", 521, 359);
+        ComponentUtil.adjustFrameWithCache(this, 350,
+            new JComponent[]{settingTitle},
+            new JComponent[]{followSysLabel, followSysBox},
+            new JComponent[]{subSettingsPanel},
+            new JComponent[]{enableDefaultStorageLabel, enableDefaultStorageBox},
+            new JComponent[]{subSettingsPanel2},
+            new JComponent[]{quickModeLabel, quickModeBox},
+            new JComponent[]{allowLongStrLabel, allowLongStrCheckBox},
+            new JComponent[]{hotkeyBtn, aboutBtn, updateInfoBtn},
+            new JComponent[]{saveSettingsBtn}
+        );
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }

@@ -30,6 +30,7 @@ public class AboutDialog extends JDialog{
         content.add(new JSeparator());
 
         JTextArea aboutArea = new JTextArea(OtherConsts.ABOUT_AUTHOR);
+        aboutArea.setPreferredSize(new Dimension(350,200));
         aboutArea.setEditable(false);
         aboutArea.setLineWrap(true);
         aboutArea.setWrapStyleWord(true);
@@ -58,9 +59,12 @@ public class AboutDialog extends JDialog{
         add(content, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "settings.about_author", 481, 274);
+        ComponentUtil.adjustFrameWithCache(this, 0,
+            new JComponent[]{aboutTitle},
+            new JComponent[]{aboutArea},
+            new JComponent[]{bottomPanel}
+        );
         setLocationRelativeTo(this);
-
         addWindowListener(new WindowClosingAdapter());
     }
 }

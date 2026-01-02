@@ -27,8 +27,7 @@ import java.util.logging.Logger;
 
 public class MainFrame extends JFrame{
     public static JTextArea logArea;
-    public final JButton startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn, abortBtn, macroSettingsBtn;
-
+    private final JButton startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn, abortBtn, macroSettingsBtn;
     // 热键自定义
     public static int keyRecord = NativeKeyEvent.VC_F2;
     public static int keyStop = NativeKeyEvent.VC_F3;
@@ -70,6 +69,8 @@ public class MainFrame extends JFrame{
 
         logArea = new JTextArea();
         logArea.setEditable(false);
+        System.out.println(SystemUtil.getScale()[1]);
+        logArea.setPreferredSize(new Dimension(logArea.getWidth(), (int) (150*SystemUtil.getScale()[1])));
         JScrollPane scrollPane = new JScrollPane(logArea);
         // 应用自定义滚动条UI  此处本来可以用boolean代替的，但是想了想后面可能会拓展其他的主题样式
         scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI(config.enableDarkMode? OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE));
@@ -115,7 +116,7 @@ public class MainFrame extends JFrame{
         add(southContainer, BorderLayout.SOUTH);
 
         // 自动调整窗体宽度
-        ComponentUtil.adjustFrameWidth(this, startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn);
+//        ComponentUtil.adjustFrameWidth(this, startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn);
 
         startBtn.addActionListener(e -> {if ((!MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.startRecording();});
         stopBtn.addActionListener(e -> {if ((MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.stopRecording(); else log(Localizer.get("log.macro_not_recording"));});
@@ -142,7 +143,8 @@ public class MainFrame extends JFrame{
         GlobalScreen.addNativeMouseMotionListener(GML);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         // 统一应用窗体大小缓存（优先cache.json，无则默认）
-        ComponentUtil.applyWindowSizeCache(this, "main_frame", 430, 330);
+//        ComponentUtil.applyWindowSizeCache(this, "main_frame", 430, 330);
+        ComponentUtil.adjustFrameWithCache(this, 0, new JComponent[]{logArea}, new JComponent[]{startBtn, stopBtn, playBtn}, new JComponent[]{abortBtn,saveBtn, loadBtn, settingsBtn, macroSettingsBtn});
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         addWindowListener(new WindowClosingAdapter());
@@ -181,7 +183,7 @@ public class MainFrame extends JFrame{
             }
         }
         // 如有其它需要本地化的组件，也可在此统一刷新
-        ComponentUtil.adjustFrameWidth(this, startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn, abortBtn, macroSettingsBtn);
+        ComponentUtil.adjustFrameWithCache(this, 0, new JComponent[]{logArea}, new JComponent[]{startBtn, stopBtn, playBtn}, new JComponent[]{abortBtn,saveBtn, loadBtn, settingsBtn, macroSettingsBtn});
     }
 
     public void refreshSpecialTexts(){

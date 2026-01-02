@@ -18,6 +18,10 @@ public class ConfigManager {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static Config config ;
 
+    public static final String RFN_MIXED = "MIXED";
+    public static final String RFM_STANDARDIZED = "STANDARDIZED";
+    public static final String RFM_MEMORIZED = "MEMORIZED";
+
     static {
         CONFIG_DIR = FileUtil.getLocalStoragePath().toString();
         CONFIG_PATH = CONFIG_DIR + "\\config.cfg";
@@ -32,6 +36,7 @@ public class ConfigManager {
         public String defaultMmcStoragePath = "";
         public boolean enableQuickMode = false;
         public boolean allowLongStr = false;
+        public String readjustFrameMode = RFM_STANDARDIZED;
         public Map<String, String> keyMap = new HashMap<>();
         public boolean enableCustomMacroSettings = false;
         public int repeatTime = 1;

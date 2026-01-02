@@ -96,8 +96,7 @@ public class TestDialog extends JDialog {
         add(savePanel, BorderLayout.SOUTH);
         // 此处是初始化时设置暗色
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-
-        pack();
+        ComponentUtil.adjustFrameWithCache(this, 0, new JComponent[]{content, savePanel});
         setLocationRelativeTo(this);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
