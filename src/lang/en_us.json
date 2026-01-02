@@ -8,6 +8,8 @@
   "main_frame.abort_macro_operation": "Abort Operation",
 
   "settings": "Settings",
+  "settings.appearance_section": "Appearance",
+  "settings.system_section": "System",
   "settings.follow_system_settings": "Follow System Settings",
   "settings.switch_lang": "Switch Language",
   "settings.enable_dark_mode": "Enable Dark Mode",
@@ -21,6 +23,7 @@
   "settings.save_settings": "Save and Apply All Settings",
   "settings.enable_quick_mode": "Enable Quick Mode",
   "settings.allow_long_str": "Allow Long Tooltip",
+  "settings.readjust_frame_mode": "How to adjust window size",
 
   "settings.switch_lang.disabled.tooltip": "To edit this option, you must first disable Follow System Settings.",
   "settings.enable_dark_mode.disabled.tooltip": "To edit this option, you must first disable Follow System Settings.",
@@ -28,6 +31,7 @@
   "settings.default_mmc_storage_path.tooltip": "This path is the default folder for saving/loading macros. Enabling this will disable the cache path memory function.",
   "settings.enable_quick_mode.tooltip": "In this mode, MouseMacros will only replay mouse and keyboard actions in the order they occurred, ignoring all pauses in between.",
   "settings.allow_long_str.tooltip": "When enabled, MouseMacros will try to display long tooltips in one line without wrapping.",
+  "settings.readjust_frame_mode.tooltip": "This option affects how MouseMacros handles 'historical window size (c)' and 'recommended window size (p)' after changing language settings.\nMIXED is a mixed mode, taking the larger of c and p to calculate the minimum 3:2 window size.\nSTANDARDIZED is a standard mode, only using p to calculate the minimum 3:2 window size.\nMEMORIZED is a memory mode, directly using 'historical window size (c)'.",
 
   "settings.about_author": "About Author",
   "settings.about_author.github.tooltip": "Visit Github Project Main Page",
@@ -73,7 +77,7 @@
   "tray.exit": "Exit",
 
   "exit": "Exit",
-  "exit.title": "Sure to exit Mouse Macros?",
+  "exit.title": "Sure to exit MouseMacros?",
   "exit.exit_on_close": "Exit the program directly",
   "exit.minimize_to_tray": "Minimize to tray",
   "exit.remember_this_option": "Remember my choice",

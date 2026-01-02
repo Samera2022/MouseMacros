@@ -69,7 +69,6 @@ public class MainFrame extends JFrame{
 
         logArea = new JTextArea();
         logArea.setEditable(false);
-        logArea.setPreferredSize(new Dimension(logArea.getWidth(), (int) (150*SystemUtil.getScale()[1])));
         JScrollPane scrollPane = new JScrollPane(logArea);
         // 应用自定义滚动条UI  此处本来可以用boolean代替的，但是想了想后面可能会拓展其他的主题样式
         scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI(config.enableDarkMode? OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE));

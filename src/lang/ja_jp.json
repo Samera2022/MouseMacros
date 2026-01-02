@@ -8,6 +8,8 @@
   "main_frame.abort_macro_operation": "操作を中止",
 
   "settings": "設定",
+  "settings.appearance_section": "外観",
+  "settings.system_section": "システム",
   "settings.follow_system_settings": "システム設定に従う",
   "settings.switch_lang": "言語を切り替え",
   "settings.enable_dark_mode": "ダークモードを有効化",
@@ -21,13 +23,15 @@
   "settings.save_settings": "すべての設定を保存して適用",
   "settings.enable_quick_mode": "クイックモードを有効化",
   "settings.allow_long_str": "長いツールチップを改行せずに表示する",
+  "settings.readjust_frame_mode": "ウィンドウサイズの調整方法",
 
   "settings.switch_lang.disabled.tooltip": "このオプションを編集するには、まずシステム設定の追従を無効にしてください。",
   "settings.enable_dark_mode.disabled.tooltip": "このオプションを編集するには、まずシステム設定の追従を無効にしてください。",
   "settings.default_mmc_storage_path.disabled.tooltip": "このパスを編集するには、まずデフォルトストレージモードを有効にしてください。",
-  "settings.default_mmc_storage_path.tooltip": "このパスはマクロの保存/読込のデフォルトフォルダです。有効にするとキャッシュパス記憶機能が無効になります。",
+  "settings.default_mmc_storage_path.tooltip": "このパスはマクロの保存/読み込みのデフォルトフォルダです。有効にするとキャッシュパス記憶機能が無効になります。",
   "settings.enable_quick_mode.tooltip": "このモードでは、MouseMacrosはマウスとキーボードの操作順のみを再現し、すべての中間停止時間を無視します。",
   "settings.allow_long_str.tooltip": "有効にすると、MouseMacrosは長いツールチップを改行せずに表示しようとします。",
+  "settings.readjust_frame_mode.tooltip": "このオプションは、言語設定変更後のMouseMacrosの「履歴ウィンドウサイズ(c)」と「推奨ウィンドウサイズ(p)」の扱いに影響します。\nMIXEDは混合モードで、cとpの大きい方を取って最小3:2ウィンドウサイズを計算します。\nSTANDARDIZEDは標準モードで、pのみを使って最小3:2ウィンドウサイズを計算します。\nMEMORIZEDは記憶モードで、「履歴ウィンドウサイズ(c)」を直接使用します。",
 
   "settings.about_author": "著者について",
   "settings.about_author.github.tooltip": "Githubプロジェクトメインページを訪問",
@@ -73,7 +77,7 @@
   "tray.exit": "終了",
 
   "exit": "終了",
-  "exit.title": "Mouse Macrosを終了しますか？",
+  "exit.title": "MouseMacrosを終了しますか？",
   "exit.exit_on_close": "プログラムを直接終了",
   "exit.minimize_to_tray": "トレイに最小化",
   "exit.remember_this_option": "この選択を記憶する",
