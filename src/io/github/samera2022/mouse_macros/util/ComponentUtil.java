@@ -7,9 +7,6 @@ import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.Arrays;
 
 import static io.github.samera2022.mouse_macros.constant.ColorConsts.*;
 
@@ -181,17 +178,17 @@ public class ComponentUtil {
             window.setSize(fitSize[0], fitSize[1]);
         }
         else {
-            int[] rawSize = parseWindowSize(rawSizeString);
+            int[] cacheSize = parseWindowSize(rawSizeString);
             switch (ConfigManager.config.readjustFrameMode) {
-                case ConfigManager.RFN_MIXED:
-                    int[] fitSize = fitSize(Math.max(properSize[0], rawSize[0]), Math.max(properSize[1], rawSize[1]));
+                case ConfigManager.RFM_MIXED:
+                    int[] fitSize = fitSize(Math.max(properSize[0], cacheSize[0]), Math.max(properSize[1], cacheSize[1]));
                     window.setSize(fitSize[0], fitSize[1]);
                     break;
                 case ConfigManager.RFM_STANDARDIZED:
                     window.setSize(properSize[0],properSize[1]);
                     break;
                 case ConfigManager.RFM_MEMORIZED:
-                    window.setSize(rawSize[0], rawSize[1]);
+                    window.setSize(cacheSize[0], cacheSize[1]);
                     break;
             }
         }

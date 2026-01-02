@@ -69,7 +69,6 @@ public class MainFrame extends JFrame{
 
         logArea = new JTextArea();
         logArea.setEditable(false);
-        System.out.println(SystemUtil.getScale()[1]);
         logArea.setPreferredSize(new Dimension(logArea.getWidth(), (int) (150*SystemUtil.getScale()[1])));
         JScrollPane scrollPane = new JScrollPane(logArea);
         // 应用自定义滚动条UI  此处本来可以用boolean代替的，但是想了想后面可能会拓展其他的主题样式
@@ -197,11 +196,6 @@ public class MainFrame extends JFrame{
     private String getStopBtnText() {return Localizer.get("main_frame.stop_record") + " (" + OtherUtil.getNativeKeyDisplayText(keyStop) + ")";}
     private String getPlayBtnText() {return Localizer.get("main_frame.play_macro") + " (" + OtherUtil.getNativeKeyDisplayText(keyPlay) + ")";}
     private String getAbortBtnText() {return Localizer.get("main_frame.abort_macro_operation") + " (" + OtherUtil.getNativeKeyDisplayText(keyAbort) + ")";}
-
-    public static void adjustFrameWidth(){
-        MAIN_FRAME.pack();
-        MAIN_FRAME.setSize(MAIN_FRAME.getWidth(),(int) (660/SystemUtil.getScale()[1]));
-    }
 
     private void initTrayIcon() {
         if (!SystemTray.isSupported()) return;

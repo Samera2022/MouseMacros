@@ -18,7 +18,7 @@ public class ConfigManager {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static Config config ;
 
-    public static final String RFN_MIXED = "MIXED";
+    public static final String RFM_MIXED = "MIXED";
     public static final String RFM_STANDARDIZED = "STANDARDIZED";
     public static final String RFM_MEMORIZED = "MEMORIZED";
 

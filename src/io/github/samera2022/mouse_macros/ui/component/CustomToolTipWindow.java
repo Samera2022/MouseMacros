@@ -12,7 +12,7 @@ public class CustomToolTipWindow extends JWindow {
     private JLabel label;
     private final boolean allowLongStr;
     // 本来考虑要不要用ComponentUtil的setSize方法的，后来试了下还是算了
-    private final int FIXED_WIDTH = (int) ( 520 / SystemUtil.getScale()[0]);
+    private final int FIXED_WIDTH = (int) ( 130 * SystemUtil.getScale()[0]);
 
     public CustomToolTipWindow(String text, boolean allowLongStr) {
         super();

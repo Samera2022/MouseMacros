@@ -193,6 +193,19 @@ public class SettingsDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(allowLongStrPanel);
 
+        JPanel rfmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JLabel rfmLabel = new JLabel(Localizer.get("settings.readjust_frame_mode"));
+        rfmLabel.addMouseListener(new MouseCheckAdapter(Localizer.get("settings.readjust_frame_mode.tooltip")));
+        String[] rfmModes = {ConfigManager.RFM_MIXED, ConfigManager.RFM_STANDARDIZED, ConfigManager.RFM_MEMORIZED};
+        JComboBox<String> rfmCombo = new JComboBox<>(rfmModes);
+        rfmCombo.setSelectedItem(config.readjustFrameMode);
+        rfmPanel.add(rfmLabel);
+        rfmPanel.add(Box.createHorizontalStrut(10));
+        rfmPanel.add(rfmCombo);
+        rfmPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(Box.createVerticalStrut(10));
+        content.add(rfmPanel);
+
         // 热键自定义 + 关于作者 + 更新日志 三列按钮
         JButton hotkeyBtn = new JButton(Localizer.get("settings.custom_hotkey"));
         hotkeyBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new HotkeyDialog().setVisible(true)));
@@ -220,6 +233,7 @@ public class SettingsDialog extends JDialog {
             config.enableDefaultStorage = enableDefaultStorageBox.isSelected();
             config.enableQuickMode = quickModeBox.isSelected();
             config.allowLongStr = allowLongStrCheckBox.isSelected();
+            config.readjustFrameMode = (String) rfmCombo.getSelectedItem();
             ConfigManager.saveConfig(config);
             ConfigManager.reloadConfig();
             Localizer.load(config.lang);
@@ -229,7 +243,6 @@ public class SettingsDialog extends JDialog {
             // 但是似乎用到ContentPane就已经把能看到的组件都设置好了
             ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
             ComponentUtil.setMode(MAIN_FRAME.getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-            MainFrame.adjustFrameWidth();
             dispose();
         });
         JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -240,7 +253,7 @@ public class SettingsDialog extends JDialog {
         add(savePanel, BorderLayout.SOUTH);
         // 此处是初始化时设置暗色
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.adjustFrameWithCache(this, 350,
+        ComponentUtil.adjustFrameWithCache(this, 370,
             new JComponent[]{settingTitle},
             new JComponent[]{followSysLabel, followSysBox},
             new JComponent[]{subSettingsPanel},
@@ -248,6 +261,7 @@ public class SettingsDialog extends JDialog {
             new JComponent[]{subSettingsPanel2},
             new JComponent[]{quickModeLabel, quickModeBox},
             new JComponent[]{allowLongStrLabel, allowLongStrCheckBox},
+            new JComponent[]{rfmLabel, rfmCombo},
             new JComponent[]{hotkeyBtn, aboutBtn, updateInfoBtn},
             new JComponent[]{saveSettingsBtn}
         );
