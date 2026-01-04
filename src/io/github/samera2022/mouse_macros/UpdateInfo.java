@@ -17,10 +17,10 @@ public enum UpdateInfo {
                     " - 添加设置界面\n" +
                     " - 添加\"关于作者\"功能按钮\n" +
                     " - 添加\"更新日志\"功能按钮\n\n" +
-                    "##[Changed]\n" +
+                    "## [Changed]\n" +
                     " - 将自定义热键功能移入\"设置\"界面\n\n" +
                     "## [Detailed]\n" +
-                    "# 关于配置文件功能\n" +
+                    "### 关于配置文件功能\n" +
                     "目前已添加以下可配置项：\n" +
                     "(boolean)跟随系统设置，(boolean)启用深色模式，(String)切换语言，(String)默认鼠标宏存储地址，[未实装，不可用](Map<String,String>)按键映射表，\n" +
                     "注意：\"跟随系统设置\"与(\"启用深色模式\", \"切换语言\")存在上位关系。如果选择了\"跟随系统设置\"，那么后二者就不再接受用户更改，直接读取系统的相应设置。"),
@@ -144,6 +144,6 @@ public enum UpdateInfo {
     }
 
     public static void main(String[] args) {
-        System.out.println(VERSION_1_2_0_26m01a.getFormattedLog());
+        System.out.println(VERSION_1_2_0.getFormattedLog());
     }
 }
