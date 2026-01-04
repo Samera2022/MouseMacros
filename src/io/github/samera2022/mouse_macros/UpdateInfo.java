@@ -104,7 +104,11 @@ public enum UpdateInfo {
                     "## [Changed]\n" +
                     " - 修正了打包逻辑，在该版本之前打包的exe应当全部改名为MouseMacros.exe才能正常运行。\n" +
                     " - 修改exe的文件名会导致无法找到启动文件……因此不建议修改发布时的程序名。\n" +
-                    " - 修改了SettingsDialog的主界面，使其更加有条理。\n\n");
+                    " - 修改了SettingsDialog的主界面，使其更加有条理。\n\n"),
+    VERSION_1_2_1("1.2.1","2026-01-04 15:45",
+            "## [Fixed]\n" +
+                    " - 修正了ExitDialog的退出逻辑，使得不选单选框直接点结束时会直接销毁ExitDialog窗体。\n" +
+                    " - 修正打包逻辑，1.2.0的打包结果实际上是1.2.0-26m01a的结果）））");
     private final String version;
     private final String releaseDate;
     private final String description;
@@ -144,6 +148,6 @@ public enum UpdateInfo {
     }
 
     public static void main(String[] args) {
-        System.out.println(VERSION_1_2_0.getFormattedLog());
+        System.out.println(VERSION_1_2_1.getFormattedLog());
     }
 }
