@@ -52,7 +52,7 @@ II. Exe User
 ### Usage
 <p align="center">
   <img src="docs/images/MouseMacrosSettingsDialog.png" width="400" alt="Settings Dialog">
-<br>
+</p>>
 
 1. **Adjust**: The choose of language will determine the words in the frame, thus resulting in some buttons not being displayed in the frame.
    In this case, you will need to adjust the frame to the appropriate size.
@@ -81,7 +81,7 @@ The application stores settings in the user's AppData directory:
 | Default MouseMacros Storage Path | `defaultMmcStoragePath`(String) | If `followSystemSettings` is true, it will determine the default folder everytime you open the FileChooserDialog(in "Save Macro" and "Load Macro"). If the folder in this option doesn't exist, the app will first attempt to create this folder, otherwise it will automatically open the default folder(Your User Document Folder). |
 | Enable Quick Mode                | `enableQuickMode`(boolean)      | Controls whether to enable no-delay mode. In this mode, MouseMacros will ignore the waiting time between each mouse/keyboard action. It is DANGEROUS, and it is STRONGLY ADVISED to set a proper **Abort Operation** Hotkey and the **Repeat Delay** in **Macro Settings Dialog** before you enable this mode.                        |
 | Allow Long Tooltip               | `allowLongStr`(boolean)         | Controls whether to enable LongTooltip Display. If false, MouseMacros will display all tooltips in a given width, otherwise MouseMacros will attempt to display them in a long line unless exceeding the frame (if so, it will wrap lines and display it in two or more long lines).                                                  |
-
+| Readjust Frame Mode              | `readjustFrameMode`(String)     | Controls the mode to display the window at a 3:2 ratio when there is no cache. If a cache exists, after changing the language, MouseMacros can choose among the three modes from the previous step when processing 'historical window size' and 'recommended window size'. You will get more detailed information in tooltip.         |
 ### Macro Settings Dialog Options
 | Name                             | Key                                  | Description                                                                                                                                                    |
 |:---------------------------------|:-------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------|
