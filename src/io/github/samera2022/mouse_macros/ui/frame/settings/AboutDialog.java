@@ -29,7 +29,7 @@ public class AboutDialog extends JDialog{
         content.add(Box.createVerticalStrut(10));
         content.add(new JSeparator());
 
-        JTextArea aboutArea = new JTextArea(OtherConsts.ABOUT_AUTHOR);
+        JTextArea aboutArea = new JTextArea(Localizer.get("settings.about_author.content"));
         aboutArea.setPreferredSize(new Dimension(350,200));
         aboutArea.setEditable(false);
         aboutArea.setLineWrap(true);

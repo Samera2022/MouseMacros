@@ -23,7 +23,7 @@
   "settings.save_settings": "Save and Apply All Settings",
   "settings.enable_quick_mode": "Enable Quick Mode",
   "settings.allow_long_str": "Allow Long Tooltip",
-  "settings.readjust_frame_mode": "Readjust Frame Mode",
+  "settings.readjust_frame_mode": "Window Resizing Mode",
 
   "settings.switch_lang.disabled.tooltip": "To edit this option, you must first disable Follow System Settings.",
   "settings.enable_dark_mode.disabled.tooltip": "To edit this option, you must first disable Follow System Settings.",
@@ -36,6 +36,7 @@
   "settings.about_author": "About Author",
   "settings.about_author.github.tooltip": "Visit Github Project Main Page",
   "settings.about_author.browser_opening_failed": "Unable to open browser.",
+  "settings.about_author.content": "    Hello, I am Samera2022, the author of MouseMacros. First of all, thank you very much for using this program, and I would like to extend my warmest welcome to you.\n    You can find me via Bilibili UID: 583460263 / QQ: 3517085924 to report various usage problems. Of course, chatting is also welcome! However, for reporting usage problems, it is recommended to submit Issues on Github so that I can see them more timely.\n    Oh, I haven't introduced the Github address of this project yet! But surely smart you have already guessed that this project should be Samera2022/MouseMacros. That's right! The address of this project is https://github.com/Samera2022/MouseMacros. If it helps you, please don't be stingy with your star!",
 
   "macro_settings": "Macro Settings",
   "macro_settings.enable_custom_macro_settings": "Enable Custom Macro Settings",

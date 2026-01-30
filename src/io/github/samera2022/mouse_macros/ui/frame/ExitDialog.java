@@ -76,7 +76,7 @@ public class ExitDialog extends JDialog {
         ComponentUtil.setMode(getContentPane(), mode);
 
         setLocationRelativeTo(mf);
-        ComponentUtil.adjustFrameWithCache(this, 70, new JComponent[]{titleLabel}, new JComponent[]{exitOnCloseRadio, minimizeToTrayRadio}, new JComponent[]{rememberLabel, rememberOptionBox}, new JComponent[]{finishButton});
+        ComponentUtil.adjustFrameWithCache(this, 200, new JComponent[]{titleLabel}, new JComponent[]{exitOnCloseRadio, minimizeToTrayRadio}, new JComponent[]{rememberLabel, rememberOptionBox}, new JComponent[]{finishButton});
 
         finishButton.addActionListener(e -> {
             String op = "";

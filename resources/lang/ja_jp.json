@@ -23,7 +23,7 @@
   "settings.save_settings": "すべての設定を保存して適用",
   "settings.enable_quick_mode": "クイックモードを有効化",
   "settings.allow_long_str": "長いツールチップを改行せずに表示する",
-  "settings.readjust_frame_mode": "ウィンドウサイズの調整方法",
+  "settings.readjust_frame_mode": "ウィンドウサイズ調整モード",
 
   "settings.switch_lang.disabled.tooltip": "このオプションを編集するには、まずシステム設定の追従を無効にしてください。",
   "settings.enable_dark_mode.disabled.tooltip": "このオプションを編集するには、まずシステム設定の追従を無効にしてください。",
@@ -36,6 +36,7 @@
   "settings.about_author": "著者について",
   "settings.about_author.github.tooltip": "Githubプロジェクトメインページを訪問",
   "settings.about_author.browser_opening_failed": "ブラウザを開けません。",
+  "settings.about_author.content": "    こんにちは、MouseMacrosの作者Samera2022です。まずは本プログラムをご利用いただき、誠にありがとうございます。心より歓迎いたします。\n    Bilibili UID: 583460263 / QQ: 3517085924を通じて、様々な使用上の問題を報告することができます。もちろん、雑談も大歓迎です！ただし、使用上の問題を報告する場合は、GithubでIssueを提出することをお勧めします。そうすれば、よりタイムリーに確認できます。\n    あ、まだこのプロジェクトのGithubアドレスを紹介していませんでしたね！でも、賢いあなたなら、このプロジェクトがSamera2022/MouseMacrosであることはもうお分かりでしょう。その通りです！このプロジェクトのアドレスはhttps://github.com/Samera2022/MouseMacrosです。もしお役に立てたら、ぜひスターを付けてくださいね！",
 
   "macro_settings": "マクロ設定",
   "macro_settings.enable_custom_macro_settings": "カスタムマクロ設定を有効化",

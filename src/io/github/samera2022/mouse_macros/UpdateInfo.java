@@ -111,7 +111,12 @@ public enum UpdateInfo {
                     " - 修正打包逻辑，1.2.0的打包结果实际上是1.2.0-26m01a的结果）））"),
     VERSION_1_2_2("1.2.2","2026-01-05 21:59",
             "## [Fixed]\n" +
-                    " - 删除了AboutDialog中未被使用的tooltip。");
+                    " - 删除了AboutDialog中未被使用的tooltip。"),
+    VERSION_1_2_3("1.2.3","2026-01-30 16:33",
+            "## [Fixed]\n" +
+                    " - 修改并补全部分语言的语言文件。\n" +
+                    " - 微调ExitDialog的高度补全参数。")
+    ;
     private final String version;
     private final String releaseDate;
     private final String description;
@@ -151,6 +156,6 @@ public enum UpdateInfo {
     }
 
     public static void main(String[] args) {
-        System.out.println(VERSION_1_2_2.getFormattedLog());
+        System.out.println(VERSION_1_2_3.getFormattedLog());
     }
 }

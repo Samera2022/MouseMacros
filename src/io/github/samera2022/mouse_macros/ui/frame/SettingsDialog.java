@@ -12,7 +12,6 @@ import io.github.samera2022.mouse_macros.ui.frame.settings.AboutDialog;
 import io.github.samera2022.mouse_macros.ui.frame.settings.HotkeyDialog;
 import io.github.samera2022.mouse_macros.ui.frame.settings.UpdateInfoDialog;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
-import io.github.samera2022.mouse_macros.util.SystemUtil;
 
 import javax.swing.*;
 import java.awt.*;

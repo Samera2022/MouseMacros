@@ -23,7 +23,7 @@
   "settings.save_settings": "모든 설정 저장 및 적용",
   "settings.enable_quick_mode": "빠른 모드 활성화",
   "settings.allow_long_str": "긴 툴팁을 줄 바꿈 없이 표시 허용",
-  "settings.readjust_frame_mode": "창 크기 조정 방식",
+  "settings.readjust_frame_mode": "창 크기 조정 모드",
 
   "settings.switch_lang.disabled.tooltip": "이 옵션을 편집하려면 먼저 시스템 설정 따르기를 비활성화해야 합니다.",
   "settings.enable_dark_mode.disabled.tooltip": "이 옵션을 편집하려면 먼저 시스템 설정 따르기를 비활성화해야 합니다.",
@@ -36,6 +36,7 @@
   "settings.about_author": "저자 정보",
   "settings.about_author.github.tooltip": "Github 프로젝트 메인 페이지 방문",
   "settings.about_author.browser_opening_failed": "브라우저를 열 수 없습니다.",
+  "settings.about_author.content": "    안녕하세요, MouseMacros의 저자 Samera2022입니다. 우선 이 프로그램을 사용해 주셔서 대단히 감사드리며, 진심으로 환영합니다.\n    Bilibili UID: 583460263 / QQ: 3517085924를 통해 저를 찾아 각종 사용 문제를 피드백하실 수 있습니다. 물론 잡담도 환영합니다! 하지만 사용 문제 피드백은 Github에 Issues를 제출해 주시면 제가 더 빨리 확인할 수 있습니다.\n    아, 아직 이 프로젝트의 Github 주소를 소개하지 않았네요! 하지만 똑똑한 여러분은 이미 이 프로젝트가 Samera2022/MouseMacros일 것이라고 짐작하셨을 겁니다. 맞습니다! 이 프로젝트의 주소는 https://github.com/Samera2022/MouseMacros입니다. 도움이 되셨다면 별(star)을 아끼지 말아주세요!",
 
   "macro_settings": "매크로 설정",
   "macro_settings.enable_custom_macro_settings": "사용자 지정 매크로 설정 활성화",

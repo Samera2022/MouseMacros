@@ -23,7 +23,7 @@
   "settings.save_settings": "Guardar y aplicar toda la configuración",
   "settings.enable_quick_mode": "Activar modo rápido",
   "settings.allow_long_str": "Permitir que las descripciones flotantes largas se muestren en una sola línea",
-  "settings.readjust_frame_mode": "Método para ajustar el tamaño de la ventana",
+  "settings.readjust_frame_mode": "Modo de ajuste de tamaño de ventana",
 
   "settings.switch_lang.disabled.tooltip": "Para editar esta opción, primero debe desactivar la configuración del sistema.",
   "settings.enable_dark_mode.disabled.tooltip": "Para editar esta opción, primero debe desactivar la configuración del sistema.",
@@ -36,6 +36,7 @@
   "settings.about_author": "Acerca del autor",
   "settings.about_author.github.tooltip": "Visitar la página principal del proyecto Github",
   "settings.about_author.browser_opening_failed": "No se puede abrir el navegador.",
+  "settings.about_author.content": "    Hola, soy Samera2022, el autor de MouseMacros. En primer lugar, muchas gracias por usar este programa, y me gustaría darte mi más cordial bienvenida.\n    Puedes encontrarme a través de Bilibili UID: 583460263 / QQ: 3517085924 para informar sobre varios problemas de uso. ¡Por supuesto, charlar también es bienvenido! Sin embargo, para informar problemas de uso, se recomienda enviar Issues en Github para que pueda verlos más oportunamente.\n    ¡Oh, aún no he presentado la dirección de Github de este proyecto! Pero seguramente tú, que eres inteligente, ya habrás adivinado que este proyecto debería ser Samera2022/MouseMacros. ¡Así es! La dirección de este proyecto es https://github.com/Samera2022/MouseMacros. Si te ayuda, ¡por favor no seas tacaño con tu estrella!",
 
   "macro_settings": "Configuración de macro",
   "macro_settings.enable_custom_macro_settings": "Activar configuración de macro personalizada",

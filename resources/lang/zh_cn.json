@@ -36,6 +36,7 @@
   "settings.about_author": "关于作者",
   "settings.about_author.github.tooltip": "访问 Github 项目主页",
   "settings.about_author.browser_opening_failed": "无法打开浏览器",
+  "settings.about_author.content": "    你好，我是MouseMacros的作者Samera2022。首先非常感谢能够使用本程序，谨在此致以最为诚挚的欢迎。\n    你可以通过B站UID: 583460263 / QQ: 3517085924来找到我来反馈各类使用问题，当然闲聊之类的也是肯定可以的！不过反馈使用问题还是建议在Github提交Issues，这样我能更及时看得到。\n    噢，还没有介绍这个项目的Github地址！但是想必聪明的你已经猜出来这个项目应该就是Samera2022/MouseMacros了。没错！本项目的地址为https://github.com/Samera2022/MouseMacros，如果帮到你的话还请不要吝啬你的star啦！",
 
   "macro_settings": "宏设置",
   "macro_settings.enable_custom_macro_settings": "启用自定义宏",

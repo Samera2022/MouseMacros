@@ -23,7 +23,7 @@
   "settings.save_settings": "Enregistrer et appliquer tous les paramètres",
   "settings.enable_quick_mode": "Activer le mode rapide",
   "settings.allow_long_str": "Autoriser l'affichage des longues info-bulles sur une seule ligne",
-  "settings.readjust_frame_mode": "Méthode d'ajustement de la taille de la fenêtre",
+  "settings.readjust_frame_mode": "Mode de redimensionnement de la fenêtre",
 
   "settings.switch_lang.disabled.tooltip": "Pour modifier cette option, vous devez d'abord désactiver le suivi des paramètres système.",
   "settings.enable_dark_mode.disabled.tooltip": "Pour modifier cette option, vous devez d'abord désactiver le suivi des paramètres système.",
@@ -36,6 +36,7 @@
   "settings.about_author": "À propos de l'auteur",
   "settings.about_author.github.tooltip": "Visiter la page principale du projet Github",
   "settings.about_author.browser_opening_failed": "Impossible d'ouvrir le navigateur.",
+  "settings.about_author.content": "    Bonjour, je suis Samera2022, l'auteur de MouseMacros. Tout d'abord, merci beaucoup d'utiliser ce programme, et je tiens à vous souhaiter la bienvenue la plus chaleureuse.\n    Vous pouvez me trouver via Bilibili UID : 583460263 / QQ : 3517085924 pour signaler divers problèmes d'utilisation. Bien sûr, discuter est aussi le bienvenu ! Cependant, pour signaler des problèmes d'utilisation, il est recommandé de soumettre des Issues sur Github afin que je puisse les voir plus rapidement.\n    Oh, je n'ai pas encore présenté l'adresse Github de ce projet ! Mais vous, qui êtes intelligent, avez sûrement déjà deviné que ce projet devrait être Samera2022/MouseMacros. C'est exact ! L'adresse de ce projet est https://github.com/Samera2022/MouseMacros. Si cela vous aide, s'il vous plaît ne soyez pas avare de votre étoile !",
 
   "macro_settings": "Paramètres du macro",
   "macro_settings.enable_custom_macro_settings": "Activer les paramètres personnalisés du macro",
