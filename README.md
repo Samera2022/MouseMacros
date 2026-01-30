@@ -52,7 +52,7 @@ II. Exe User
 ### Usage
 <p align="center">
   <img src="docs/images/MouseMacrosSettingsDialog.png" width="400" alt="Settings Dialog">
-</p>>
+</p>
 
 1. **Adjust**: The choose of language will determine the words in the frame, thus resulting in some buttons not being displayed in the frame.
    In this case, you will need to adjust the frame to the appropriate size.
