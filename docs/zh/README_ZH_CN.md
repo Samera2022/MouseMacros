@@ -19,14 +19,14 @@
 
 <div align="center">
 
-| <sub>EN</sub> [English](../README.md) | <sub>ZH</sub> [中文](./README_ZH_CN.md) |
+| <sub>EN</sub> [English](../../README.md) | <sub>ZH</sub> [中文](README_ZH_CN.md) |
 |---------------------------------------|---------------------------------------|
 
 </div>
 
 ## 预览
 <p align="center">
-  <img src="images/MouseMacrosMainFrame.png" width="400" alt="主界面">
+  <img src="../images/MouseMacrosMainFrame.png" width="400" alt="主界面">
 <br>
   <sub style="font-size: 14px;"><i>MouseMacros 主界面展示</i></sub>
 </p>
@@ -66,7 +66,7 @@
 
 ### 使用方法
 <p align="center">
-  <img src="images/MouseMacrosSettingsDialog.png" width="400" alt="设置对话框">
+  <img src="../images/MouseMacrosSettingsDialog.png" width="400" alt="设置对话框">
 </p>
 
 1. **调整**：语言的选择将决定界面中的文字，从而导致某些按钮可能无法完整显示。在这种情况下，您需要将窗口调整至合适的尺寸。
