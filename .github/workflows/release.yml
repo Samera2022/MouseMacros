@@ -55,8 +55,8 @@ jobs:
       - name: Install Build Tools (WiX & Enigma)
         shell: pwsh
         run: |
-          choco install wixtoolset -y
-          choco install enigmavirtualbox --ignore-checksums -y
+          choco install wixtoolset --ignore-checksums -y
+          choco install enigmavirtualbox --no-progress --ignore-checksums -y
 
       - name: Update POM and Build
         shell: pwsh
