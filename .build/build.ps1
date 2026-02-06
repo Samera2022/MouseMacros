@@ -1,6 +1,6 @@
 Param(
     [Parameter(Mandatory=$true)]
-    [ValidateSet("msi", "msix", "exe", "jar", "zip")]
+    [ValidateSet("msi", "exe", "jar", "zip")]
     [string]$Type
 )
 
@@ -122,19 +122,5 @@ switch ($Type) {
 
         $GenMsi = Get-ChildItem "output/temp_msi/*.msi" | Select-Object -First 1
         Move-Item $GenMsi.FullName "$OUT_DIR\$FullName.msi" -Force
-    }
-
-    "msix" {
-        jpackage --type msix --name $BaseName --app-version $SerVersion `
-                 --vendor $Vendor --description $Description --icon "$IconPath" `
-                 --input "$CLEAN_INPUT" --main-jar "${BaseName}.jar" `
-                 --runtime-image "custom-jre" --dest "output/temp_msix" `
-                 --win-app-store `
-                 --win-py-package-name "$env:MSIX_WIN_PY_PACKAGE_NAME" `
-                 --win-py-publisher-name "$env:MSIX_WIN_PY_PUBLISHER_NAME" `
-                 --win-py-publisher-display-name "$env:MSIX_WIN_PY_PUBLISHER_DISPLAY_NAME"
-
-        $GenMsix = Get-ChildItem "output/temp_msix/*.msix" | Select-Object -First 1
-        Move-Item $GenMsix.FullName "$OUT_DIR\$FullName.msix" -Force
     }
 }

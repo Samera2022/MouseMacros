@@ -71,13 +71,10 @@ jobs:
           APP_DISPLAY_VERSION: ${{ env.APP_DISPLAY_VERSION }}
           APP_SERIAL_VERSION: ${{ env.APP_SERIAL_VERSION }}
           MSI_WIN_UPGRADE_UUID: ${{ secrets.MSI_WIN_UPGRADE_UUID }}
-          MSIX_WIN_PY_PACKAGE_NAME: ${{ secrets.MSIX_WIN_PY_PACKAGE_NAME }}
-          MSIX_WIN_PY_PUBLISHER_NAME: ${{ secrets.MSIX_WIN_PY_PUBLISHER_NAME }}
-          MSIX_WIN_PY_PUBLISHER_DISPLAY_NAME: ${{ secrets.MSIX_WIN_PY_PUBLISHER_DISPLAY_NAME }}
         run: |
           Write-Host "Starting Multi-format Packaging for version $env:APP_DISPLAY_VERSION..." -ForegroundColor Magenta
           
-          "jar", "zip", "exe", "msi", "msix" | ForEach-Object {
+          "jar", "zip", "exe", "msi" | ForEach-Object {
               Write-Host "--> Packaging format: $_" -ForegroundColor Cyan
               ./.build/build.ps1 -Type $_
           }
