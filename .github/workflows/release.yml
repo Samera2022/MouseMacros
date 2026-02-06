@@ -30,21 +30,20 @@ jobs:
           $major = $parts[0]
           $minor = $parts[1]
           $patch = $parts[2]
-            
-          $lastChar = $tag.Substring($tag.Length - 1).ToLower()
           
+          $lastChar = $tag.Substring($tag.Length - 1).ToLower()
           if ($lastChar -match "[a-z]") {
               $letterValue = [int][char]$lastChar - 96
-            $serVersion = "$major.$minor.$patch.$letterValue"
+              $serVersion = "$major.$minor.$patch.$letterValue"
           } else {
               $serVersion = "$major.$minor.$patch"
           }
-            
+          
           Write-Host "Display Version: $displayVersion"
           Write-Host "Serial Version: $serVersion"
           
-          echo "APP_VER=$displayVersion" >> $env:GITHUB_ENV
-          echo "APP_SEM_VER=$serVersion" >> $env:GITHUB_ENV
+          "APP_DISPLAY_VERSION=$displayVersion" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "APP_SERIAL_VERSION=$serVersion" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
       - name: Setup JDK
         uses: actions/setup-java@v4
@@ -57,29 +56,28 @@ jobs:
         shell: pwsh
         run: |
           choco install wixtoolset -y
-          Write-Host "Downloading Enigma Virtual Box..." -ForegroundColor Cyan
-          curl -L -o evb_setup.exe https://enigmaprotector.com/assets/files/enigmavb.exe
-          $proc = Start-Process -FilePath .\evb_setup.exe -ArgumentList '/VERYSILENT', '/NORESTART' -PassThru
-          $proc | Wait-Process -Timeout 180
+          choco install enigmavirtualbox --ignore-checksums -y
 
       - name: Update POM and Build
         shell: pwsh
         run: |
-          mvn versions:set -DnewVersion="${{ env.APP_SEM_VER }}" -DgenerateBackupPoms=false
-          mvn clean package -DskipTests -Dapp.semantic.version="${{ env.APP_SEM_VER }}"
+          mvn versions:set "-DnewVersion=${{ env.APP_SERIAL_VERSION }}" -DgenerateBackupPoms=false
+          mvn clean package -DskipTests "-Dapp.semantic.version=${{ env.APP_SERIAL_VERSION }}" "-Dapp.display.version=${{ env.APP_DISPLAY_VERSION }}"
 
       - name: Execute Packaging Scripts
         shell: pwsh
         env:
+          APP_DISPLAY_VERSION: ${{ env.APP_DISPLAY_VERSION }}
+          APP_SERIAL_VERSION: ${{ env.APP_SERIAL_VERSION }}
           MSI_WIN_UPGRADE_UUID: ${{ secrets.WIX_UPGRADE_UUID }}
           MSIX_WIN_PY_PACKAGE_NAME: ${{ secrets.MSIX_PACKAGE_NAME }}
           MSIX_WIN_PY_PUBLISHER_NAME: ${{ secrets.MSIX_PUBLISHER_ID }}
           MSIX_WIN_PY_PUBLISHER_DISPLAY_NAME: ${{ secrets.MSIX_PUBLISHER_DISPLAY_NAME }}
         run: |
-          Write-Host "Starting Multi-format Packaging for version ${{ env.APP_VER }}..." -ForegroundColor Magenta
+          Write-Host "Starting Multi-format Packaging for version $env:APP_DISPLAY_VERSION..." -ForegroundColor Magenta
           
           "jar", "zip", "exe", "msi", "msix" | ForEach-Object {
-              Write-Host "--> Packaging: $_" -ForegroundColor Cyan
+              Write-Host "--> Packaging format: $_" -ForegroundColor Cyan
               ./.build/build.ps1 -Type $_
           }
 
@@ -88,14 +86,15 @@ jobs:
         shell: pwsh
         run: |
           $jsonPath = "src/main/resources/updates.json"
-          $ver = "${{ env.APP_VER }}"
+          $ver = "${{ env.APP_DISPLAY_VERSION }}"
           $logFile = "release_body.txt"
           
           if (Test-Path $jsonPath) {
               $updates = Get-Content $jsonPath -Raw | ConvertFrom-Json
               $entry = $updates."$ver"
               if ($entry) {
-                  "[$($entry.releaseDate)] $ver`n`n$($entry.description)" | Out-File -FilePath $logFile -Encoding utf8
+                  $body = "[$($entry.releaseDate)] $ver`n`n$($entry.description)"
+                  [System.IO.File]::WriteAllLines("$(Get-Location)/$logFile", $body, (New-Object System.Text.UTF8Encoding $False))
                   return
               }
           }
@@ -104,10 +103,10 @@ jobs:
       - name: Publish Release
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ env.APP_VER }}
+          name: ${{ env.APP_DISPLAY_VERSION }}
           body_path: release_body.txt
           draft: false
-          prerelease: ${{ contains(env.APP_VER, '-') }}
+          prerelease: ${{ contains(env.APP_DISPLAY_VERSION, '-') }}
           files: |
             output/*.jar
             output/*.zip
