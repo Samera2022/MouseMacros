@@ -55,6 +55,7 @@ jobs:
       - name: Install Build Tools (WiX & Enigma)
         shell: pwsh
         run: |
+          "C:\Program Files (x86)\WiX Toolset v3.11\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
           choco install wixtoolset --ignore-checksums -y
           choco install enigmavirtualbox --no-progress --ignore-checksums -y
 
