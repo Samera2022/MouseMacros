@@ -25,7 +25,7 @@ public class HotkeyDialog extends JDialog {
         inHotKeyDialog = true;
         setTitle(Localizer.get("settings.custom_hotkey"));
         setName("settings.custom_hotkey");
-        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/MouseMacros.png"))).getImage());
         setModal(true);
 
         // 界面组件初始化

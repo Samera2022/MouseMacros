@@ -1,0 +1,118 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '[0-9]*'
+
+env:
+  JAVA_VERSION: '11.0.27'
+  JAVA_DIST: 'liberica'
+
+jobs:
+  build-and-release:
+    name: Build All Formats and Release
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Calculate Versioning Logic
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $displayVersion = $tag
+          
+          $parts = $tag -split '[-.]'
+          $major = $parts[0]
+          $minor = $parts[1]
+          $patch = $parts[2]
+            
+          $lastChar = $tag.Substring($tag.Length - 1).ToLower()
+          
+          if ($lastChar -match "[a-z]") {
+              $letterValue = [int][char]$lastChar - 96
+            $serVersion = "$major.$minor.$patch.$letterValue"
+          } else {
+              $serVersion = "$major.$minor.$patch"
+          }
+            
+          Write-Host "Display Version: $displayVersion"
+          Write-Host "Serial Version: $serVersion"
+          
+          echo "APP_VER=$displayVersion" >> $env:GITHUB_ENV
+          echo "APP_SEM_VER=$serVersion" >> $env:GITHUB_ENV
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DIST }}
+          cache: 'maven'
+
+      - name: Install Build Tools (WiX & Enigma)
+        shell: pwsh
+        run: |
+          choco install wixtoolset -y
+          Write-Host "Downloading Enigma Virtual Box..." -ForegroundColor Cyan
+          curl -L -o evb_setup.exe https://enigmaprotector.com/assets/files/enigmavb.exe
+          $proc = Start-Process -FilePath .\evb_setup.exe -ArgumentList '/VERYSILENT', '/NORESTART' -PassThru
+          $proc | Wait-Process -Timeout 180
+
+      - name: Update POM and Build
+        shell: pwsh
+        run: |
+          mvn versions:set -DnewVersion="${{ env.APP_SEM_VER }}" -DgenerateBackupPoms=false
+          mvn clean package -DskipTests -Dapp.semantic.version="${{ env.APP_SEM_VER }}"
+
+      - name: Execute Packaging Scripts
+        shell: pwsh
+        env:
+          MSI_WIN_UPGRADE_UUID: ${{ secrets.WIX_UPGRADE_UUID }}
+          MSIX_WIN_PY_PACKAGE_NAME: ${{ secrets.MSIX_PACKAGE_NAME }}
+          MSIX_WIN_PY_PUBLISHER_NAME: ${{ secrets.MSIX_PUBLISHER_ID }}
+          MSIX_WIN_PY_PUBLISHER_DISPLAY_NAME: ${{ secrets.MSIX_PUBLISHER_DISPLAY_NAME }}
+        run: |
+          Write-Host "Starting Multi-format Packaging for version ${{ env.APP_VER }}..." -ForegroundColor Magenta
+          
+          "jar", "zip", "exe", "msi", "msix" | ForEach-Object {
+              Write-Host "--> Packaging: $_" -ForegroundColor Cyan
+              ./.build/build.ps1 -Type $_
+          }
+
+      - name: Generate Changelog
+        id: changelog_gen
+        shell: pwsh
+        run: |
+          $jsonPath = "src/main/resources/updates.json"
+          $ver = "${{ env.APP_VER }}"
+          $logFile = "release_body.txt"
+          
+          if (Test-Path $jsonPath) {
+              $updates = Get-Content $jsonPath -Raw | ConvertFrom-Json
+              $entry = $updates."$ver"
+              if ($entry) {
+                  "[$($entry.releaseDate)] $ver`n`n$($entry.description)" | Out-File -FilePath $logFile -Encoding utf8
+                  return
+              }
+          }
+          "Release for version $ver" | Out-File -FilePath $logFile -Encoding utf8
+
+      - name: Publish Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ env.APP_VER }}
+          body_path: release_body.txt
+          draft: false
+          prerelease: ${{ contains(env.APP_VER, '-') }}
+          files: |
+            output/*.jar
+            output/*.zip
+            output/*.exe
+            output/*.msi
+            output/*.msix
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

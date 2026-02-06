@@ -31,10 +31,10 @@ class CustomCursor {
     static {
         try {
             DARK_HELP_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(
-                    ImageIO.read(Objects.requireNonNull(MouseCheckAdapter.class.getResource("/LIGHT_HELP_CURSOR.png")))
+                    ImageIO.read(Objects.requireNonNull(MouseCheckAdapter.class.getResource("/cursors/LIGHT_HELP_CURSOR.png")))
                     , new Point(16, 16), "LightHelpCursor");
             LIGHT_HELP_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(
-                    ImageIO.read(Objects.requireNonNull(MouseCheckAdapter.class.getResource("/DARK_HELP_CURSOR.png")))
+                    ImageIO.read(Objects.requireNonNull(MouseCheckAdapter.class.getResource("/cursors/DARK_HELP_CURSOR.png")))
                     , new Point(16, 16), "DarkHelpCursor");
 
         } catch (IOException e) {

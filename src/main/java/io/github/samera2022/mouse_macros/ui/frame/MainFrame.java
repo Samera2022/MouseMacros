@@ -50,7 +50,7 @@ public class MainFrame extends JFrame{
         Localizer.load(config.lang); // 动态加载语言
         setTitle(Localizer.get("main_frame"));
         setName("main_frame");
-        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/MouseMacros.png"))).getImage());
         boolean enableLangSwitch = true;
         Localizer.setRuntimeSwitch(enableLangSwitch);
         if (config.keyMap != null) {
@@ -202,7 +202,7 @@ public class MainFrame extends JFrame{
             tray = SystemTray.getSystemTray();
         }
         if (trayIcon == null) {
-            Image trayImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage();
+            Image trayImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/MouseMacros.png"))).getImage();
             PopupMenu popupMenu = new PopupMenu();
             MenuItem showItem = new MenuItem(Localizer.get("tray.show_main_menu"));
             MenuItem exitItem = new MenuItem(Localizer.get("tray.exit"));

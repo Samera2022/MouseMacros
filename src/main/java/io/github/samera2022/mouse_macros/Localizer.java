@@ -14,7 +14,7 @@ public class Localizer {
 
     static {
         // 判断是否为开发环境
-        File devLangFile = new File("lang/zh_cn.json");
+        File devLangFile = new File("langs/zh_cn.json");
         isDevMode = devLangFile.exists();
 
         // 自动检测系统语言
@@ -24,8 +24,8 @@ public class Localizer {
         else if (sysLang.startsWith("en")) sysLang = "en_us";
         // 检查本地化文件是否存在，否则用en_us
         if (isDevMode) {
-            File langFile = new File("lang/" + sysLang + ".json");
-            if (!langFile.exists()) langFile = new File("lang/" + sysLang + ".json");
+            File langFile = new File("langs/" + sysLang + ".json");
+            if (!langFile.exists()) langFile = new File("langs/" + sysLang + ".json");
             if (!langFile.exists()) sysLang = "en_us";
         }
         currentLang = sysLang;
@@ -47,11 +47,11 @@ public class Localizer {
     public static void load(String lang) {
         try {
             if (isDevMode) {
-                File file = new File("/lang/" + lang + ".json");
-                if (!file.exists()) file = new File("lang/" + lang + ".json");
+                File file = new File("/langs/" + lang + ".json");
+                if (!file.exists()) file = new File("langs/" + lang + ".json");
                 translations = new Gson().fromJson(new FileReader(file), Map.class);
             } else {
-                String path = "lang/" + lang + ".json";
+                String path = "langs/" + lang + ".json";
                 try (InputStream in = Localizer.class.getClassLoader().getResourceAsStream(path)) {
                     if (in == null) throw new FileNotFoundException(path);
                     InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
@@ -71,13 +71,13 @@ public class Localizer {
         if (!"en_us".equals(currentLang)) {
             try {
                 if (isDevMode) {
-                    File file = new File("lang/en_us.json");
-                    if (!file.exists()) file = new File("lang/en_us.json");
+                    File file = new File("langs/en_us.json");
+                    if (!file.exists()) file = new File("langs/en_us.json");
                     Map<String, String> enMap = new Gson().fromJson(new FileReader(file), Map.class);
                     String enValue = enMap.get(key);
                     if (enValue != null) return enValue;
                 } else {
-                    String path = "lang/en_us.json";
+                    String path = "langs/en_us.json";
                     try (InputStream in = Localizer.class.getClassLoader().getResourceAsStream(path)) {
                         if (in != null) {
                             InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8);

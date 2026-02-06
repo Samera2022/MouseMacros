@@ -79,7 +79,7 @@ public class ConfigManager {
     public static String[] getAvailableLangs() {
         java.util.List<String> langs = new java.util.ArrayList<>();
         if (Localizer.isDevMode()) {
-            String langDir = "lang";
+            String langDir = "langs";
             String[] files = FileUtil.listFileNames(langDir);
             if (files != null) {
                 for (String name : files) {
@@ -91,7 +91,7 @@ public class ConfigManager {
             }
         } else {
             try {
-                java.net.URL dirURL = ConfigManager.class.getClassLoader().getResource("lang/");
+                java.net.URL dirURL = ConfigManager.class.getClassLoader().getResource("langs/");
                 if (dirURL != null && dirURL.getProtocol().equals("jar")) {
                     String rawPath = dirURL.getPath();
                     int sepIdx = rawPath.indexOf("!");
@@ -105,8 +105,8 @@ public class ConfigManager {
                     java.util.Enumeration<java.util.jar.JarEntry> entries = jar.entries();
                     while (entries.hasMoreElements()) {
                         String entry = entries.nextElement().getName();
-                        if (entry.startsWith("lang/") && entry.endsWith(".json")) {
-                            String name = entry.substring("lang/".length(), entry.length() - ".json".length());
+                        if (entry.startsWith("langs/") && entry.endsWith(".json")) {
+                            String name = entry.substring("langs/".length(), entry.length() - ".json".length());
                             langs.add(name);
                         }
                     }

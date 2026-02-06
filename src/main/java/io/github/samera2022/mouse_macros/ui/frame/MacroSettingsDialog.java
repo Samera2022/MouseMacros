@@ -19,7 +19,7 @@ public class MacroSettingsDialog extends JDialog {
     public MacroSettingsDialog() {
         setTitle(Localizer.get("macro_settings"));
         setName("macro_settings");
-        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/MouseMacros.png"))).getImage());
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();

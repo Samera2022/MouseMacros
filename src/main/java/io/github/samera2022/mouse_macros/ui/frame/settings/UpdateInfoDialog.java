@@ -21,7 +21,7 @@ public class UpdateInfoDialog extends JDialog {
     public UpdateInfoDialog() {
         setTitle(Localizer.get("settings.update_info"));
         //不使用cache，因而不进行setName
-        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/MouseMacros.png"))).getImage());
         setModal(true);
         setLayout(new BorderLayout());
 

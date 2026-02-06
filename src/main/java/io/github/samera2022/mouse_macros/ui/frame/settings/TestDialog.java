@@ -17,7 +17,7 @@ public class TestDialog extends JDialog {
     public TestDialog(){
         setTitle(Localizer.get("settings"));
         setName("settings");
-        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/MouseMacros.png"))).getImage());
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();

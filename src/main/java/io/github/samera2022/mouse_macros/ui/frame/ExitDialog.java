@@ -19,7 +19,7 @@ public class ExitDialog extends JDialog {
     public ExitDialog(MainFrame mf) {
         setTitle(Localizer.get("exit"));
         setName("exit");
-        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/MouseMacros.png"))).getImage());
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
