@@ -56,7 +56,7 @@
     "description": "## [Fixed]\n - 修改并补全部分语言的语言文件。\n - 微调ExitDialog的高度补全参数。"
   },
   "1.3.0": {
-    "releaseDate": "2026-02-06 19:04",
+    "releaseDate": "2026-02-06 21:20",
     "description": "## [Changed]\n - 改为使用updates.json维护更新日志。\n - 开始使用Github Action。\n - 改用maven构建。"
   }
 }
