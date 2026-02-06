@@ -110,7 +110,7 @@
 
 如需查看最新的文档，请参考 [Samera2022/MouseMacros | DeepWiki](https://deepwiki.com/Samera2022/MouseMacros) 或点击页面顶部的徽章。该网站每周更新本项目文档，并提供“Refresh this wiki”按钮及邮件输入框，以便在未索引时强制更新。
 
-此外，关于版本命名规范、更新日志维护以及 CI/CD 工作流等内部开发细节，请参考我们的开发 [FAQ](docs/FAQ.md)。
+此外，关于版本命名规范、更新日志维护以及 CI/CD 工作流等内部开发细节，请参考我们的开发 [FAQ](FAQ_ZH_CN.md)。
 
 ## 其他
 
