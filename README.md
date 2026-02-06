@@ -12,6 +12,8 @@
   <img src="https://img.shields.io/badge/License-GPL--3.0-blue.svg" alt="License">
   <img src="https://img.shields.io/github/v/release/Samera2022/MouseMacros" alt="Latest Release">
   <img src="https://img.shields.io/github/v/release/Samera2022/MouseMacros?include_prereleases&label=pre-release&color=orange" alt="Pre-Release">
+  <br>
+  <img src="https://img.shields.io/github/actions/workflow/status/Samera2022/MouseMacros/release.yml?label=CI/CD" alt="Build Status">
   <a href="https://deepwiki.com/Samera2022/MouseMacros"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 </p>
 
