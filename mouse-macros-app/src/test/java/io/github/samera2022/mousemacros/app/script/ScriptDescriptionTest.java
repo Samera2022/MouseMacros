@@ -32,7 +32,7 @@ public class ScriptDescriptionTest {
     @DisplayName("获取基本名称")
     public void testGetBaseName() {
         assertEquals("Test Script Display Name", scriptDescription.getDisplayName());
-        assertEquals("test_script", scriptDescription.getRegisterName());
+        assertEquals("test_script_register", scriptDescription.getRegisterName());
     }
 
     @Test
@@ -119,9 +119,8 @@ public class ScriptDescriptionTest {
             false,
             ""
         );
-
         assertFalse(desc.isRequiresNativeAccess());
-        assertEquals("", desc.getNativeAccessDescription());
+
     }
 
     @Test

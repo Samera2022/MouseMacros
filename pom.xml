@@ -79,17 +79,13 @@
                 <version>${graalvm.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ibm.icu</groupId>
-                <artifactId>icu4j</artifactId>
-                <version>${icu4j.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.formdev</groupId>
                 <artifactId>flatlaf</artifactId>
                 <version>${flatlaf.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 
     <build>
         <pluginManagement>
@@ -142,5 +138,13 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub samera2022 Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/samera2022/MouseMacros</url>
+        </repository>
+    </distributionManagement>
 
 </project>

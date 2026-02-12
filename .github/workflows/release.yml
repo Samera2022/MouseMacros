@@ -61,19 +61,13 @@ jobs:
           "C:\Program Files (x86)\WiX Toolset v3.11\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
           choco install wixtoolset --ignore-checksums -y
           choco install enigmavirtualbox --no-progress --ignore-checksums -y
+          "C:\Program Files (x86)\Enigma Virtual Box" | Out-File -FilePath $env:GITHUB_PATH -Append
 
       - name: Update POM and Build
         shell: pwsh
         run: |
           mvn versions:set "-DnewVersion=${{ env.APP_SERIAL_VERSION }}" -DgenerateBackupPoms=false
           mvn clean package -DskipTests "-Dapp.semantic.version=${{ env.APP_SERIAL_VERSION }}" "-Dapp.display.version=${{ env.APP_DISPLAY_VERSION }}"
-
-      - name: Publish to GitHub Packages
-        shell: pwsh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          mvn deploy -DskipTests -s $env:GITHUB_WORKSPACE/settings.xml
 
       - name: Execute Packaging Scripts
         shell: pwsh
@@ -89,6 +83,13 @@ jobs:
               ./.build/build.ps1 -Type $_
           }
 
+      - name: Publish to GitHub Packages
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mvn deploy -DskipTests -s $env:GITHUB_WORKSPACE/settings.xml
+
       - name: Prepare API Packages for Release
         shell: pwsh
         run: |
@@ -96,34 +97,36 @@ jobs:
           $apiDir = "mouse-macros-api/target"
           $outputDir = "output/api"
           
-          Write-Host "Preparing API packages with friendly names..." -ForegroundColor Cyan
-          New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
-          
-          # Rename API jar files with MouseMacros-API prefix
+          Write-Host "Preparing API packages..." -ForegroundColor Cyan
+          if (-not (Test-Path $outputDir)) { New-Item -ItemType Directory -Path $outputDir -Force }
+            
           Get-ChildItem "$apiDir/mouse-macros-api-*.jar" | ForEach-Object {
-              $fileName = $_.Name
-              if ($fileName -match "mouse-macros-api-(.+?)\.jar$") {
-                  $newName = "MouseMacros-API-$ver.jar"
-                  Copy-Item $_.FullName "$outputDir/$newName"
-                  Write-Host "  ✓ Created: $newName" -ForegroundColor Green
+              $name = $_.Name
+              $target = ""
+            
+              # 1. 优先匹配 sources
+              if ($name -like "*-sources.jar") {
+                $target = "MouseMacros-API-$ver-sources.jar"
               }
-              elseif ($fileName -match "mouse-macros-api-(.+?)-sources\.jar$") {
-                  $newName = "MouseMacros-API-$ver-sources.jar"
-                  Copy-Item $_.FullName "$outputDir/$newName"
-                  Write-Host "  ✓ Created: $newName" -ForegroundColor Green
+              # 2. 匹配 javadoc
+              elseif ($name -like "*-javadoc.jar") {
+                  $target = "MouseMacros-API-$ver-javadoc.jar"
               }
-              elseif ($fileName -match "mouse-macros-api-(.+?)-javadoc\.jar$") {
-                  $newName = "MouseMacros-API-$ver-javadoc.jar"
-                  Copy-Item $_.FullName "$outputDir/$newName"
-                  Write-Host "  ✓ Created: $newName" -ForegroundColor Green
+              # 3. 最后匹配主二进制包 (排除上面两个后缀)
+              elseif ($name -match "mouse-macros-api-[\d\.]+\.jar$") {
+                  $target = "MouseMacros-API-$ver.jar"
+              }
+            
+              if ($target -ne "") {
+                  Copy-Item $_.FullName "$outputDir/$target" -Force
+                  Write-Host "  [DONE] $name -> $target" -ForegroundColor Green
               }
           }
-
       - name: Generate Changelog
         id: changelog_gen
         shell: pwsh
         run: |
-          $jsonPath = "src/main/resources/updates.json"
+          $jsonPath = "mouse-macros-app/src/main/resources/io/github/samera2022/mousemacros/app/updates.json"
           $ver = "${{ env.APP_DISPLAY_VERSION }}"
           $logFile = "release_body.txt"
           
@@ -150,7 +153,6 @@ jobs:
             output/*.zip
             output/*.exe
             output/*.msi
-            output/*.msix
             output/api/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

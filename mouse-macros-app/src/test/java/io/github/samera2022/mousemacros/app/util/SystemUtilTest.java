@@ -94,7 +94,6 @@ public class SystemUtilTest {
         // 非Windows系统应该返回false
         boolean isDarkMode = SystemUtil.isSystemDarkMode();
         // 就是检查它不抛异常并返回boolean
-        assertFalse(isDarkMode || !isDarkMode); // 这总是false，但用来检查类型
         assertTrue(isDarkMode == true || isDarkMode == false);
     }
 

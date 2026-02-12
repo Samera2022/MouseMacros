@@ -269,6 +269,7 @@ public class ScriptManager {
                     .allowEnvironmentAccess(EnvironmentAccess.INHERIT)
                     .allowNativeAccess(grantNativeAccess)
                     .option("engine.WarnInterpreterOnly", "false")
+                    .option("js.icu-data", "false")
                     .build();
             scriptContexts.put(script, context);
             loadScriptContext(script, context);

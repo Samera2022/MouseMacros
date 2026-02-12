@@ -1,4 +1,4 @@
-param ([string]$TagName = "1.3.0")
+param ([string]$TagName = "2.0.0")
 
 if ($TagName -eq "") {
     $TagName = git describe --tags --abbrev=0

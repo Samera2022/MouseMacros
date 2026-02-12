@@ -86,7 +86,11 @@ switch ($Type) {
         $newCfgPath = "$APP_DIR\$newCfgName"
         $EVB_TEMPLATE = "$PROJECT_ROOT\.build\evb_settings.evb"
         $TEMP_EVB = "$PROJECT_ROOT\.build\temp_build.evb"
-        $EVB_CONSOLE = "C:\Program Files (x86)\Enigma Virtual Box\enigmavbconsole.exe"
+        # Try to find Enigma Virtual Box Console
+        $EVB_CONSOLE = "enigmavbconsole.exe"
+        if (-not (Get-Command $EVB_CONSOLE -ErrorAction SilentlyContinue)) {
+             $EVB_CONSOLE = "C:\Program Files (x86)\Enigma Virtual Box\enigmavbconsole.exe"
+        }
 
         if (Test-Path "$APP_DIR\${BaseName}.cfg") {
             Move-Item -Path "$APP_DIR\${BaseName}.cfg" -Destination $newCfgPath -Force
@@ -103,10 +107,13 @@ switch ($Type) {
             $evbContent = $evbContent -replace "$BaseName.cfg", "$newCfgName"
             $evbContent | Set-Content $TEMP_EVB -Encoding UTF8
 
-            if (Test-Path $EVB_CONSOLE) {
+            if ((Get-Command $EVB_CONSOLE -ErrorAction SilentlyContinue) -or (Test-Path $EVB_CONSOLE)) {
+                Write-Host "[EXE] Step 2: Packing with Enigma Virtual Box..." -ForegroundColor Cyan
                 Push-Location "$PROJECT_ROOT\.build"
                 & $EVB_CONSOLE "temp_build.evb"
                 Pop-Location
+            } else {
+                Write-Host "[ERROR] Enigma Virtual Box Console not found at '$EVB_CONSOLE' or in PATH. Skipping EXE packing." -ForegroundColor Red
             }
             Remove-Item $TEMP_EVB -ErrorAction SilentlyContinue
         }

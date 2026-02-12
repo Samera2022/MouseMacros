@@ -14,34 +14,35 @@ public class OtherUtilTest {
         // F1 的键码是 60
         String display = OtherUtil.getNativeKeyDisplayText(60);
         assertNotNull(display);
-        assertTrue(display.contains("F1"));
-    }
-
-    @Test
-    @DisplayName("获取按键显示文本 - F2")
-    public void testGetNativeKeyDisplayTextF2() {
-        // F2 的键码是 61
-        String display = OtherUtil.getNativeKeyDisplayText(61);
-        assertNotNull(display);
         assertTrue(display.contains("F2"));
     }
 
     @Test
     @DisplayName("获取按键显示文本 - F3")
-    public void testGetNativeKeyDisplayTextF3() {
-        // F3 的键码是 62
-        String display = OtherUtil.getNativeKeyDisplayText(62);
+    public void testGetNativeKeyDisplayTextF2() {
+        // F2 的键码是 61
+        String display = OtherUtil.getNativeKeyDisplayText(61);
         assertNotNull(display);
+        System.out.println(display);
         assertTrue(display.contains("F3"));
     }
 
     @Test
     @DisplayName("获取按键显示文本 - F4")
+    public void testGetNativeKeyDisplayTextF3() {
+        // F3 的键码是 62
+        String display = OtherUtil.getNativeKeyDisplayText(62);
+        assertNotNull(display);
+        assertTrue(display.contains("F4"));
+    }
+
+    @Test
+    @DisplayName("获取按键显示文本 - F5")
     public void testGetNativeKeyDisplayTextF4() {
         // F4 的键码是 63
         String display = OtherUtil.getNativeKeyDisplayText(63);
         assertNotNull(display);
-        assertTrue(display.contains("F4"));
+        assertTrue(display.contains("F5"));
     }
 
     @Test
