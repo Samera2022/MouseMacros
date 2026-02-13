@@ -1,6 +1,8 @@
-package io.github.samera2022.mouse_macros;
+package io.github.samera2022.mouse_macros.manager;
 
 import com.google.gson.Gson;
+import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +13,8 @@ public class ConfigManager {
     private static final String CONFIG_DIR = "D" + System.getProperty("user.home").substring(1).replace('\\','/') + "/AppData/MouseMacros/";
     private static final String CONFIG_PATH = CONFIG_DIR + "config.cfg";
     private static final Gson gson = new Gson();
-    static {
-        System.out.println(CONFIG_DIR);
-    }
+    public static Config config = loadConfig();
+
     public static class Config {
         public boolean followSystemSettings = true;
         public String lang = "zh_cn";
