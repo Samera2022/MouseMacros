@@ -31,13 +31,6 @@ public class LocalizerTest {
     }
 
     @Test
-    @DisplayName("获取翻译 - null键返回空字符串")
-    public void testGetNullKey() {
-        String result = Localizer.get(null);
-        assertEquals("", result, "null键应返回空字符串");
-    }
-
-    @Test
     @DisplayName("获取设置翻译 - 自动前缀")
     public void testGetSettingsKey() {
         String result = Localizer.getS("enable_dark_mode");

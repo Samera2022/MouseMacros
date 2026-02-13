@@ -20,22 +20,11 @@ public class ScriptManager {
     public static String SCRIPT_PATH;
 
     static {
-        if (isDevMode()) {
-            String projectRoot = System.getProperty("user.dir");
-            SCRIPT_PATH = java.nio.file.Paths.get(projectRoot, "mouse-macros-api", "src", "test", "resources", "scripts").toString();
-            System.out.println("Development mode detected. Loading scripts from: " + SCRIPT_PATH);
-        } else {
-            SCRIPT_PATH = ConfigManager.CONFIG_DIR + "/scripts/";
-        }
+        SCRIPT_PATH = ConfigManager.CONFIG_DIR + "/scripts/";
         File dir = new File(SCRIPT_PATH);
         if (!dir.exists() && !dir.mkdirs()) {
             System.err.println("Failed to create script directory: " + SCRIPT_PATH);
         }
-    }
-
-    private static boolean isDevMode() {
-        URL resource = ScriptManager.class.getResource("ScriptManager.class");
-        return resource != null && resource.getProtocol().equals("file");
     }
 
     public static synchronized void loadAndProcessScripts() {
@@ -165,7 +154,9 @@ public class ScriptManager {
         String[] softDependencies = new String[0];
         String[] hardDependencies = new String[0];
 
-        try (Context tempContext = Context.create("js")) {
+        try (Context tempContext = Context.newBuilder("js")
+                .option("engine.WarnInterpreterOnly", "false")
+                .build()) {
             Source source = Source.newBuilder("js", scriptFile).build();
             try {
                 tempContext.eval(source);
@@ -269,7 +260,6 @@ public class ScriptManager {
                     .allowEnvironmentAccess(EnvironmentAccess.INHERIT)
                     .allowNativeAccess(grantNativeAccess)
                     .option("engine.WarnInterpreterOnly", "false")
-                    .option("js.icu-data", "false")
                     .build();
             scriptContexts.put(script, context);
             loadScriptContext(script, context);

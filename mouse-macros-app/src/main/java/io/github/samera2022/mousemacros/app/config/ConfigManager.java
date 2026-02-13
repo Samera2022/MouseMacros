@@ -10,15 +10,11 @@ import io.github.samera2022.mousemacros.app.util.FileUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.*;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -180,10 +176,23 @@ public class ConfigManager {
     public static String[] getAvailableLangs() {
         List<String> langs = new ArrayList<>();
         try {
-            URL resource = Localizer.class.getResource(OtherConsts.RELATIVE_PATH + "langs/");
+            String resPath = OtherConsts.RELATIVE_PATH + "langs/";
+            URL resource = Localizer.class.getResource(resPath);
             if (resource != null) {
-                Path path = Paths.get(resource.toURI());
-                try (Stream<Path> paths = Files.walk(path, 1)) {
+                URI uri = resource.toURI();
+                Path myPath;
+                if (uri.getScheme().equals("jar")) {
+                    FileSystem fileSystem;
+                    try {
+                        fileSystem = FileSystems.getFileSystem(uri);
+                    } catch (FileSystemNotFoundException e) {
+                        fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
+                    }
+                    myPath = fileSystem.getPath(resPath);
+                } else {
+                    myPath = Paths.get(uri);
+                }
+                try (Stream<Path> paths = Files.walk(myPath, 1)) {
                     langs = paths
                             .filter(Files::isRegularFile)
                             .map(p -> p.getFileName().toString())
