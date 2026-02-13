@@ -79,14 +79,24 @@ public class ExitDialog extends JDialog {
         ComponentUtil.adjustFrameWithCache(this, 70, new JComponent[]{titleLabel}, new JComponent[]{exitOnCloseRadio, minimizeToTrayRadio}, new JComponent[]{rememberLabel, rememberOptionBox}, new JComponent[]{finishButton});
 
         finishButton.addActionListener(e -> {
-            String op = exitOnCloseRadio.isSelected() ? CacheManager.EXIT_ON_CLOSE : CacheManager.MINIMIZE_TO_TRAY;
+            String op = "";
+            if (exitOnCloseRadio.isSelected()) op = CacheManager.EXIT_ON_CLOSE;
+            if (minimizeToTrayRadio.isSelected()) op = CacheManager.MINIMIZE_TO_TRAY;
             if (rememberOptionBox.isSelected()) {
                 CacheManager.cache.defaultCloseOperation = op;
                 CacheManager.saveCache();
             }
-            dispose();
-            if (CacheManager.EXIT_ON_CLOSE.equals(op)) System.exit(0);
-            else mf.minimizeToTray();
+            switch (op) {
+                case CacheManager.EXIT_ON_CLOSE:
+                    System.exit(0);
+                    break;
+                case CacheManager.MINIMIZE_TO_TRAY:
+                    mf.minimizeToTray();
+                    break;
+                default:
+                    dispose();
+                    break;
+            }
         });
         addWindowListener(new WindowClosingAdapter());
     }

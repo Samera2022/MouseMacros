@@ -17,10 +17,10 @@ public enum UpdateInfo {
                     " - 添加设置界面\n" +
                     " - 添加\"关于作者\"功能按钮\n" +
                     " - 添加\"更新日志\"功能按钮\n\n" +
-                    "##[Changed]\n" +
+                    "## [Changed]\n" +
                     " - 将自定义热键功能移入\"设置\"界面\n\n" +
                     "## [Detailed]\n" +
-                    "# 关于配置文件功能\n" +
+                    "### 关于配置文件功能\n" +
                     "目前已添加以下可配置项：\n" +
                     "(boolean)跟随系统设置，(boolean)启用深色模式，(String)切换语言，(String)默认鼠标宏存储地址，[未实装，不可用](Map<String,String>)按键映射表，\n" +
                     "注意：\"跟随系统设置\"与(\"启用深色模式\", \"切换语言\")存在上位关系。如果选择了\"跟随系统设置\"，那么后二者就不再接受用户更改，直接读取系统的相应设置。"),
@@ -104,7 +104,11 @@ public enum UpdateInfo {
                     "## [Changed]\n" +
                     " - 修正了打包逻辑，在该版本之前打包的exe应当全部改名为MouseMacros.exe才能正常运行。\n" +
                     " - 修改exe的文件名会导致无法找到启动文件……因此不建议修改发布时的程序名。\n" +
-                    " - 修改了SettingsDialog的主界面，使其更加有条理。\n\n");
+                    " - 修改了SettingsDialog的主界面，使其更加有条理。\n\n"),
+    VERSION_1_2_1("1.2.1","2026-01-04 15:45",
+            "## [Fixed]\n" +
+                    " - 修正了ExitDialog的退出逻辑，使得不选单选框直接点结束时会直接销毁ExitDialog窗体。\n" +
+                    " - 修正打包逻辑，1.2.0的打包结果实际上是1.2.0-26m01a的结果）））");
     private final String version;
     private final String releaseDate;
     private final String description;
@@ -144,6 +148,6 @@ public enum UpdateInfo {
     }
 
     public static void main(String[] args) {
-        System.out.println(VERSION_1_2_0_26m01a.getFormattedLog());
+        System.out.println(VERSION_1_2_1.getFormattedLog());
     }
 }
