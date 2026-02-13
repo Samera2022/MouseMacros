@@ -43,6 +43,7 @@
 * **持久化**：宏以 `.mmc` (CSV 格式) 文件保存，方便分享和手动编辑。
 * **智能记忆**：自动记住窗口大小、上次使用的目录以及跨会话的自定义配置。
 * **悬浮提示**：在光标附近显示实用的操作说明和提示，方便操作。
+* **强大的脚本引擎**：通过 JavaScript 扩展功能，实现自定义逻辑、事件处理等。
 
 ## 安全性与二进制完整性
 为了确保 Windows 二进制文件的安全性和真实性，MouseMacros 目前正在接入 SignPath Foundation 以获取免费的代码签名。
@@ -84,6 +85,7 @@
 |:-------------|:------------------------------------------------------------------------|
 | `config.cfg` | 存储 UI 语言、主题模式、按键映射和默认存储路径。 |
 | `cache.json` | 存储最近的文件路径和窗口尺寸。 |
+| `white_list.json` | 存储用户批准的、需要原生访问权限的脚本和作者。 |
 
 ### 设置对话框选项
 | 名称 | 键名 | 描述 |
@@ -104,13 +106,107 @@
 | 执行重复次数 | `repeatTime`(int) | 若启用，应用将按给定次数自动重复执行宏。 |
 | 重复延迟 (秒) | `repeatDelay`(double) | 若启用，应用将在下次执行前推迟给定时间。最高支持三位小数（精确到毫秒）。 |
 
+## 🔌 通过脚本扩展
+
+MouseMacros 拥有一个由 GraalVM 驱动的强大脚本系统，允许您使用 JavaScript 来扩展其功能。您可以监听应用程序事件、与核心功能交互以及创建自定义逻辑。
+
+### 工作原理
+
+1.  **创建脚本**：编写一个 `.js` 文件，并将其放入您的 MouseMacros 配置目录下的 `scripts` 文件夹中 (`%USERPROFILE%/AppData/MouseMacros/scripts`)。
+2.  **定义元数据**：在脚本顶部，定义全局变量以提供元数据。这对于应用程序正确管理您的脚本至关重要。
+
+    ```javascript
+    // ==UserScript==
+    var display_name = "我的超棒脚本";
+    var register_name = "my_awesome_script"; // 一个唯一的、小写蛇形命名的标识符
+    var author = "你的名字"; // 仅支持单一作者
+    var version = "1.0.0";
+    var description = "这个脚本能做一些很棒的事。";
+    var available_version = "2.0.0~2.1.*"; // 兼容的 MouseMacros 版本，支持通配符写法和区间写法
+    var hard_dependencies = ["another_script_name"]; // 必须启用的脚本
+    var soft_dependencies = []; // 可选脚本
+    var requireNativeAccess = false; // 如果需要高级（更高权限）的功能，则需将其设置为true
+    var requireNativeAccessDescription = "..."; // 向用户解释为什么该脚本需要高级权限
+    // ==/UserScript==
+    ```
+
+3.  **编写代码**：使用全局 `mm` 对象与应用程序进行交互。
+
+### 安全性与原生访问
+
+为安全起见，脚本在权限有限的沙箱环境中运行。但是，某些脚本可能需要“原生访问”权限来执行高级任务（例如，文件 I/O、运行外部进程）。
+
+-   **请求访问**：要请求原生访问权限，请将以下元数据添加到您的脚本中：
+    ```javascript
+    var requireNativeAccess = true;
+    var requireNativeAccessDescription = "此脚本需要读/写文件才能正常工作。";
+    ```
+-   **用户批准**：当首次加载需要原生访问权限的脚本时，它**默认是禁用的**。用户必须通过 `设置 > 脚本管理器` 手动启用它，届时会显示一个安全警告。
+-   **白名单**：批准后，用户可以选择将特定脚本或脚本作者加入白名单，该信息记录在 `white_list.json` 中。已加入白名单的脚本/作者将来会自动获得原生访问权限。
+
+### 脚本 API 快速参考
+
+API 通过全局 `mm` 对象公开。
+
+#### `mm` 对象
+
+| 方法 | 描述 |
+| :----------------------------------- | :------------------------------------------------------------------------------------------------------ |
+| `on(eventClassName, callback)` | 为特定应用程序事件注册一个监听器。第一个参数是事件的完整 Java 类名。 |
+| `log(message)` | 将消息打印到应用程序的日志控制台。 |
+| `getContext()` | 返回 `ScriptContext` 对象以进行更高级的交互。 |
+| `cleanup()` | 注销脚本创建的所有事件监听器。在脚本被禁用时自动调用。 |
+
+#### `mm.getContext()` 对象
+
+| 方法 | 描述 |
+| :------------------ | :----------------------------------------------------------------------- |
+| `simulate(action)` | 模拟一个鼠标动作。（尚未完全实现） |
+| `getPixelColor(x,y)`| 获取指定屏幕坐标处像素的颜色。（尚未完全实现） |
+| `showToast(t, m)` | 显示一个浮动通知。（尚未完全实现） |
+| `getAppConfig()` | 返回一个 `IConfig` 对象以读取应用程序设置（`getBoolean`、`getInt`、`getString` 等）。 |
+
+### 示例脚本
+
+此脚本在应用程序启动和宏开始录制时向控制台记录一条消息。
+
+```javascript
+// ==UserScript==
+var display_name = "你好世界脚本";
+var register_name = "hello_world";
+var author = "脚本开发者";
+var version = "1.0.0";
+var description = "一个简单的示例脚本。";
+var available_version = "*"; // 兼容所有版本
+// ==/UserScript==
+
+// 监听应用程序启动事件
+mm.on('io.github.samera2022.mousemacros.api.event.events.OnAppLaunchedEvent', function(event) {
+    mm.log("来自'你好世界脚本'的问候！");
+    mm.log("应用版本: " + event.getAppVersion());
+});
+
+// 监听录制开始前的事件
+mm.on('io.github.samera2022.mousemacros.api.event.events.BeforeRecordStartEvent', function(event) {
+    mm.log("录制即将在 " + event.getStartTime() + " 开始");
+});
+```
+
 ## 开发文档
 
-由 DeepWiki 生成的详细文档可在 [GitHub Wiki](https://github.com/Samera2022/MouseMacros/wiki) 查看。由于该文档是由作者从 DeepWiki 手动汇编的，可能存在滞后性。
+### 本地文档
 
-如需查看最新的文档，请参考 [Samera2022/MouseMacros | DeepWiki](https://deepwiki.com/Samera2022/MouseMacros) 或点击页面顶部的徽章。该网站每周更新本项目文档，并提供“Refresh this wiki”按钮及邮件输入框，以便在未索引时强制更新。
+有关深入信息，请参阅以下本地文档：
 
-此外，关于版本命名规范、更新日志维护以及 CI/CD 工作流等内部开发细节，请参考我们的开发 [FAQ](FAQ_ZH_CN.md)。
+*   [脚本开发指南](./SCRIPT_DEVELOPMENT_GUIDE.md) - 编写和管理 JavaScript 脚本的综合指南。
+*   [扩展 API 参考](./EXTENDED_API_REFERENCE.md) - MouseMacros API 的详细参考。
+*   [API 分析报告](./API_ANALYSIS_REPORT.md) - 关于 API 设计和实现的见解。
+*   [开发 FAQ](./FAQ_ZH_CN.md) - 关于开发、版本控制和 CI/CD 的常见问题解答。
+
+### 外部资源
+
+*   由 DeepWiki 生成的详细文档可在 [GitHub Wiki](https://github.com/Samera2022/MouseMacros/wiki) 查看。由于该文档是由作者从 DeepWiki 手动汇编的，可能存在滞后性。
+*   如需查看最新的文档，请参考 [Samera2022/MouseMacros | DeepWiki](https://deepwiki.com/Samera2022/MouseMacros) 或点击页面顶部的徽章。该网站每周更新本项目文档，并提供“Refresh this wiki”按钮及邮件输入框，以便在未索引时强制更新。
 
 ## 其他
 

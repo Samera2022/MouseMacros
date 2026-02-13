@@ -43,6 +43,7 @@
 * **Persistence**: Macros are saved as `.mmc` (CSV-formatted) files, allowing for easy sharing and manual editing.
 * **Smart Memory**: Remembers window sizes, last-used directories, and custom configurations across sessions.
 * **Floating Tooltip**: Shows helpful instructions and tips near the cursor for easier operation.
+* **Powerful Scripting Engine**: Extend functionality with JavaScript for custom logic, event handling, and more.
 
 ## Security & Binary Integrity
 To ensure the safety and authenticity of our Windows binaries, MouseMacros is currently integrating with SignPath Foundation for free code signing.
@@ -85,6 +86,7 @@ The application stores settings in the user's AppData directory:
 |:-------------|:------------------------------------------------------------------------|
 | `config.cfg` | Stores UI language, theme mode, key mappings, and default storage path. |
 | `cache.json` | Stores recent file paths and window dimensions.                         |
+| `white_list.json` | Stores user-approved scripts and authors that require native access. |
 
 ### Settings Dialog Options
 | Name                             | Key                             | Description                                                                                                                                                                                                                                                                                                                           |
@@ -105,13 +107,107 @@ The application stores settings in the user's AppData directory:
 | Execution Repeat Times           | `repeatTime`(int)                    | If `enableCustomMacroSettings` is true, MouseMacros will automatically repeat your Macro at the given times.                                                   |
 | Repeat Delay (s)                 | `repeatDelay`(double)                | If `enableCustomMacroSettings` is true, MouseMacros will postpone given time before the next execution. Supports three decimal places(to millisecond) at most. |
 
+## 🔌 Extensibility via Scripting
+
+MouseMacros features a powerful scripting system powered by GraalVM, allowing you to extend its functionality using JavaScript. You can listen to application events, interact with the core features, and create custom logic.
+
+### How It Works
+
+1.  **Create a Script**: Write a `.js` file and place it in the `scripts` folder inside your MouseMacros configuration directory (`%USERPROFILE%/AppData/MouseMacros/scripts`).
+2.  **Define Metadata**: At the top of your script, define global variables to provide metadata. This is crucial for the application to manage your script correctly.
+
+    ```javascript
+    // ==UserScript==
+    var display_name = "My Awesome Script";
+    var register_name = "my_awesome_script"; // A unique, lowercase, snake_case identifier
+    var author = "YourName"; // Single author only.
+    var version = "1.0.0";
+    var description = "This script does awesome things.";
+    var available_version = "2.0.0~2.1.*"; // The compatible version of MouseMacros, supports wildcard syntax and range syntax.
+    var hard_dependencies = ["another_script_name"]; // Scripts that MUST be enabled
+    var soft_dependencies = []; // Optional scripts
+    var requireNativeAccess = false; // For advanced (potential danger) functions, you have to to enable it.
+    var requireNativeAccessDescription = "..."; // Your explanation for requesting Native Access. This will be displayed on warning frame. 
+    // ==/UserScript==
+    ```
+
+3.  **Write Your Code**: Use the global `mm` object to interact with the application.
+
+### Security and Native Access
+
+For security, scripts run in a sandboxed environment with limited permissions. However, some scripts may require "native access" to perform advanced tasks (e.g., file I/O, running external processes).
+
+-   **Requesting Access**: To request native access, add the following metadata to your script:
+    ```javascript
+    var requireNativeAccess = true;
+    var requireNativeAccessDescription = "This script needs to read/write files to function.";
+    ```
+-   **User Approval**: When a script requiring native access is first loaded, it is **disabled by default**. The user must manually enable it through the `Settings > Scripts Manager`, where they will be shown a security warning.
+-   **Whitelisting**: Upon approval, the user can choose to whitelist the specific script or the script's author, which is recorded in `white_list.json`. Whitelisted scripts/authors are automatically granted native access in the future.
+
+### Script API Quick Reference
+
+The API is exposed through the global `mm` object.
+
+#### `mm` Object
+
+| Method                               | Description                                                                                             |
+| :----------------------------------- | :------------------------------------------------------------------------------------------------------ |
+| `on(eventClassName, callback)`       | Registers a listener for a specific application event. The first argument is the full Java class name of the event. |
+| `log(message)`                       | Prints a message to the application's log console.                                                      |
+| `getContext()`                       | Returns the `ScriptContext` object for more advanced interactions.                                      |
+| `cleanup()`                          | Unregisters all event listeners created by the script. This is called automatically when the script is disabled. |
+
+#### `mm.getContext()` Object
+
+| Method              | Description                                                              |
+| :------------------ | :----------------------------------------------------------------------- |
+| `simulate(action)`  | Simulates a mouse action. (Not yet fully implemented)                    |
+| `getPixelColor(x,y)`| Gets the color of a pixel at the specified screen coordinates. (Not yet fully implemented) |
+| `showToast(t, m)`   | Displays a toast notification. (Not yet fully implemented)               |
+| `getAppConfig()`    | Returns an `IConfig` object to read application settings (`getBoolean`, `getInt`, `getString`, etc.). |
+
+### Example Script
+
+This script logs a message to the console when the application starts and when a macro begins recording.
+
+```javascript
+// ==UserScript==
+var display_name = "Hello World Script";
+var register_name = "hello_world";
+var author = "ScriptDeveloper";
+var version = "1.0.0";
+var description = "A simple example script.";
+var available_version = "*"; // Compatible with all versions
+// ==/UserScript==
+
+// Listen for the application launch event
+mm.on('io.github.samera2022.mousemacros.api.event.events.OnAppLaunchedEvent', function(event) {
+    mm.log("Hello from 'Hello World Script'!");
+    mm.log("App Version: " + event.getAppVersion());
+});
+
+// Listen for the event fired just before recording starts
+mm.on('io.github.samera2022.mousemacros.api.event.events.BeforeRecordStartEvent', function(event) {
+    mm.log("Recording is about to start at " + event.getStartTime());
+});
+```
+
 ## Development Document
 
-Detailed docs generated by DeepWiki is presented in [GitHub Wiki](https://github.com/Samera2022/MouseMacros/wiki). Notably, it may be outdated, since it was manually compiled by the author from DeepWiki.
+### Local Documentation
 
-For more up-to-date documents, you can refer to [Samera2022/MouseMacros | DeepWiki](https://deepwiki.com/Samera2022/MouseMacros) or just click the badge at the top of the article. The website weekly updates this project's docs and provides a "Refresh this wiki" with "Enter email to refresh" button to force update the docs if it hasn't indexed yet.
+For in-depth information, refer to the following local documents:
 
-Additionally, for internal development details such as versioning conventions, changelog maintenance, and CI/CD workflows, please refer to our Development [FAQ](docs/en/FAQ_EN.md).
+*   [Script Development Guide](docs/en/SCRIPT_DEVELOPMENT_GUIDE.md) - Comprehensive guide for writing and managing JavaScript scripts.
+*   [Extended API Reference](docs/en/EXTENDED_API_REFERENCE.md) - Detailed reference for the MouseMacros API.
+*   [API Analysis Report](docs/en/API_ANALYSIS_REPORT.md) - Insights into the API design and implementation.
+*   [Development FAQ](docs/en/FAQ_EN.md) - Answers to frequently asked questions about development, versioning, and CI/CD.
+
+### External Resources
+
+*   Detailed docs generated by DeepWiki is presented in [GitHub Wiki](https://github.com/Samera2022/MouseMacros/wiki). Notably, it may be outdated, since it was manually compiled by the author from DeepWiki.
+*   For more up-to-date documents, you can refer to [Samera2022/MouseMacros | DeepWiki](https://deepwiki.com/Samera2022/MouseMacros) or just click the badge at the top of the article. The website weekly updates this project's docs and provides a "Refresh this wiki" with "Enter email to refresh" button to force update the docs if it hasn't indexed yet.
 
 ## Others
 

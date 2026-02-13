@@ -26,6 +26,7 @@ MouseMacros supports JavaScript scripting through GraalVM's Polyglot engine. Scr
 - Capture screen pixel colors
 - Display notifications to users
 - Depend on other scripts with full dependency management
+- With user permission, gain native access to perform advanced tasks
 
 ## Script Structure
 
@@ -40,72 +41,44 @@ Every script must have:
 ```javascript
 const registry_name = 'my_script';
 const display_name = 'My Script';
-const version = '1.0';
+const version = '1.0.0';
 const author = 'Your Name';
 const description = 'What my script does';
-const available_version = '1.0';
+const available_version = '1.0.0~2.3.*';
+const requireNativeAccess = false; // Optional.
+const requireNativeAccessDescription = "..." // Optional. this string will be displayed on the warning frame.
+const soft_dependencies = []; // Optional.
+const hard_dependencies = []; // Optional.
 
 // Optional: Register event listeners
 mm.on('io.github.samera2022.mousemacros.api.event.events.OnAppLaunchedEvent', (event) => {
-    mm.log('Script initialized!');
+    mm.log('My script has been initialized!');
 });
 ```
 
 ## Metadata Declaration
 
-All scripts must declare the following metadata at the top of the file:
+All scripts must declare metadata as global variables at the top of the file.
 
 ### Required Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `registry_name` | string | Unique identifier for your script. Used for dependencies and internal references. Must be unique across all scripts. |
 | `display_name` | string | Human-readable name shown in the UI. |
+| `register_name` | string | Unique identifier for your script. Used for dependencies and internal references. Must be unique across all scripts. |
+| `author` | string | Your name or nickname. |
 | `version` | string | Current version of your script (semantic versioning recommended). |
-| `author` | string | Author name. |
-| `description` | string | Brief description of what the script does. |
-| `available_version` | string | Latest available version from your distribution source. |
+| `description` | string | Brief description of what the script does, shown in the Scripts Manager. |
+| `available_version` | string | The version of MouseMacros this script is compatible with (e.g., "2.0.0", "2.x", "1.0.0 ~ 2.0.0"). Use "*" for all versions. |
 
 ### Optional Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `soft_dependencies` | string[] | Array of script names that enhance functionality but aren't required. Missing soft dependencies won't prevent the script from running. |
-| `hard_dependencies` | string[] | Array of script names that are required. If any hard dependency is missing, the script won't work properly. |
-| `requires_native_access` | boolean | Set to `true` if your script needs native system access. Requires explicit user approval. |
-| `native_access_description` | string | Explanation of why native access is needed. Shown to users when they enable the script. |
-
-### Metadata Examples
-
-```javascript
-// Basic script
-const registry_name = 'simple_script';
-const display_name = 'Simple Script';
-const version = '1.0.0';
-const author = 'John Doe';
-const description = 'A simple script that logs events';
-const available_version = '1.0.0';
-
-// Script with dependencies
-const registry_name = 'advanced_script';
-const display_name = 'Advanced Script';
-const version = '1.0.0';
-const author = 'Jane Smith';
-const description = 'Script that depends on other scripts';
-const available_version = '1.0.0';
-const soft_dependencies = ['helper_script'];
-const hard_dependencies = ['core_dependency'];
-
-// Script requiring native access
-const registry_name = 'system_script';
-const display_name = 'System Integration Script';
-const version = '1.0.0';
-const author = 'Admin';
-const description = 'Interacts with system APIs';
-const available_version = '1.0.0';
-const requires_native_access = true;
-const native_access_description = 'Needs access to system APIs for advanced features';
-```
+| `soft_dependencies` | string[] | Array of `register_name`s for scripts that enhance functionality but aren't required. |
+| `hard_dependencies` | string[] | Array of `register_name`s for scripts that are required. The script will be disabled if these are missing. |
+| `requireNativeAccess` | boolean | Set to `true` if your script needs native system access. **Requires explicit user approval.** |
+| `nativeAccessDescription` | string | A clear explanation of why native access is needed. This is shown to the user in the security prompt. |
 
 ## Script API Reference
 
