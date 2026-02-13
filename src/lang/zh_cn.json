@@ -21,12 +21,24 @@
   "settings.update_info.select_version": "选择版本",
   "settings.save_settings": "保存并应用所有配置",
   "settings.enable_quick_mode": "启用快速模式",
+  "settings.allow_long_str": "允许长悬浮说明不换行显示",
+
+  "settings.switch_lang.disabled.tooltip": "欲编辑此选项，首先需要禁用跟随系统设置。",
+  "settings.enable_dark_mode.disabled.tooltip": "欲编辑此选项，首先需要禁用跟随系统设置。",
+  "settings.default_mmc_storage_path.disabled.tooltip": "欲编辑此路径，首先需要启用默认存储模式。",
+  "settings.default_mmc_storage_path.tooltip": "该路径为保存/加载宏的默认文件夹打开路径，启用后将禁用cache的路径记忆功能。",
+  "settings.enable_quick_mode.tooltip": "MouseMacros在此模式下只按照鼠标和键盘操作的先后顺序进行复现，忽略中间所有停顿时间。",
+  "settings.allow_long_str.tooltip": "启用后，MouseMacros将尝试把长的悬浮说明不换行地显示。",
 
   "macro_settings": "宏设置",
   "macro_settings.enable_custom_macro_settings": "启用自定义宏",
   "macro_settings.repeat_times": "重复执行次数",
   "macro_settings.repeat_delay": "重复执行延迟(秒)",
   "macro_settings.save_settings": "保存并应用所有宏配置",
+
+  "macro_settings.repeat_times.disabled.tooltip": "欲编辑此选项，首先需要启用自定义宏。",
+  "macro_settings.repeat_delay.tooltip": "下一次重复执行的所需要等待的时长，最高支持三位小数（具体至毫秒）",
+  "macro_settings.repeat_delay.disabled.tooltip": "欲编辑此选项，首先需要启用自定义宏。",
 
   "log.start_recording": "开始录制...",
   "log.recording_mouse_pressed": "记录：鼠标按下",

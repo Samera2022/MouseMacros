@@ -31,13 +31,14 @@ public class ConfigManager {
         public boolean enableDefaultStorage = false;
         public String defaultMmcStoragePath = "";
         public boolean enableQuickMode = false;
+        public boolean allowLongStr = false;
         public Map<String, String> keyMap = new HashMap<>();
         public boolean enableCustomMacroSettings = false;
         public int repeatTime = 1;
         public double repeatDelay = 0;
     }
 
-    public static void reloadConfig(){config = loadConfig();}
+    public static void reloadConfig(){ config = loadConfig(); }
 
     // 读取配置文件，若不存在则返回默认配置
     public static Config loadConfig() {

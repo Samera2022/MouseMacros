@@ -21,12 +21,22 @@
   "settings.update_info.select_version": "버전 선택",
   "settings.save_settings": "모든 설정 저장 및 적용",
   "settings.enable_quick_mode": "빠른 모드 활성화",
+  "settings.allow_long_str": "긴 툴팁을 줄 바꿈 없이 표시 허용",
+  "settings.switch_lang.disabled.tooltip": "이 옵션을 편집하려면 먼저 시스템 설정 따르기를 비활성화해야 합니다.",
+  "settings.enable_dark_mode.disabled.tooltip": "이 옵션을 편집하려면 먼저 시스템 설정 따르기를 비활성화해야 합니다.",
+  "settings.default_mmc_storage_path.disabled.tooltip": "이 경로를 편집하려면 먼저 기본 저장소 모드를 활성화해야 합니다.",
+  "settings.default_mmc_storage_path.tooltip": "이 경로는 매크로 저장/불러오기 기본 폴더입니다. 활성화 시 캐시 경로 기억 기능이 비활성화됩니다.",
+  "settings.enable_quick_mode.tooltip": "이 모드에서는 MouseMacros가 마우스와 키보드 동작 순서만 재현하며, 중간의 모든 정지 시간을 무시합니다.",
+  "settings.allow_long_str.tooltip": "활성화하면 MouseMacros가 긴 툴팁을 줄 바꿈 없이 표시하려고 시도합니다.",
 
   "macro_settings": "매크로 설정",
   "macro_settings.enable_custom_macro_settings": "사용자 지정 매크로 설정 활성화",
   "macro_settings.repeat_times": "실행 반복 횟수",
   "macro_settings.repeat_delay": "실행 반복 지연(초)",
   "macro_settings.save_settings": "모든 매크로 설정 저장 및 적용",
+  "macro_settings.repeat_times.disabled.tooltip": "이 옵션을 편집하려면 먼저 사용자 지정 매크로를 활성화해야 합니다.",
+  "macro_settings.repeat_delay.tooltip": "다음 반복 실행까지 필요한 대기 시간(최대 소수점 3자리, 밀리초까지 지원)",
+  "macro_settings.repeat_delay.disabled.tooltip": "이 옵션을 편집하려면 먼저 사용자 지정 매크로를 활성화해야 합니다.",
 
   "log.start_recording": "녹화 시작...",
   "log.recording_mouse_pressed": "녹화 중: 마우스 버튼 눌림",
@@ -64,4 +74,3 @@
   "exit.remember_this_option": "이 선택 기억하기",
   "exit.finish": "확인"
 }
-

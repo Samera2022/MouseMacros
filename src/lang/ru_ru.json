@@ -21,12 +21,22 @@
   "settings.update_info.select_version": "Выбрать версию",
   "settings.save_settings": "Сохранить и применить все настройки",
   "settings.enable_quick_mode": "Включить быстрый режим",
+  "settings.allow_long_str": "Разрешить отображение длинных всплывающих подсказок в одну строку",
+  "settings.switch_lang.disabled.tooltip": "Чтобы изменить этот параметр, сначала отключите следование системным настройкам.",
+  "settings.enable_dark_mode.disabled.tooltip": "Чтобы изменить этот параметр, сначала отключите следование системным настройкам.",
+  "settings.default_mmc_storage_path.disabled.tooltip": "Чтобы изменить этот путь, сначала включите режим хранения по умолчанию.",
+  "settings.default_mmc_storage_path.tooltip": "Этот путь — папка по умолчанию для сохранения/загрузки макросов. При включении отключается функция запоминания пути кэша.",
+  "settings.enable_quick_mode.tooltip": "В этом режиме MouseMacros воспроизводит только действия мыши и клавиатуры в порядке их выполнения, игнорируя все паузы между ними.",
+  "settings.allow_long_str.tooltip": "Если включено, MouseMacros попытается отобразить длинные подсказки в одну строку без переноса.",
 
   "macro_settings": "Настройки макроса",
   "macro_settings.enable_custom_macro_settings": "Включить пользовательские настройки макроса",
   "macro_settings.repeat_times": "Количество повторов выполнения",
   "macro_settings.repeat_delay": "Задержка между повторами (с)",
   "macro_settings.save_settings": "Сохранить и применить все настройки макроса",
+  "macro_settings.repeat_times.disabled.tooltip": "Чтобы изменить этот параметр, сначала включите пользовательский макрос.",
+  "macro_settings.repeat_delay.tooltip": "Время ожидания до следующего повторения, поддерживает до трёх знаков после запятой (миллисекунды).",
+  "macro_settings.repeat_delay.disabled.tooltip": "Чтобы изменить этот параметр, сначала включите пользовательский макрос.",
 
   "log.start_recording": "Начало записи...",
   "log.recording_mouse_pressed": "Запись: Кнопка мыши нажата",
@@ -64,4 +74,3 @@
   "exit.remember_this_option": "Запомнить мой выбор",
   "exit.finish": "Подтвердить"
 }
-

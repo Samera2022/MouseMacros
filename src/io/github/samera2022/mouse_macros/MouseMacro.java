@@ -1,5 +1,7 @@
 package io.github.samera2022.mouse_macros;
 
+import io.github.samera2022.mouse_macros.util.SystemUtil;
+
 import javax.swing.*;
 
 import static io.github.samera2022.mouse_macros.ui.frame.MainFrame.MAIN_FRAME;

@@ -132,26 +132,11 @@ public class ComponentUtil {
 
     }
 
-    public static void setCorrectSize(Component c, int x, int y){
-        c.setSize((int)(x/SystemUtil.getScale()[0]), (int)(y/SystemUtil.getScale()[1]));
-    }
-
-    public static void setContainerMode(Container c, int mode){
-        switch (mode){
-            case OtherConsts.DARK_MODE:
-                c.setBackground(DARK_MODE_BACKGROUND);
-                c.setForeground(DARK_MODE_FOREGROUND);
-                break;
-            case OtherConsts.LIGHT_MODE:
-                c.setBackground(LIGHT_MODE_BACKGROUND);
-                c.setForeground(LIGHT_MODE_FOREGROUND);
-                break;
-        }
-    }
+    public static void setCorrectSize(Component c, int x, int y){ c.setSize((int)(x/SystemUtil.getScale()[0]), (int)(y/SystemUtil.getScale()[1])); }
 
     public static void applyWindowSizeCache(Window window, String key, int defaultW, int defaultH) {
         io.github.samera2022.mouse_macros.manager.CacheManager.reloadCache(); // 每次都重新读取cache.json
-        String sizeStr = io.github.samera2022.mouse_macros.manager.CacheManager.getWindowSize(key);
+        String sizeStr = io.github.samera2022.mouse_macros.manager.CacheManager.cache.windowSizeMap.get(key);
         if (sizeStr != null) {
             String[] arr = null;
             if (sizeStr.matches("\\d+,\\d+")) {
@@ -179,7 +164,8 @@ public class ComponentUtil {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 int w = window.getWidth();
                 int h = window.getHeight();
-                io.github.samera2022.mouse_macros.manager.CacheManager.setWindowSize(key, w + "," + h);
+                io.github.samera2022.mouse_macros.manager.CacheManager.cache.windowSizeMap.put(key, w + "," + h);
+                io.github.samera2022.mouse_macros.manager.CacheManager.saveCache();
             }
         });
     }

@@ -28,7 +28,7 @@ public class AboutDialog extends JDialog{
         content.add(aboutTitle);
         content.add(Box.createVerticalStrut(10));
         content.add(new JSeparator());
-        // 新增无边框JTextArea
+
         JTextArea aboutArea = new JTextArea(OtherConsts.ABOUT_AUTHOR);
         aboutArea.setEditable(false);
         aboutArea.setLineWrap(true);

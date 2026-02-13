@@ -28,7 +28,7 @@
     * Start/Stop Recording
     * Play Macro
     * Abort Operation (Emergency stop for runaway macros)
-* **Multi-Language Support**: Built-in localization for **English (US)** and **Simplified Chinese**.
+* **Multi-Language Support**: Built-in localization for **English (US)** and **Simplified Chinese**, other supported languages includes Japanese, Russian, Korean, Spanish and French.
 * **Theme Engine**: Supports **Light** and **Dark** modes, with an option to follow system settings automatically.
 * **Persistence**: Macros are saved as `.mmc` (CSV-formatted) files, allowing for easy sharing and manual editing.
 * **Smart Memory**: Remembers window sizes, last-used directories, and custom configurations across sessions.
