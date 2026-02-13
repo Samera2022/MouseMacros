@@ -14,7 +14,6 @@
   "settings.enable_default_storage": "Activar almacenamiento predeterminado",
   "settings.default_mmc_storage_path": "Ruta de almacenamiento predeterminada de macros de ratón",
   "settings.browse": "Examinar",
-  "settings.about_author": "Acerca del autor",
   "settings.custom_hotkey": "Tecla de acceso rápido personalizada",
   "settings.custom_hotkey.confirm": "Confirmar",
   "settings.update_info": "Información de actualización",
@@ -22,6 +21,7 @@
   "settings.save_settings": "Guardar y aplicar toda la configuración",
   "settings.enable_quick_mode": "Activar modo rápido",
   "settings.allow_long_str": "Permitir que las descripciones flotantes largas se muestren en una sola línea",
+
   "settings.switch_lang.disabled.tooltip": "Para editar esta opción, primero debe desactivar la configuración del sistema.",
   "settings.enable_dark_mode.disabled.tooltip": "Para editar esta opción, primero debe desactivar la configuración del sistema.",
   "settings.default_mmc_storage_path.disabled.tooltip": "Para editar esta ruta, primero debe habilitar el modo de almacenamiento predeterminado.",
@@ -29,11 +29,16 @@
   "settings.enable_quick_mode.tooltip": "En este modo, MouseMacros solo reproducirá las acciones del ratón y el teclado en el orden en que ocurrieron, ignorando todas las pausas intermedias.",
   "settings.allow_long_str.tooltip": "Al habilitarlo, MouseMacros intentará mostrar las descripciones flotantes largas en una sola línea sin saltos de línea.",
 
+  "settings.about_author": "Acerca del autor",
+  "settings.about_author.github.tooltip": "Visitar la página principal del proyecto Github",
+  "settings.about_author.browser_opening_failed": "No se puede abrir el navegador.",
+
   "macro_settings": "Configuración de macro",
   "macro_settings.enable_custom_macro_settings": "Activar configuración de macro personalizada",
   "macro_settings.repeat_times": "Número de repeticiones",
   "macro_settings.repeat_delay": "Retraso de repetición (s)",
   "macro_settings.save_settings": "Guardar y aplicar toda la configuración de macro",
+
   "macro_settings.repeat_times.disabled.tooltip": "Para editar esta opción, primero debe habilitar la macro personalizada.",
   "macro_settings.repeat_delay.tooltip": "El tiempo de espera necesario para la siguiente repetición, admite hasta tres decimales (milisegundos).",
   "macro_settings.repeat_delay.disabled.tooltip": "Para editar esta opción, primero debe habilitar la macro personalizada.",

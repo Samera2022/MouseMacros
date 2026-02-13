@@ -14,7 +14,6 @@
   "settings.enable_default_storage": "기본 저장소 활성화",
   "settings.default_mmc_storage_path": "기본 마우스 매크로 저장 경로",
   "settings.browse": "찾아보기",
-  "settings.about_author": "저자 정보",
   "settings.custom_hotkey": "사용자 지정 단축키",
   "settings.custom_hotkey.confirm": "확인",
   "settings.update_info": "업데이트 정보",
@@ -28,6 +27,10 @@
   "settings.default_mmc_storage_path.tooltip": "이 경로는 매크로 저장/불러오기 기본 폴더입니다. 활성화 시 캐시 경로 기억 기능이 비활성화됩니다.",
   "settings.enable_quick_mode.tooltip": "이 모드에서는 MouseMacros가 마우스와 키보드 동작 순서만 재현하며, 중간의 모든 정지 시간을 무시합니다.",
   "settings.allow_long_str.tooltip": "활성화하면 MouseMacros가 긴 툴팁을 줄 바꿈 없이 표시하려고 시도합니다.",
+
+  "settings.about_author": "저자 정보",
+  "settings.about_author.github.tooltip": "Github 프로젝트 메인 페이지 방문",
+  "settings.about_author.browser_opening_failed": "브라우저를 열 수 없습니다.",
 
   "macro_settings": "매크로 설정",
   "macro_settings.enable_custom_macro_settings": "사용자 지정 매크로 설정 활성화",
