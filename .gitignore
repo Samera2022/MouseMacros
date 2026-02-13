@@ -1,0 +1,9 @@
+# 项目排除路径
+/out/
+/test/
+/Mouse Macros.iml
+/local_build_settings
+/raw
+/mouse-macros-api/target
+/mouse-macros-app/target
+rebuild_main.sh

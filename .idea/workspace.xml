@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="MouseMacros:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="820709a7-4240-43e9-87d5-d78a5914d922" name="更改" comment="0.0.1" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_D:/Users/_S_A_M/Project/IdeaProjects/MouseMacros" value="2zPaW7BmyZon7YkQdJoEd1EjzwX" />
+    </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="edit-panel" value="GPT-5 mini" />
+      <entry key="chat-panel" value="Auto" />
+      <entry key="agent-panel" value="Auto" />
+    </selectedModels>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="129" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIEW_PUSH_PROTECTED_ONLY" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="SOFT" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="2.0.0" />
+        <option name="rewordedMessage" value="2.0.0" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="26e607f455ba68c32df6ea0e008c15110f7f3e25" />
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Samera2022/MouseMacros.git&quot;,
+    &quot;accountId&quot;: &quot;975780fc-b778-464e-9b1a-facd7b0e6ff1&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2zPaW7BmyZon7YkQdJoEd1EjzwX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Application.MouseMacro.executor": "Run",
+    "Batch.build.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "true",
+    "JUnit.CacheManagerTest.executor": "Run",
+    "JUnit.ConfigManagerTest.executor": "Run",
+    "JUnit.LocalizerTest.executor": "Run",
+    "JUnit.OtherUtilTest.executor": "Run",
+    "JUnit.OtherUtilTest.testGetNativeKeyDisplayTextF2.executor": "Run",
+    "JUnit.ScriptDescriptionTest.executor": "Run",
+    "JUnit.ScriptDescriptionTest.testCreateWithoutNativeAccess.executor": "Run",
+    "JUnit.ScriptManagerTest.executor": "Run",
+    "JUnit.ScriptManagerTest.testScriptRegisterNamesUnique.executor": "Run",
+    "JUnit.ScriptPluginTest.executor": "Run",
+    "JUnit.SystemUtilTest.executor": "Run",
+    "JUnit.SystemUtilTest.testIsSystemDarkMode.executor": "Run",
+    "JUnit.UpdateInfoTest.executor": "Run",
+    "Maven.MouseMacros [clean].executor": "Run",
+    "Maven.MouseMacros [install].executor": "Run",
+    "Maven.MouseMacros [package].executor": "Run",
+    "Maven.MouseMacros [test].executor": "Run",
+    "Maven.MouseMacros [validate].executor": "Run",
+    "Maven.mouse-macros-app [clean].executor": "Run",
+    "Maven.mouse-macros-app [install].executor": "Run",
+    "Maven.mouse-macros-parent [clean].executor": "Run",
+    "Maven.mouse-macros-parent [install].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "PowerShell.Get EVB EXE (include Jpackage EXE).executor": "Run",
+    "PowerShell.Get EVB EXE.executor": "Run",
+    "PowerShell.Get Jpackage EXE ONLY.executor": "Run",
+    "PowerShell.clean.ps1.executor": "Run",
+    "PowerShell.evb_settings.ps1.executor": "Run",
+    "PowerShell.jpackage_settings_msi.ps1 (1).executor": "Run",
+    "PowerShell.jpackage_settings_msi.ps1 (2).executor": "Run",
+    "PowerShell.jpackage_settings_msi.ps1.executor": "Run",
+    "PowerShell.rerun.ps1 (1).executor": "Run",
+    "PowerShell.rerun.ps1 (2).executor": "Run",
+    "PowerShell.rerun.ps1 (3).executor": "Run",
+    "PowerShell.rerun.ps1 (4).executor": "Run",
+    "PowerShell.rerun.ps1 (5).executor": "Run",
+    "PowerShell.rerun.ps1.executor": "Run",
+    "PowerShell.retag.ps1 (1).executor": "Run",
+    "PowerShell.retag.ps1 (2).executor": "Run",
+    "PowerShell.retag.ps1 (3).executor": "Run",
+    "PowerShell.retag.ps1 (4).executor": "Run",
+    "PowerShell.retag.ps1 (5).executor": "Run",
+    "PowerShell.retag.ps1.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "C:\\Users\\_S_A_M\\AppData\\Roaming\\JetBrains\\IdeaIC2025.1\\plugins\\Shell Script\\shellcheck.exe",
+    "Shell Script.rebuild_main.sh.executor": "Run",
+    "git-widget-placeholder": "new",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Users/_S_A_M/Project/IdeaProjects/MouseMacros/mouse-macros-api/src/test/resources/scripts",
+    "onboarding.tips.debug.path": "D:/Users/_S_A_M/Project/IdeaProjects/MouseMacros/src/Main.java",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.19885057",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "应用程序.CheckboxColorSwitcher.executor": "Run",
+    "应用程序.ConfigManager.executor": "Run",
+    "应用程序.CryptoUtil.executor": "Run",
+    "应用程序.CustomCheckboxDemo.executor": "Run",
+    "应用程序.CustomComboBox.executor": "Run",
+    "应用程序.CustomScrollBarExample.executor": "Run",
+    "应用程序.MacroSettingsDialog.executor": "Run",
+    "应用程序.MacroSettingsDialogTest.executor": "Run",
+    "应用程序.Main (1).executor": "Run",
+    "应用程序.Main.executor": "Run",
+    "应用程序.MainFrame.executor": "Run",
+    "应用程序.MainHandler.executor": "Run",
+    "应用程序.MarkdownMerger.executor": "Run",
+    "应用程序.MouseMacro.executor": "Run",
+    "应用程序.OtherConsts.executor": "Run",
+    "应用程序.Spawner.executor": "Run",
+    "应用程序.Test (1).executor": "Run",
+    "应用程序.Test.executor": "Run",
+    "应用程序.TestDialog.executor": "Run",
+    "应用程序.UIUtil.executor": "Run",
+    "应用程序.UpdateInfo.executor": "Run",
+    "应用程序.VerificationFrame.executor": "Run",
+    "应用程序.main.executor": "Run"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\mouse-macros-api\src\test\resources\scripts" />
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\mouse-macros-api\src\main\java" />
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros" />
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\build_settings" />
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\BACKUP" />
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\mouse-macros-api\src\test\resources\scripts" />
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\mouse-macros-api\src\test\java" />
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\mouse-macros-app\src\main\resources\io\github\samera2022\mousemacros\app" />
+      <recent name="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\mouse-macros-app\src\main\resources\io\github\samera2022\mousemacros" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="io.github.samera2022.mouse_macros.ui.frame.settings" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="MouseMacro" />
+      <command value="MouseMacro::jar" />
+      <command value="MouseMacro:jar" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Shell Script.rebuild_main.sh">
+    <configuration name="Get EVB EXE (include Jpackage EXE)" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\build_settings\evb_settings.ps1" scriptParameters="-ExecutionPolicy Bypass" commandOptions="-ExecutionPolicy Bypass" workingDirectory="$ProjectFileDir$" executablePath="C:/WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe">
+      <envs />
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="clean.ps1" run_configuration_type="PowerShellRunType" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="MouseMacros:jar" />
+        </option>
+      </method>
+    </configuration>
+    <configuration name="Get Jpackage EXE ONLY" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="D:\Users\_S_A_M\Project\IdeaProjects\MouseMacros\build_settings\jpackage_settings.ps1" scriptParameters="-ExecutionPolicy Bypass" commandOptions="-ExecutionPolicy Bypass" workingDirectory="$ProjectFileDir$" executablePath="C:/WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe">
+      <envs />
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="clean.ps1" run_configuration_type="PowerShellRunType" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="MouseMacros:jar" />
+        </option>
+      </method>
+    </configuration>
+    <configuration name="clean.ps1" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="$PROJECT_DIR$/build_settings/clean.ps1" scriptParameters="-ExecutionPolicy Bypass" commandOptions="-ExecutionPolicy Bypass" workingDirectory="$ProjectFileDir$" executablePath="C:/WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe">
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="retag.ps1 (2)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/scripts/retag.ps1" executablePath="C:/WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe">
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="retag.ps1 (3)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/scripts/retag.ps1" executablePath="C:/WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe">
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="retag.ps1 (4)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/scripts/retag.ps1" executablePath="C:/WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe">
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="retag.ps1 (5)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/scripts/retag.ps1" executablePath="C:/WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe">
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="rebuild_main.sh" type="ShConfigurationType" temporary="true">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/rebuild_main.sh" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="A:/PROGRA~1/Git/bin/bash.exe" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="PowerShell.Get EVB EXE (include Jpackage EXE)" />
+      <item itemvalue="PowerShell.Get Jpackage EXE ONLY" />
+      <item itemvalue="PowerShell.clean.ps1" />
+      <item itemvalue="PowerShell.retag.ps1 (2)" />
+      <item itemvalue="PowerShell.retag.ps1 (3)" />
+      <item itemvalue="PowerShell.retag.ps1 (4)" />
+      <item itemvalue="PowerShell.retag.ps1 (5)" />
+      <item itemvalue="Shell Script.rebuild_main.sh" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Shell Script.rebuild_main.sh" />
+        <item itemvalue="PowerShell.retag.ps1 (5)" />
+        <item itemvalue="PowerShell.retag.ps1 (4)" />
+        <item itemvalue="PowerShell.retag.ps1 (3)" />
+        <item itemvalue="PowerShell.retag.ps1 (2)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="820709a7-4240-43e9-87d5-d78a5914d922" name="更改" comment="" />
+      <created>1751635193646</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1751635193646</updated>
+    </task>
+    <task id="LOCAL-00150" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770818437024</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1770818437025</updated>
+    </task>
+    <task id="LOCAL-00151" summary="dev: unstable-backup">
+      <option name="closed" value="true" />
+      <created>1770819678273</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1770819678273</updated>
+    </task>
+    <task id="LOCAL-00152" summary="dev: unstable-backup">
+      <option name="closed" value="true" />
+      <created>1770819683424</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1770819683424</updated>
+    </task>
+    <task id="LOCAL-00153" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770820579315</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1770820579315</updated>
+    </task>
+    <task id="LOCAL-00154" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770823352612</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1770823352612</updated>
+    </task>
+    <task id="LOCAL-00155" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770860946560</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1770860946561</updated>
+    </task>
+    <task id="LOCAL-00156" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770861944100</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1770861944100</updated>
+    </task>
+    <task id="LOCAL-00157" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770863283522</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1770863283522</updated>
+    </task>
+    <task id="LOCAL-00158" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770864287690</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1770864287690</updated>
+    </task>
+    <task id="LOCAL-00159" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770868996233</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1770868996233</updated>
+    </task>
+    <task id="LOCAL-00160" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770869168412</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1770869168412</updated>
+    </task>
+    <task id="LOCAL-00161" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770869680976</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1770869680976</updated>
+    </task>
+    <task id="LOCAL-00162" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770871018187</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1770871018187</updated>
+    </task>
+    <task id="LOCAL-00163" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770871845955</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1770871845955</updated>
+    </task>
+    <task id="LOCAL-00164" summary="dev: unstable-backup">
+      <option name="closed" value="true" />
+      <created>1770877367943</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1770877367943</updated>
+    </task>
+    <task id="LOCAL-00165" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770884034234</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1770884034236</updated>
+    </task>
+    <task id="LOCAL-00166" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770885362866</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1770885362866</updated>
+    </task>
+    <task id="LOCAL-00167" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770886130818</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1770886130818</updated>
+    </task>
+    <task id="LOCAL-00168" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770886528430</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1770886528430</updated>
+    </task>
+    <task id="LOCAL-00169" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770888339575</created>
+      <option name="number" value="00169" />
+      <option name="presentableId" value="LOCAL-00169" />
+      <option name="project" value="LOCAL" />
+      <updated>1770888339575</updated>
+    </task>
+    <task id="LOCAL-00170" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770892138633</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1770892138634</updated>
+    </task>
+    <task id="LOCAL-00171" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770892703562</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1770892703562</updated>
+    </task>
+    <task id="LOCAL-00172" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770893695162</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1770893695162</updated>
+    </task>
+    <task id="LOCAL-00173" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770894111047</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1770894111047</updated>
+    </task>
+    <task id="LOCAL-00174" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770895399624</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1770895399624</updated>
+    </task>
+    <task id="LOCAL-00175" summary="dev: stable-backup">
+      <option name="closed" value="true" />
+      <created>1770898241815</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1770898241816</updated>
+    </task>
+    <task id="LOCAL-00176" summary="upd: pom">
+      <option name="closed" value="true" />
+      <created>1770900184855</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1770900184855</updated>
+    </task>
+    <task id="LOCAL-00177" summary="upd: del">
+      <option name="closed" value="true" />
+      <created>1770900286789</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1770900286789</updated>
+    </task>
+    <task id="LOCAL-00178" summary="1.3.0">
+      <option name="closed" value="true" />
+      <created>1770901173400</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1770901173401</updated>
+    </task>
+    <task id="LOCAL-00179" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770901607473</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1770901607473</updated>
+    </task>
+    <task id="LOCAL-00180" summary="1.2.1">
+      <option name="closed" value="true" />
+      <created>1770903097207</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1770903097207</updated>
+    </task>
+    <task id="LOCAL-00181" summary="1.2.2">
+      <option name="closed" value="true" />
+      <created>1770903136778</created>
+      <option name="number" value="00181" />
+      <option name="presentableId" value="LOCAL-00181" />
+      <option name="project" value="LOCAL" />
+      <updated>1770903136778</updated>
+    </task>
+    <task id="LOCAL-00182" summary="1.2.3">
+      <option name="closed" value="true" />
+      <created>1770903176832</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1770903176832</updated>
+    </task>
+    <task id="LOCAL-00183" summary="1.3.0">
+      <option name="closed" value="true" />
+      <created>1770903219761</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1770903219761</updated>
+    </task>
+    <task id="LOCAL-00184" summary="upd: retag">
+      <option name="closed" value="true" />
+      <created>1770903663196</created>
+      <option name="number" value="00184" />
+      <option name="presentableId" value="LOCAL-00184" />
+      <option name="project" value="LOCAL" />
+      <updated>1770903663196</updated>
+    </task>
+    <task id="LOCAL-00185" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770904295960</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1770904295960</updated>
+    </task>
+    <task id="LOCAL-00186" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770906848138</created>
+      <option name="number" value="00186" />
+      <option name="presentableId" value="LOCAL-00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1770906848138</updated>
+    </task>
+    <task id="LOCAL-00187" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770908248851</created>
+      <option name="number" value="00187" />
+      <option name="presentableId" value="LOCAL-00187" />
+      <option name="project" value="LOCAL" />
+      <updated>1770908248851</updated>
+    </task>
+    <task id="LOCAL-00188" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770909328044</created>
+      <option name="number" value="00188" />
+      <option name="presentableId" value="LOCAL-00188" />
+      <option name="project" value="LOCAL" />
+      <updated>1770909328044</updated>
+    </task>
+    <task id="LOCAL-00189" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770909841671</created>
+      <option name="number" value="00189" />
+      <option name="presentableId" value="LOCAL-00189" />
+      <option name="project" value="LOCAL" />
+      <updated>1770909841671</updated>
+    </task>
+    <task id="LOCAL-00190" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770910712239</created>
+      <option name="number" value="00190" />
+      <option name="presentableId" value="LOCAL-00190" />
+      <option name="project" value="LOCAL" />
+      <updated>1770910712239</updated>
+    </task>
+    <task id="LOCAL-00191" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770911366968</created>
+      <option name="number" value="00191" />
+      <option name="presentableId" value="LOCAL-00191" />
+      <option name="project" value="LOCAL" />
+      <updated>1770911366968</updated>
+    </task>
+    <task id="LOCAL-00192" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770911705300</created>
+      <option name="number" value="00192" />
+      <option name="presentableId" value="LOCAL-00192" />
+      <option name="project" value="LOCAL" />
+      <updated>1770911705300</updated>
+    </task>
+    <task id="LOCAL-00193" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770913250310</created>
+      <option name="number" value="00193" />
+      <option name="presentableId" value="LOCAL-00193" />
+      <option name="project" value="LOCAL" />
+      <updated>1770913250310</updated>
+    </task>
+    <task id="LOCAL-00194" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770914446842</created>
+      <option name="number" value="00194" />
+      <option name="presentableId" value="LOCAL-00194" />
+      <option name="project" value="LOCAL" />
+      <updated>1770914446842</updated>
+    </task>
+    <task id="LOCAL-00195" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770914876353</created>
+      <option name="number" value="00195" />
+      <option name="presentableId" value="LOCAL-00195" />
+      <option name="project" value="LOCAL" />
+      <updated>1770914876353</updated>
+    </task>
+    <task id="LOCAL-00196" summary="2.0.0">
+      <option name="closed" value="true" />
+      <created>1770915400268</created>
+      <option name="number" value="00196" />
+      <option name="presentableId" value="LOCAL-00196" />
+      <option name="project" value="LOCAL" />
+      <updated>1770915400268</updated>
+    </task>
+    <task id="LOCAL-00197" summary="upd: docs">
+      <option name="closed" value="true" />
+      <created>1770953879954</created>
+      <option name="number" value="00197" />
+      <option name="presentableId" value="LOCAL-00197" />
+      <option name="project" value="LOCAL" />
+      <updated>1770953879954</updated>
+    </task>
+    <task id="LOCAL-00198" summary="0.0.1">
+      <option name="closed" value="true" />
+      <created>1770957731897</created>
+      <option name="number" value="00198" />
+      <option name="presentableId" value="LOCAL-00198" />
+      <option name="project" value="LOCAL" />
+      <updated>1770957731898</updated>
+    </task>
+    <option name="localTasksCounter" value="199" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="dev" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <MESSAGE value="readme update" />
+    <MESSAGE value="docs update" />
+    <MESSAGE value="feat: pause macros" />
+    <MESSAGE value="feat: plugin (primitive)" />
+    <MESSAGE value="feat: jar support" />
+    <MESSAGE value="refactor: multi-module" />
+    <MESSAGE value="feat: incompatible warn" />
+    <MESSAGE value="fix: window flashing" />
+    <MESSAGE value="feat: plugin dependencies" />
+    <MESSAGE value="feat: plugin soft_dependencies" />
+    <MESSAGE value="feat: plugin hard_dependencies" />
+    <MESSAGE value="dev: backup" />
+    <MESSAGE value="dev: unstable-backup" />
+    <MESSAGE value="dev: stable-backup" />
+    <MESSAGE value="upd: pom" />
+    <MESSAGE value="upd: del" />
+    <MESSAGE value="1.2.1" />
+    <MESSAGE value="1.2.2" />
+    <MESSAGE value="1.2.3" />
+    <MESSAGE value="1.3.0" />
+    <MESSAGE value="upd: retag" />
+    <MESSAGE value="upd: docs" />
+    <MESSAGE value="2.0.0" />
+    <MESSAGE value="0.0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="0.0.1" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

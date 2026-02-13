@@ -1,0 +1,23 @@
+{
+  "title": "Mouse Macro Recorder",
+  "save_macro": "Save Macro",
+  "load_macro": "Load Macro",
+  "settings": "Settings",
+  "custom_hotkey": "Custom Hotkey",
+  "switch_lang": "Switch Language",
+  "choose_lang": "Please select a language:",
+  "confirm": "confirm",
+  "start_record": "Start Recording",
+  "stop_record": "Stop Recording",
+  "execute_macro": "Play Macro",
+  "start_recording": "Start recording...",
+  "recording_msg1": "Recording: Pressed",
+  "recording_msg2": "Recording: Released",
+  "stop_recording_msg1": "Recording stopped, total ",
+  "stop_recording_msg2": " actions recorded",
+  "no_recorded_actions": "No recorded actions",
+  "start_playback": "Start playback...",
+  "playback_complete": "Playback complete",
+  "playback_error": "Playback error: "
+}
+
