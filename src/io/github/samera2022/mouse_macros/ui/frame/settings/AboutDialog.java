@@ -37,11 +37,8 @@ public class AboutDialog extends JDialog{
         content.add(aboutArea);
 
         add(content, BorderLayout.CENTER);
-        if (config.enableDarkMode) {
-            ComponentUtil.applyDarkMode(getContentPane(),this);
-        } else {
-            ComponentUtil.applyLightMode(getContentPane(),this);
-        }
+        ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(SizeCache.SIZE);
         setLocationRelativeTo(this);

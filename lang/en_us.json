@@ -5,6 +5,8 @@
   "start_record": "Start Recording",
   "stop_record": "Stop Recording",
   "play_macro": "Play Macro",
+  "abort_macro_operation": "Abort Operation",
+  "macro_settings": "Macro Settings",
 
   "settings": "Settings",
   "settings.follow_system_settings": "Follow System Settings",
@@ -19,14 +21,34 @@
   "settings.update_info.select_version": "Select Version",
   "settings.save_settings": "Save and Apply All Settings",
 
+  "macro_settings.enable_custom_macro_settings": "Enable Custom Macro Settings",
+  "macro_settings.repeat_times": "Execution Repeat Times: ",
+  "macro_settings.save_settings": "Save and Apply All Macro Settings",
+
   "start_recording": "Start recording...",
-  "recording_msg1": "Recording: Pressed",
-  "recording_msg2": "Recording: Released",
+  "recording_mouse_pressed": "Recording: Mouse Pressed",
+  "recording_mouse_released": "Recording: Mouse Released",
+  "mouse_left": "Left",
+  "mouse_middle": "Middle",
+  "mouse_right": "Right",
+  "recording_scroll_msg1": "Recording: Wheel Scrolled",
+  "recording_scroll_msg2": "Wheel: ",
   "stop_recording_msg1": "Recording stopped, total ",
   "stop_recording_msg2": " actions recorded",
   "no_recorded_actions": "No recorded actions",
   "start_playback": "Start playback...",
   "playback_complete": "Playback complete",
-  "playback_error": "Playback error: "
+  "playback_error": "Playback error: ",
+  "macro_saved": "Macro is saved as ",
+  "macro_saving_failed": "Macro saving failed: ",
+  "macro_loaded_msg1": "Macro is loaded: ",
+  "macro_loaded_msg2": "Steps",
+  "macro_loading_failed": "Macro loading failed: ",
+  "macro_loading_line_error": "Error Occurred in line: ",
+  "macro_aborted": "Macro Aborted",
+  "macro_not_running": "Macro is not running currently",
+  "macro_not_recording": "Macro is not being recorded currently",
+
+  "hook_registration_failed": "Global hook registration failed: "
 }
 

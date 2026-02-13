@@ -1,19 +1,31 @@
 package io.github.samera2022.mouse_macros.manager;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.manager.config.FileChooserConfig;
 import io.github.samera2022.mouse_macros.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigManager {
     private static final String CONFIG_DIR = "D" + System.getProperty("user.home").substring(1).replace('\\','/') + "/AppData/MouseMacros/";
     private static final String CONFIG_PATH = CONFIG_DIR + "config.cfg";
+    private static final String FILE_CHOOSER_CONFIG_PATH = CONFIG_DIR + "cache.json";
     private static final Gson gson = new Gson();
-    public static Config config = loadConfig();
+    public static Config config ;
+    public static FileChooserConfig fc_config;
+    static {
+        config = loadConfig();
+        fc_config = loadFileChooserConfig();
+    }
 
     public static class Config {
         public boolean followSystemSettings = true;
@@ -21,7 +33,11 @@ public class ConfigManager {
         public boolean enableDarkMode = false;
         public String defaultMmcStoragePath = "";
         public Map<String, String> keyMap = new HashMap<>();
+        public boolean enableCustomMacroSettings = false;
+        public int repeatTime = 1;
     }
+
+    public static void reloadConfig(){config = loadConfig();}
 
     // 读取配置文件，若不存在则返回默认配置
     public static Config loadConfig() {
@@ -30,7 +46,9 @@ public class ConfigManager {
             if (json == null || json.trim().isEmpty()) return new Config();
             return gson.fromJson(json, Config.class);
         } catch (IOException e) {
-            return new Config();
+            Config _config = new Config();
+            saveConfig(_config);
+            return _config;
         }
     }
 
@@ -45,10 +63,6 @@ public class ConfigManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static String getConfigPath() {
-        return CONFIG_PATH;
     }
 
     // 获取lang目录下所有可用本地化文件名（不含后缀名），兼容开发与包执行
@@ -97,5 +111,36 @@ public class ConfigManager {
             } catch (Exception ignored) {}
         }
         return langs.toArray(new String[0]);
+    }
+
+    // 从文件加载配置
+    public static FileChooserConfig loadFileChooserConfig() {
+        try {
+            Path configPath = Paths.get(FILE_CHOOSER_CONFIG_PATH);
+            if (Files.exists(configPath)) {
+                String json = new String(Files.readAllBytes(configPath), StandardCharsets.UTF_8);
+                return gson.fromJson(json, FileChooserConfig.class);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load config: " + e.getMessage());
+        }
+        return new FileChooserConfig(); // 返回空配置
+    }
+
+    public static void reloadFileChooserConfig(){
+        fc_config = loadFileChooserConfig();
+    }
+
+    // 保存配置到文件
+    public static void saveFileChooserConfig(FileChooserConfig config) {
+        try {
+            Path configPath = Paths.get(FILE_CHOOSER_CONFIG_PATH);
+            Files.createDirectories(configPath.getParent()); // 确保目录存在
+
+            String json = gson.toJson(config);
+            Files.write(configPath, json.getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            System.err.println("Failed to save config: " + e.getMessage());
+        }
     }
 }

@@ -3,6 +3,7 @@ package io.github.samera2022.mouse_macros.ui.frame.settings;
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.UpdateInfo;
 import io.github.samera2022.mouse_macros.cache.SizeCache;
+import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
 
 import javax.swing.*;
@@ -61,11 +62,8 @@ public class UpdateInfoDialog extends JDialog {
         });
 
         add(content, BorderLayout.CENTER);
-        if (config.enableDarkMode) {
-            ComponentUtil.applyDarkMode(getContentPane(),this);
-        } else {
-            ComponentUtil.applyLightMode(getContentPane(),this);
-        }
+        ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(SizeCache.SIZE);
         setLocationRelativeTo(this);
