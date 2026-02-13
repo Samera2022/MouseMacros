@@ -54,11 +54,13 @@ public class MouseAction implements IMouseAction {
                 return;
             }
             if (type == 10) { // 键盘按下
-                robot.keyPress(awtKeyCode > 0 ? awtKeyCode : keyCode);
+                int code = awtKeyCode > 0 ? awtKeyCode : keyCode;
+                if (code > 0) robot.keyPress(code);
                 return;
             }
             if (type == 11) { // 键盘释放
-                robot.keyRelease(awtKeyCode > 0 ? awtKeyCode : keyCode);
+                int code = awtKeyCode > 0 ? awtKeyCode : keyCode;
+                if (code > 0) robot.keyRelease(code);
                 return;
             }
             robot.mouseMove(global.x, global.y);

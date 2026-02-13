@@ -80,6 +80,8 @@ public class MacroManager {
         }
 
         int repeatTime = ConfigManager.getInt("repeat_times");
+        if (repeatTime <= 0) repeatTime = 1;
+
         BeforePlaybackStartEvent event = new BeforePlaybackStartEvent(new ArrayList<>(actions), repeatTime);
         EventManager.callEvent(event);
         if (event.isCancelled()) return;
@@ -90,10 +92,11 @@ public class MacroManager {
         currentLoop = 0;
         currentActionIndex = 0;
 
+        int finalRepeatTime = repeatTime;
         playThread = new Thread(() -> {
             String abortReason = "COMPLETED";
             try {
-                for (int i = 0; i < repeatTime; i++) {
+                for (int i = 0; i < finalRepeatTime; i++) {
                     currentLoop = i;
                     if (!playing || Thread.interrupted()) {
                         abortReason = "INTERRUPTED";
@@ -126,7 +129,7 @@ public class MacroManager {
                         action.perform();
                         EventManager.callEvent(new AfterStepExecuteEvent(j, "SUCCESS"));
                     }
-                    OnLoopCompleteEvent loopEvent = new OnLoopCompleteEvent(i + 1, repeatTime - (i + 1));
+                    OnLoopCompleteEvent loopEvent = new OnLoopCompleteEvent(i + 1, finalRepeatTime - (i + 1));
                     EventManager.callEvent(loopEvent);
                 }
             } catch (InterruptedException e) {
