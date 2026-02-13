@@ -3,13 +3,12 @@ package io.github.samera2022.mouse_macros.ui.frame.settings;
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.UpdateInfo;
 import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
-import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
-import io.github.samera2022.mouse_macros.manager.CacheManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
@@ -17,6 +16,7 @@ public class UpdateInfoDialog extends JDialog {
     public UpdateInfoDialog() {
         setTitle(Localizer.get("settings.update_info"));
         setName("settings.update_info");
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();

@@ -15,6 +15,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 import static io.github.samera2022.mouse_macros.ui.frame.MainFrame.*;
@@ -27,6 +28,7 @@ public class HotkeyDialog extends JDialog {
         inHotKeyDialog = true;
         setTitle(Localizer.get("settings.custom_hotkey"));
         setName("settings.custom_hotkey");
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
         setModal(true);
 
         // 界面组件初始化

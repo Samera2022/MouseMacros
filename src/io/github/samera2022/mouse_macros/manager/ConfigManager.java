@@ -28,13 +28,13 @@ public class ConfigManager {
         public boolean followSystemSettings = true;
         public String lang = "zh_cn";
         public boolean enableDarkMode = false;
+        public boolean enableDefaultStorage = false;
         public String defaultMmcStoragePath = "";
+        public boolean enableQuickMode = false;
         public Map<String, String> keyMap = new HashMap<>();
         public boolean enableCustomMacroSettings = false;
         public int repeatTime = 1;
         public double repeatDelay = 0;
-        public boolean enableDefaultStorage = false;
-        public boolean enableQuickMode = false;
     }
 
     public static void reloadConfig(){config = loadConfig();}
@@ -43,7 +43,11 @@ public class ConfigManager {
     public static Config loadConfig() {
         try {
             String json = FileUtil.readFile(CONFIG_PATH);
-            if (json == null || json.trim().isEmpty()) return new Config();
+            if (json == null || json.trim().isEmpty()) {
+                Config cfg = new Config();
+                saveConfig(cfg);
+                return cfg;
+            }
             return gson.fromJson(json, Config.class);
         } catch (IOException e) {
             Config _config = new Config();

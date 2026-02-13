@@ -1,8 +1,6 @@
 package io.github.samera2022.mouse_macros.util;
 
-import io.github.samera2022.mouse_macros.constant.ColorConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
-import io.github.samera2022.mouse_macros.ui.component.CustomFileChooser;
 import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
 
 import javax.swing.*;
@@ -67,8 +65,8 @@ public class ComponentUtil {
             } else if (comp instanceof JLabel) {
 //            comp.setBackground(bg);
                 comp.setForeground(fg);
-            } else if (comp instanceof JButton) {
-                ((JButton) comp).setFocusPainted(false);
+            } else if (comp instanceof JButton || comp instanceof JRadioButton) {
+                ((AbstractButton) comp).setFocusPainted(false);
                 comp.setBackground(bbg);
                 comp.setForeground(bfg);
             } else if (comp instanceof JTextField) {

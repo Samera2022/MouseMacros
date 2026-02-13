@@ -4,12 +4,13 @@ import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
+import io.github.samera2022.mouse_macros.filter.DocumentInputFilter;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
-import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
@@ -18,6 +19,7 @@ public class MacroSettingsDialog extends JDialog {
     public MacroSettingsDialog() {
         setTitle(Localizer.get("macro_settings"));
         setName("macro_settings");
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -57,28 +59,11 @@ public class MacroSettingsDialog extends JDialog {
         // 先临时设置字体，确保FontMetrics获取准确
         repeatField.setFont(repeatField.getFont());
         // 只允许输入全体正整数，或唯��允许的负数为-1，允许输入"-"便于编辑
-        ((javax.swing.text.AbstractDocument) repeatField.getDocument()).setDocumentFilter(new javax.swing.text.DocumentFilter() {
-            private boolean isValidInt(String text) {
+        ((javax.swing.text.AbstractDocument) repeatField.getDocument()).setDocumentFilter(new DocumentInputFilter() {
+            @Override
+            public boolean isValidContent(String text) {
                 // 只允许-1，正整数，空字符串，或单独一个负号（便于输入-1）
                 return text.equals("-1") || text.matches("\\d+") || text.isEmpty() || text.equals("-");
-            }
-
-            @Override
-            public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws javax.swing.text.BadLocationException {
-                StringBuilder sb = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
-                sb.insert(offset, string);
-                if (isValidInt(sb.toString())) {
-                    super.insertString(fb, offset, string, attr);
-                }
-            }
-
-            @Override
-            public void replace(FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws javax.swing.text.BadLocationException {
-                StringBuilder sb = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
-                sb.replace(offset, offset + length, text);
-                if (isValidInt(sb.toString())) {
-                    super.replace(fb, offset, length, text, attrs);
-                }
             }
         });
 
@@ -87,26 +72,11 @@ public class MacroSettingsDialog extends JDialog {
         JTextField repeatDelayField = new JTextField(String.valueOf(config.repeatDelay));
         repeatDelayField.setColumns(7);
         repeatDelayField.setFont(repeatDelayField.getFont());
-        ((javax.swing.text.AbstractDocument) repeatDelayField.getDocument()).setDocumentFilter(new javax.swing.text.DocumentFilter() {
-            private boolean isValidDouble(String text) {
+        ((javax.swing.text.AbstractDocument) repeatDelayField.getDocument()).setDocumentFilter(new DocumentInputFilter() {
+            @Override
+            public boolean isValidContent(String text) {
                 // 允许整数或最多三位小数
                 return text.matches("\\d*(\\.\\d{0,3})?") || text.isEmpty();
-            }
-            @Override
-            public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws javax.swing.text.BadLocationException {
-                StringBuilder sb = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
-                sb.insert(offset, string);
-                if (isValidDouble(sb.toString())) {
-                    super.insertString(fb, offset, string, attr);
-                }
-            }
-            @Override
-            public void replace(FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws javax.swing.text.BadLocationException {
-                StringBuilder sb = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
-                sb.replace(offset, offset + length, text);
-                if (isValidDouble(sb.toString())) {
-                    super.replace(fb, offset, length, text, attrs);
-                }
             }
         });
 

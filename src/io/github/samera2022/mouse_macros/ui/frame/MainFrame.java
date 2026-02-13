@@ -6,9 +6,9 @@ import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.listener.GlobalMouseListener;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.manager.MacroManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
-import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
 import io.github.samera2022.mouse_macros.ui.frame.settings.HotkeyDialog;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
@@ -19,6 +19,9 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,15 +39,20 @@ public class MainFrame extends JFrame{
 
     public static final MainFrame MAIN_FRAME = new MainFrame();
 
+    private TrayIcon trayIcon;
+    private SystemTray tray;
+
     public MainFrame() {
-        // 1.1 若开启跟随系统设置，自动同步语言和深色模式
         if (config.followSystemSettings) {
             String[] availableLangs = ConfigManager.getAvailableLangs();
             config.lang = SystemUtil.getSystemLang(availableLangs);
             config.enableDarkMode = SystemUtil.isSystemDarkMode();
         }
-        // 2. 用配置初始化本地化、热键、主题等
         Localizer.load(config.lang); // 动态加载语言
+        setTitle(Localizer.get("main_frame"));
+        setName("main_frame");
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage());
+        // 2. 用配置初始化本地化、热键、主题等
         boolean enableLangSwitch = true;
         Localizer.setRuntimeSwitch(enableLangSwitch);
         // 3. 初始化热键（如keyMap有值则覆盖设定的默认值）
@@ -58,10 +66,8 @@ public class MainFrame extends JFrame{
             if (config.keyMap.containsKey("abort_macro_operation")) {
                 try { keyAbort = Integer.parseInt(config.keyMap.get("abort_macro_operation")); } catch (Exception ignored) {} }
         }
-        setTitle(Localizer.get("title"));
-        setName("title");
 //        ComponentUtil.setCorrectSize(this,1200,660);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
@@ -92,8 +98,8 @@ public class MainFrame extends JFrame{
         row1.add(playBtn);
         // 第二行：保存宏、加载宏、设置
         abortBtn = new JButton(getAbortBtnText());
-        saveBtn = new JButton(Localizer.get("save_macro"));
-        loadBtn = new JButton(Localizer.get("load_macro"));
+        saveBtn = new JButton(Localizer.get("main_frame.save_macro"));
+        loadBtn = new JButton(Localizer.get("main_frame.load_macro"));
         settingsBtn = new JButton(Localizer.get("settings"));
         macroSettingsBtn = new JButton(Localizer.get("macro_settings"));
         row2.add(abortBtn); // 添加到最前面
@@ -116,9 +122,9 @@ public class MainFrame extends JFrame{
 
         //限制1/2
         startBtn.addActionListener(e -> {if ((!MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.startRecording();});
-        stopBtn.addActionListener(e -> {if ((MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.stopRecording(); else log(Localizer.get("macro_not_recording"));});
+        stopBtn.addActionListener(e -> {if ((MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.stopRecording(); else log(Localizer.get("log.macro_not_recording"));});
         playBtn.addActionListener(e -> {if ((!MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.play();});
-        abortBtn.addActionListener(e -> {if ((MacroManager.isPlaying())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.stopRecording(); else log(Localizer.get("macro_not_running"));});
+        abortBtn.addActionListener(e -> {if ((MacroManager.isPlaying())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.abort(); else log(Localizer.get("log.macro_not_running"));});
         saveBtn.addActionListener(e -> {if (!MacroManager.isRecording()) MacroManager.saveToFile(this);});
         loadBtn.addActionListener(e -> {if (!MacroManager.isRecording()) MacroManager.loadFromFile(this);});
         settingsBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new SettingsDialog().setVisible(true)));
@@ -132,7 +138,7 @@ public class MainFrame extends JFrame{
         try {
             GlobalScreen.registerNativeHook();
         } catch (Exception e) {
-            log(Localizer.get("hook_registration_failed") + e.getMessage());
+            log(Localizer.get("log.hook_registration_failed") + e.getMessage());
         }
         GlobalScreen.addNativeKeyListener(GML);
         GlobalScreen.addNativeMouseListener(GML);
@@ -141,22 +147,46 @@ public class MainFrame extends JFrame{
         // 4. 启动时根据配置应用暗色模式
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         // 统一应用窗体大小缓存（优先cache.json，无则默认）
-        ComponentUtil.applyWindowSizeCache(this, "title", 430, 330);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        ComponentUtil.applyWindowSizeCache(this, "main_frame", 430, 330);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         addWindowListener(new WindowClosingAdapter());
-
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                switch (CacheManager.getDefaultCloseOperation()) {
+                    case CacheManager.UNKNOWN:
+                        new ExitDialog(MainFrame.this).setVisible(true);
+                        break;
+                    case CacheManager.EXIT_ON_CLOSE:
+                        System.exit(0);
+                        break;
+                    case CacheManager.MINIMIZE_TO_TRAY:
+                        minimizeToTray();
+                        break;
+                }
+            }
+        });
     }
 
     // 在MouseMacro类中添加
     public void refreshMainFrameTexts() {
-        setTitle(Localizer.get("title"));
+        setTitle(Localizer.get("main_frame"));
         //本来想用循环的，但是因为热键显示不好操作，所以还得最后一个个手动加
         refreshSpecialTexts();
-        saveBtn.setText(Localizer.get("save_macro"));
-        loadBtn.setText(Localizer.get("load_macro"));
+        saveBtn.setText(Localizer.get("main_frame.save_macro"));
+        loadBtn.setText(Localizer.get("main_frame.load_macro"));
         settingsBtn.setText(Localizer.get("settings"));
         macroSettingsBtn.setText(Localizer.get("macro_settings"));
+        // 托盘相关刷新
+        if (trayIcon != null) {
+            trayIcon.setToolTip(Localizer.get("main_frame"));
+            if (trayIcon.getPopupMenu() != null && trayIcon.getPopupMenu().getItemCount() >= 2) {
+                // 第一个是showItem，第二个是exitItem
+                trayIcon.getPopupMenu().getItem(0).setLabel(Localizer.get("tray.show_main_menu"));
+                trayIcon.getPopupMenu().getItem(2).setLabel(Localizer.get("tray.exit"));
+            }
+        }
         // 如有其它需要本地化的组件，也可在此统一刷新
         ComponentUtil.adjustFrameWidth(this, startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn, abortBtn, macroSettingsBtn);
     }
@@ -168,13 +198,60 @@ public class MainFrame extends JFrame{
         abortBtn.setText(getAbortBtnText());
     }
     // 工具方法：根据当前热键动态生成按钮文本
-    private String getStartBtnText() {return Localizer.get("start_record") + " (" + OtherUtil.getNativeKeyDisplayText(keyRecord) + ")";}
-    private String getStopBtnText() {return Localizer.get("stop_record") + " (" + OtherUtil.getNativeKeyDisplayText(keyStop) + ")";}
-    private String getPlayBtnText() {return Localizer.get("play_macro") + " (" + OtherUtil.getNativeKeyDisplayText(keyPlay) + ")";}
-    private String getAbortBtnText() {return Localizer.get("abort_macro_operation") + " (" + OtherUtil.getNativeKeyDisplayText(keyAbort) + ")";}
+    private String getStartBtnText() {return Localizer.get("main_frame.start_record") + " (" + OtherUtil.getNativeKeyDisplayText(keyRecord) + ")";}
+    private String getStopBtnText() {return Localizer.get("main_frame.stop_record") + " (" + OtherUtil.getNativeKeyDisplayText(keyStop) + ")";}
+    private String getPlayBtnText() {return Localizer.get("main_frame.play_macro") + " (" + OtherUtil.getNativeKeyDisplayText(keyPlay) + ")";}
+    private String getAbortBtnText() {return Localizer.get("main_frame.abort_macro_operation") + " (" + OtherUtil.getNativeKeyDisplayText(keyAbort) + ")";}
 
     public static void adjustFrameWidth(){
         MAIN_FRAME.pack();
         MAIN_FRAME.setSize(MAIN_FRAME.getWidth(),(int) (660/SystemUtil.getScale()[1]));
+    }
+
+    private void initTrayIcon() {
+        if (!SystemTray.isSupported()) return;
+        if (tray == null) {
+            tray = SystemTray.getSystemTray();
+        }
+        if (trayIcon == null) {
+            Image trayImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/MouseMacros.png"))).getImage();
+            PopupMenu popupMenu = new PopupMenu();
+            MenuItem showItem = new MenuItem(Localizer.get("tray.show_main_menu"));
+            MenuItem exitItem = new MenuItem(Localizer.get("tray.exit"));
+            popupMenu.add(showItem);
+            popupMenu.addSeparator();
+            popupMenu.add(exitItem);
+            trayIcon = new TrayIcon(trayImage, Localizer.get("main_frame"), popupMenu);
+            trayIcon.setImageAutoSize(true);
+            showItem.addActionListener(e -> restoreFromTray());
+            exitItem.addActionListener(e -> {
+                tray.remove(trayIcon);
+                System.exit(0);
+            });
+            trayIcon.addActionListener(e -> restoreFromTray());
+        }
+    }
+
+    public void minimizeToTray() {
+        initTrayIcon();
+        if (tray != null && trayIcon != null) {
+            try {
+                tray.add(trayIcon);
+                setVisible(false);
+            } catch (AWTException ex) {
+                log(Localizer.get("log.adding_tray_failed") + ":" + ex.getMessage());
+                dispose();
+            }
+        } else {
+            dispose();
+        }
+    }
+    private void restoreFromTray() {
+        setVisible(true);
+        setExtendedState(JFrame.NORMAL);
+        if (tray != null && trayIcon != null) {
+            tray.remove(trayIcon);
+        }
+        toFront();
     }
 }

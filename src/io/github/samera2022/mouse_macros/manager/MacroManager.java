@@ -3,9 +3,6 @@ package io.github.samera2022.mouse_macros.manager;
 import io.github.samera2022.mouse_macros.action.MouseAction;
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.constant.FileConsts;
-import io.github.samera2022.mouse_macros.constant.OtherConsts;
-import io.github.samera2022.mouse_macros.ui.component.CustomFileChooser;
-import io.github.samera2022.mouse_macros.util.ComponentUtil;
 
 import javax.swing.*;
 import java.io.*;
@@ -28,42 +25,65 @@ public class MacroManager {
         actions.clear();
         recording = true;
         lastTime = System.currentTimeMillis();
-        log(Localizer.get("start_recording"));
+        log(Localizer.get("log.start_recording"));
     }
 
     public static void stopRecording() {
         recording = false;
-        log(Localizer.get("stop_recording_msg1") + actions.size() + Localizer.get("stop_recording_msg2"));
+        log(Localizer.get("log.stop_recording_msg1") + actions.size() + Localizer.get("log.stop_recording_msg2"));
     }
 
     public static void play() {
         if (actions.isEmpty()) {
-            log(Localizer.get("no_recorded_actions"));
+            log(Localizer.get("log.no_recorded_actions"));
             return;
         }
-        log(Localizer.get("start_playback"));
+        log(Localizer.get("log.start_playback"));
         playing = true;
         playThread = new Thread(() -> {
             try {
                 for (int i = 0; i < config.repeatTime; i++) {
+                    if (!playing || Thread.interrupted()) {
+                        return;
+                    }
                     for (MouseAction action : actions) {
-                        if (Thread.interrupted()) {
+                        if (!playing || Thread.interrupted()) {
                             return;
                         }
                         long sleepTime = config.enableQuickMode ? 0 : action.delay;
-                        Thread.sleep(sleepTime);
+                        if (sleepTime > 0) {
+                            long slept = 0;
+                            while (slept < sleepTime) {
+                                if (!playing || Thread.interrupted()) {
+                                    return;
+                                }
+                                long toSleep = Math.min(50, sleepTime - slept);
+                                Thread.sleep(toSleep);
+                                slept += toSleep;
+                            }
+                        }
                         action.perform();
                     }
                     // 每次执行之间延迟（最后一次不延迟）
                     if (i < config.repeatTime - 1 && config.repeatDelay > 0) {
-                        Thread.sleep((long)(config.repeatDelay * 1000));
+                        double delay = config.repeatDelay;
+                        long totalDelay = (long)(delay * 1000);
+                        long slept = 0;
+                        while (slept < totalDelay) {
+                            if (!playing || Thread.interrupted()) {
+                                return;
+                            }
+                            long toSleep = Math.min(50, totalDelay - slept);
+                            Thread.sleep(toSleep);
+                            slept += toSleep;
+                        }
                     }
                 }
-                log(Localizer.get("playback_complete"));
+                log(Localizer.get("log.playback_complete"));
             } catch (InterruptedException e) {
-                log(Localizer.get("macro_aborted"));
+                log(Localizer.get("log.macro_aborted"));
             } catch (Exception e) {
-                log(Localizer.get("playback_error") + e.getMessage());
+                log(Localizer.get("log.playback_error") + e.getMessage());
             } finally {
                 playing = false;
                 playThread = null;
@@ -84,9 +104,7 @@ public class MacroManager {
         playing = false;
         if (playThread != null && playThread.isAlive()) {
             playThread.interrupt();
-            log(Localizer.get("macro_aborted"));
         }
-        log(Localizer.get("macro_not_running"));
     }
 
     public static void recordAction(MouseAction action) {
@@ -141,9 +159,9 @@ public class MacroManager {
                 for (MouseAction a : actions) {
                     out.println(a.x + "," + a.y + "," + a.type + "," + a.button + "," + a.delay + "," + a.wheelAmount + "," + a.keyCode + "," + a.awtKeyCode);
                 }
-                log(Localizer.get("macro_saved") + chooser.getSelectedFile().getAbsolutePath());
+                log(Localizer.get("log.macro_saved") + chooser.getSelectedFile().getAbsolutePath());
             } catch (Exception ex) {
-                log(Localizer.get("macro_saving_failed") + ex.getMessage());
+                log(Localizer.get("log.macro_saving_failed") + ex.getMessage());
             }
         }
     }
@@ -222,12 +240,12 @@ public class MacroManager {
                             actions.add(new MouseAction(x, y, type, button, delay, 0, 0, 0));
                         }
                     } catch (Exception ex) {
-                        log(Localizer.get("macro_loading_line_error") + lineNum + ": " + ex.getMessage());
+                        log(Localizer.get("log.macro_loading_line_error") + lineNum + ": " + ex.getMessage());
                     }
                 }
-                log(Localizer.get("macro_loaded_msg1") + chooser.getSelectedFile().getAbsolutePath() + " (" + actions.size() + " " + Localizer.get("macro_loaded_msg2") + ")");
+                log(Localizer.get("log.macro_loaded_msg1") + chooser.getSelectedFile().getAbsolutePath() + " (" + actions.size() + " " + Localizer.get("log.macro_loaded_msg2") + ")");
             } catch (Exception ex) {
-                log(Localizer.get("macro_loading_failed") + ex.getMessage());
+                log(Localizer.get("log.macro_loading_failed") + ex.getMessage());
             }
         }
     }
