@@ -32,6 +32,7 @@
 * **Theme Engine**: Supports **Light** and **Dark** modes, with an option to follow system settings automatically.
 * **Persistence**: Macros are saved as `.mmc` (CSV-formatted) files, allowing for easy sharing and manual editing.
 * **Smart Memory**: Remembers window sizes, last-used directories, and custom configurations across sessions.
+* **Floating Tooltip**: Shows helpful instructions and tips near the cursor for easier operation.
 
 ## Getting Started
 

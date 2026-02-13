@@ -77,7 +77,19 @@ public enum UpdateInfo {
                     "## [Changed]\n" +
                     " - 修改了语言文件的部分键格式，使之条理更加清晰。\n\n" +
                     "## [Fixed]\n" +
-                    " - 修正了Abort Operation的效果，使之可以在循环执行中正确地生效。");
+                    " - 修正了Abort Operation的效果，使之可以在循环执行中正确地生效。"),
+    VERSION_1_0_4("1.0.4","2026-01-01 00:00",
+            "这是2026年新年的第一个release呢\n\n" +
+                    "## [Added]\n" +
+                    " - 添加了鼠标悬浮窗显示信息。\n\n" +
+                    "## [Changed]\n" +
+                    " - 修改了CacheManager的逻辑，使之和ConfigManager保持一致。"),
+    VERSION_1_1_0("1.1.0","2026-01-01 12:52",
+            "## [Info]\n" +
+                    " - 从此版本开始，将严格按照语义化版本（SemVer）重新编写版号。\n" +
+                    " - 在以往版本中，通常采用第三位表示小功能更新，第二位表示重构功能更新，第一位表示重大更新。现在将采用第三位表示修订更新，第二位表示次版本更新，第一位表示主版本更新。\n\n" +
+                    "## [Fixed]\n" +
+                    " - 修复了1.0.4中的Tooltip长文本显示相关逻辑，使之更加准确地生效。");
 
     private final String version;
     private final String releaseDate;
@@ -115,5 +127,9 @@ public enum UpdateInfo {
 
     public static String[] getAllDisplayNames() {
         return Stream.of(values()).map(UpdateInfo::getDisplayName).toArray(String[]::new);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(VERSION_1_0_4.getFormattedLog());
     }
 }
