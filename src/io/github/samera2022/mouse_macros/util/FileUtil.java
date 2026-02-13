@@ -1,7 +1,6 @@
 package io.github.samera2022.mouse_macros.util;
 
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
-import io.github.samera2022.mouse_macros.fee.FeeConsts;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

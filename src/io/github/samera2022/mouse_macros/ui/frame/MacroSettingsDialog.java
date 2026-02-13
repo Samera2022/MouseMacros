@@ -56,11 +56,6 @@ public class MacroSettingsDialog extends JDialog {
         // 计算能完全显示2147483647所需的宽度
         // 先临时设置字体，确保FontMetrics获取准确
         repeatField.setFont(repeatField.getFont());
-        //70是显示2147483647所需的宽度，再加10是为了紧凑
-//        int maxWidth = 50;
-//        repeatField.setPreferredSize(new Dimension(maxWidth, 25));
-//        repeatField.setMinimumSize(new Dimension(maxWidth, 25));
-//        repeatField.setMaximumSize(new Dimension(maxWidth, 25));
         // 只允许输入全体正整数，或唯��允许的负数为-1，允许输入"-"便于编辑
         ((javax.swing.text.AbstractDocument) repeatField.getDocument()).setDocumentFilter(new javax.swing.text.DocumentFilter() {
             private boolean isValidInt(String text) {
@@ -87,31 +82,70 @@ public class MacroSettingsDialog extends JDialog {
             }
         });
 
+        // 新增 repeatDelay 输入框
+        JLabel repeatDelayLabel = new JLabel(Localizer.get("macro_settings.repeat_delay") + ": ");
+        JTextField repeatDelayField = new JTextField(String.valueOf(config.repeatDelay));
+        repeatDelayField.setColumns(7);
+        repeatDelayField.setFont(repeatDelayField.getFont());
+        ((javax.swing.text.AbstractDocument) repeatDelayField.getDocument()).setDocumentFilter(new javax.swing.text.DocumentFilter() {
+            private boolean isValidDouble(String text) {
+                // 允许整数或最多三位小数
+                return text.matches("\\d*(\\.\\d{0,3})?") || text.isEmpty();
+            }
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws javax.swing.text.BadLocationException {
+                StringBuilder sb = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
+                sb.insert(offset, string);
+                if (isValidDouble(sb.toString())) {
+                    super.insertString(fb, offset, string, attr);
+                }
+            }
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws javax.swing.text.BadLocationException {
+                StringBuilder sb = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
+                sb.replace(offset, offset + length, text);
+                if (isValidDouble(sb.toString())) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+
         JPanel repeatPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         repeatPanel.add(repeatLabel);
         repeatPanel.add(repeatField);
         repeatPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        // repeatDelay 同级同缩进
+        JPanel repeatDelayPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        repeatDelayPanel.add(repeatDelayLabel);
+        repeatDelayPanel.add(repeatDelayField);
+        repeatDelayPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         subSettingsPanel.add(repeatPanel);
+        subSettingsPanel.add(repeatDelayPanel);
         subSettingsPanel.add(Box.createHorizontalStrut(10));
         content.add(subSettingsPanel);
-
-
 
         // 保存按钮单独底部居中
         JButton saveSettingsBtn = new JButton(Localizer.get("macro_settings.save_settings"));
         saveSettingsBtn.addActionListener(e -> {
             String text = repeatField.getText();
+            String delayText = repeatDelayField.getText();
             if (!text.isEmpty()) {
                 config.enableCustomMacroSettings = enableCustomSettingsBox.isSelected();
                 try {
                     config.repeatTime = Integer.parseInt(text);
                 } catch (NumberFormatException ex) {
-//                    config.repeatTime = 1;
                     ex.printStackTrace();
                 }
             }
-            // 热键配置保存到config.keyMap（假设已有相关逻辑）
+            if (!delayText.isEmpty()) {
+                try {
+                    config.repeatDelay = Double.parseDouble(delayText);
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+            }
             ConfigManager.saveConfig(config);
             ConfigManager.reloadConfig();
             dispose();
@@ -119,17 +153,21 @@ public class MacroSettingsDialog extends JDialog {
         JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         savePanel.add(saveSettingsBtn);
         savePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
         //联动
         java.awt.event.ItemListener followSysListener = e -> {
             boolean enabled = enableCustomSettingsBox.isSelected();
             repeatField.setEnabled(enabled);
-            if (!enabled) repeatField.setText("1");
+            repeatDelayField.setEnabled(enabled);
+            if (!enabled) {
+                repeatField.setText("1");
+                repeatDelayField.setText("0");
+            }
         };
         enableCustomSettingsBox.addItemListener(followSysListener);
         followSysListener.itemStateChanged(null);
 
         add(content, BorderLayout.CENTER);
+        add(savePanel, BorderLayout.SOUTH);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         ComponentUtil.applyWindowSizeCache(this, "macro_settings", 280, 181);
         setLocationRelativeTo(this);
