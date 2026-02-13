@@ -2,17 +2,15 @@ package io.github.samera2022.mouse_macros.ui.frame;
 
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
-import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
-import com.github.kwhat.jnativehook.mouse.NativeMouseInputListener;
 import io.github.samera2022.mouse_macros.Localizer;
-import io.github.samera2022.mouse_macros.constant.ColorConsts;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.listener.GlobalMouseListener;
 import io.github.samera2022.mouse_macros.manager.MacroManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
 import io.github.samera2022.mouse_macros.ui.frame.settings.HotkeyDialog;
-import io.github.samera2022.mouse_macros.ui.frame.settings.MacroSettingsDialogTest;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
 import io.github.samera2022.mouse_macros.util.OtherUtil;
 import io.github.samera2022.mouse_macros.util.SystemUtil;
@@ -37,15 +35,6 @@ public class MainFrame extends JFrame{
     public static final GlobalMouseListener GML = new GlobalMouseListener();
 
     public static final MainFrame MAIN_FRAME = new MainFrame();
-    // 主入口
-    public static void main(String[] args) {
-        try {
-            // 设置与系统一致的外观
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public MainFrame() {
         // 1.1 若开启跟随系统设置，自动同步语言和深色模式
@@ -60,8 +49,8 @@ public class MainFrame extends JFrame{
         Localizer.setRuntimeSwitch(enableLangSwitch);
         // 3. 初始化热键（如keyMap有值则覆盖设定的默认值）
         if (config.keyMap != null) {
-            if (config.keyMap.containsKey("start_macro")) {
-                try { keyRecord = Integer.parseInt(config.keyMap.get("start_macro")); } catch (Exception ignored) {} }
+            if (config.keyMap.containsKey("start_record")) {
+                try { keyRecord = Integer.parseInt(config.keyMap.get("start_record")); } catch (Exception ignored) {} }
             if (config.keyMap.containsKey("stop_record")) {
                 try { keyStop = Integer.parseInt(config.keyMap.get("stop_record")); } catch (Exception ignored) {} }
             if (config.keyMap.containsKey("play_macro")) {
@@ -70,6 +59,7 @@ public class MainFrame extends JFrame{
                 try { keyAbort = Integer.parseInt(config.keyMap.get("abort_macro_operation")); } catch (Exception ignored) {} }
         }
         setTitle(Localizer.get("title"));
+        setName("title");
 //        ComponentUtil.setCorrectSize(this,1200,660);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -132,7 +122,7 @@ public class MainFrame extends JFrame{
         saveBtn.addActionListener(e -> {if (!MacroManager.isRecording()) MacroManager.saveToFile(this);});
         loadBtn.addActionListener(e -> {if (!MacroManager.isRecording()) MacroManager.loadFromFile(this);});
         settingsBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new SettingsDialog().setVisible(true)));
-        macroSettingsBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new MacroSettingsDialogTest().setVisible(true)));
+        macroSettingsBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new MacroSettingsDialog().setVisible(true)));
 
         // 禁用JNativeHook日志
         Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
@@ -150,14 +140,11 @@ public class MainFrame extends JFrame{
         GlobalScreen.addNativeMouseMotionListener(GML);
         // 4. 启动时根据配置应用暗色模式
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
+        // 统一应用窗体大小缓存（优先cache.json，无则默认）
+        ComponentUtil.applyWindowSizeCache(this, "title", 430, 330);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        // 注册中止宏操作的全局快捷键监听
-//        getRootPane().registerKeyboardAction(e -> MacroManager.abort(),
-//                KeyStroke.getKeyStroke(keyAbort, 0),
-//                JComponent.WHEN_IN_FOCUSED_WINDOW);
-        pack();
-        setSize(getWidth(),(int) (660/SystemUtil.getScale()[1]));
+        setLocationRelativeTo(null);
+        addWindowListener(new WindowClosingAdapter());
 
     }
 

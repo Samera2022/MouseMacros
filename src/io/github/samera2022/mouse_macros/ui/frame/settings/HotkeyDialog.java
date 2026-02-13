@@ -4,13 +4,17 @@ import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
-import io.github.samera2022.mouse_macros.ui.frame.MainFrame;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 import static io.github.samera2022.mouse_macros.ui.frame.MainFrame.*;
@@ -18,61 +22,75 @@ import static io.github.samera2022.mouse_macros.util.OtherUtil.getNativeKeyDispl
 
 public class HotkeyDialog extends JDialog {
     public static boolean inHotKeyDialog = false;
-    public HotkeyDialog(){
+
+    public HotkeyDialog() {
         inHotKeyDialog = true;
-        //owner
         setTitle(Localizer.get("settings.custom_hotkey"));
+        setName("settings.custom_hotkey");
         setModal(true);
-        setLayout(new GridLayout(4, 2, 5, 5));
+
+        // 界面组件初始化
         JLabel l1 = new JLabel(Localizer.get("start_record") + ":");
         JLabel l2 = new JLabel(Localizer.get("stop_record") + ":");
         JLabel l3 = new JLabel(Localizer.get("play_macro") + ":");
         JLabel l4 = new JLabel(Localizer.get("abort_macro_operation") + ":");
+
         JTextField t1 = new JTextField();
         JTextField t2 = new JTextField();
         JTextField t3 = new JTextField();
         JTextField t4 = new JTextField();
+
         t1.setText(getNativeKeyDisplayText(keyRecord));
         t2.setText(getNativeKeyDisplayText(keyStop));
         t3.setText(getNativeKeyDisplayText(keyPlay));
         t4.setText(getNativeKeyDisplayText(keyAbort));
-        t1.setEditable(false); t2.setEditable(false); t3.setEditable(false); t4.setEditable(false);
-        JButton confirm = new JButton(Localizer.get("settings.custom_hotkey.confirm"));
-        add(l1); add(t1);
-        add(l2); add(t2);
-        add(l3); add(t3);
-        add(l4); add(t4);
-        add(new JLabel()); add(new JLabel()); // 占位，保持布局整齐
 
-        // 构建3行2列的GridLayout面板
-        JPanel gridPanel = new JPanel(new GridLayout(4, 2, 5, 5));
-        gridPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        gridPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 0, 20)); // 上端15像素，左右各20像素间距
+        // 禁止直接输入文本，仅通过键盘钩子捕获
+        t1.setEditable(false); t2.setEditable(false); t3.setEditable(false); t4.setEditable(false);
+        // 设置光标样式为默认（因为不可编辑），增强视觉一致性
+        t1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        JButton confirm = new JButton(Localizer.get("settings.custom_hotkey.confirm"));
+
+        // 构建布局
+        JPanel gridPanel = new JPanel(new GridLayout(4, 2, 5, 10));
+        gridPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 10, 20));
         gridPanel.add(l1); gridPanel.add(t1);
         gridPanel.add(l2); gridPanel.add(t2);
         gridPanel.add(l3); gridPanel.add(t3);
         gridPanel.add(l4); gridPanel.add(t4);
-        // 底部按钮面板
-        JPanel confirmPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+
+        JPanel confirmPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 10));
         confirmPanel.add(confirm);
-        confirmPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 0)); // 下端只留3像素间距
-        // 主面板，垂直排列
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.add(gridPanel);
-        mainPanel.add(Box.createVerticalStrut(10));
         mainPanel.add(confirmPanel);
-        setContentPane(mainPanel);
-        ComponentUtil.setMode(getContentPane(),config.enableDarkMode? OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
 
-        // 捕获JNativeHook按键
+        // --- 核心改进：点击空白处失去焦点 ---
+        mainPanel.setFocusable(true); // 让面板可以接收焦点
+        mainPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mainPanel.requestFocusInWindow(); // 点击主面板，从文本框夺走焦点
+            }
+        });
+        // -------------------------------
+
+        setContentPane(mainPanel);
+
+        // 临时变量存储按键码
         final int[] tempRecord = {keyRecord};
         final int[] tempStop = {keyStop};
         final int[] tempPlay = {keyPlay};
         final int[] tempAbort = {keyAbort};
+
+        // 定义按键监听器
         NativeKeyListener keyListener = new NativeKeyListener() {
             @Override
             public void nativeKeyPressed(NativeKeyEvent e) {
+                // 只有当文本框确实拥有焦点时，才修改对应的值
                 if (t1.hasFocus()) {
                     tempRecord[0] = e.getKeyCode();
                     t1.setText(getNativeKeyDisplayText(tempRecord[0]));
@@ -87,47 +105,67 @@ public class HotkeyDialog extends JDialog {
                     t4.setText(getNativeKeyDisplayText(tempAbort[0]));
                 }
             }
-            @Override public void nativeKeyReleased(NativeKeyEvent e) {}
-            @Override public void nativeKeyTyped(NativeKeyEvent e) {}
         };
-        GlobalScreen.addNativeKeyListener(keyListener);
-        t1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent e) { t1.requestFocus(); }
-        });
-        t2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent e) { t2.requestFocus(); }
-        });
-        t3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent e) { t3.requestFocus(); }
-        });
-        t4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent e) { t4.requestFocus(); }
-        });
+
+        // 统一处理文本框的焦点行为
+        FocusAdapter textFocusAdapter = new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                // 获得焦点时，变色提醒正在录制（可选优化）
+                ((JTextField)e.getSource()).setBackground(UIManager.getColor("TextField.inactiveForeground"));
+                GlobalScreen.addNativeKeyListener(keyListener);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                // 失去焦点时，恢复颜色，并注销全局监听
+                ((JTextField)e.getSource()).setBackground(UIManager.getColor("TextField.background"));
+                GlobalScreen.removeNativeKeyListener(keyListener);
+            }
+        };
+
+        JTextField[] fields = {t1, t2, t3, t4};
+        for (JTextField f : fields) {
+            f.addFocusListener(textFocusAdapter);
+            // 确保鼠标点击能精准触发焦点请求
+            f.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    f.requestFocusInWindow();
+                }
+            });
+        }
+
+        // 确定按钮逻辑
         confirm.addActionListener(e -> {
             keyRecord = tempRecord[0];
             keyStop = tempStop[0];
             keyPlay = tempPlay[0];
             keyAbort = tempAbort[0];
-            // 存储到keyMap，key与本地化一致
+
             config.keyMap.put("start_record", String.valueOf(keyRecord));
             config.keyMap.put("stop_record", String.valueOf(keyStop));
             config.keyMap.put("play_macro", String.valueOf(keyPlay));
             config.keyMap.put("abort_macro_operation", String.valueOf(keyAbort));
-            ConfigManager.saveConfig(config); // 保存配置
+
+            ConfigManager.saveConfig(config);
             ConfigManager.reloadConfig();
-            // 全局刷新热键绑定
-            GlobalScreen.removeNativeKeyListener(GML); // JNativeHook 没有 getNativeKeyListeners 方法，只能移除本实例     // 注销所有全局热键监听器（只保留当前实例）   // 先注销旧热键
-            GlobalScreen.addNativeKeyListener(GML);    // 注册当前实例为全局热键监听器    // 直接注册本实例（JNativeHook 会自动去重）    // 重新注册新热键
-            // 更新主界面按钮文本
-//            startBtn.setText(getStartBtnText());
-//            stopBtn.setText(getStopBtnText());
-//            playBtn.setText(getPlayBtnText());
+
+            // 重新刷新主监听器
+            GlobalScreen.removeNativeKeyListener(GML);
+            GlobalScreen.addNativeKeyListener(GML);
+
+            // 清理当前监听并关闭
             GlobalScreen.removeNativeKeyListener(keyListener);
             inHotKeyDialog = false;
             dispose();
         });
+
+        // 窗体收尾工作
+        ComponentUtil.setMode(getContentPane(), config.enableDarkMode ? OtherConsts.DARK_MODE : OtherConsts.LIGHT_MODE);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        ComponentUtil.setCorrectSize(this, 500, 380);
-        setLocationRelativeTo(this);
+        ComponentUtil.applyWindowSizeCache(this, "settings.custom_hotkey", 250, 225);
+        setLocationRelativeTo(null); // 居中
+        addWindowListener(new WindowClosingAdapter());
     }
 }

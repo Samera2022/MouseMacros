@@ -45,7 +45,6 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
             MacroManager.recordAction(new MouseAction(0, 0, 10, 0, now - MacroManager.getLastTime(), 0, e.getKeyCode(), awtKeyCode));
             MacroManager.setLastTime(now);
             log(Localizer.get("recording_key_pressed") + OtherUtil.getNativeKeyDisplayText(e.getKeyCode()));
-            System.out.println(Localizer.get("recording_key_pressed")+" (keyCode: " + e.getKeyCode() + ", awtKeyCode: " + awtKeyCode + ")");
         }
     }
 
@@ -57,7 +56,6 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
             MacroManager.recordAction(new MouseAction(0, 0, 11, 0, now - MacroManager.getLastTime(), 0, e.getKeyCode(), awtKeyCode));
             MacroManager.setLastTime(now);
             log(Localizer.get("recording_key_released") + OtherUtil.getNativeKeyDisplayText(e.getKeyCode()));
-            System.out.println(Localizer.get("recording_key_released")+" (keyCode: " + e.getKeyCode() + ", awtKeyCode: " + awtKeyCode + ")");
         }
     }
 

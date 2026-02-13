@@ -1,7 +1,12 @@
 package io.github.samera2022.mouse_macros.util;
 
+import io.github.samera2022.mouse_macros.constant.OtherConsts;
+import io.github.samera2022.mouse_macros.fee.FeeConsts;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FileUtil {
     // 读取文件内容，返回字符串，若不存在返回null
@@ -39,5 +44,19 @@ public class FileUtil {
             names[i] = files[i].getName();
         }
         return names;
+    }
+
+    // 获取本地存储路径
+    public static Path getLocalStoragePath() {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win")) {
+            String localAppData = System.getenv("LOCALAPPDATA");
+            return Paths.get(localAppData, OtherConsts.APP_NAME);
+        } else if (os.contains("mac")) {
+            return Paths.get(System.getProperty("user.home"), "Library", "Application Support", OtherConsts.APP_NAME);
+        } else {
+            return Paths.get(System.getProperty("user.home"), ".local", "share", OtherConsts.APP_NAME);
+        }
     }
 }

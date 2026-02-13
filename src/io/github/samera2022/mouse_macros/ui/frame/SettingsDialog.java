@@ -1,9 +1,12 @@
 package io.github.samera2022.mouse_macros.ui.frame;
 
 import io.github.samera2022.mouse_macros.Localizer;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.cache.SizeCache;
+import io.github.samera2022.mouse_macros.constant.ColorConsts;
 import io.github.samera2022.mouse_macros.constant.IconConsts;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 import io.github.samera2022.mouse_macros.manager.ConfigManager;
 import io.github.samera2022.mouse_macros.ui.component.CustomFileChooser;
 import io.github.samera2022.mouse_macros.ui.frame.settings.AboutDialog;
@@ -13,6 +16,7 @@ import io.github.samera2022.mouse_macros.util.ComponentUtil;
 import io.github.samera2022.mouse_macros.util.SystemUtil;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
@@ -22,6 +26,7 @@ public class SettingsDialog extends JDialog {
 
     public SettingsDialog(){
         setTitle(Localizer.get("settings"));
+        setName("settings");
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -84,7 +89,19 @@ public class SettingsDialog extends JDialog {
 
         content.add(subSettingsPanel);
 
-        // 默认存储路径
+        // 默认存储路径启用开关（无缩进，文字在左，勾选框在右）
+        JPanel enableDefaultStoragePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JLabel enableDefaultStorageLabel = new JLabel(Localizer.get("settings.enable_default_storage"));
+        JCheckBox enableDefaultStorageBox = new JCheckBox(IconConsts.CHECK_BOX);
+        enableDefaultStorageBox.setSelected(config.enableDefaultStorage); // 需要在ConfigManager.config中有此字段
+        enableDefaultStoragePanel.add(enableDefaultStorageLabel);
+        enableDefaultStoragePanel.add(Box.createHorizontalStrut(10));
+        enableDefaultStoragePanel.add(enableDefaultStorageBox);
+        enableDefaultStoragePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(Box.createVerticalStrut(10));
+        content.add(enableDefaultStoragePanel);
+
+        // 默认存储路径（缩进）
         JLabel pathLabel = new JLabel(Localizer.get("settings.default_mmc_storage_path"));
         JTextField pathField = new JTextField(config.defaultMmcStoragePath, 20);
         JButton browseBtn = new JButton(Localizer.get("settings.browse"));
@@ -99,6 +116,24 @@ public class SettingsDialog extends JDialog {
                 pathField.setText(chooser.getSelectedFile().getAbsolutePath());
             }
         });
+        // 联动逻辑：enableDefaultStorage控制pathField和browseBtn的可用性
+        pathField.setEnabled(enableDefaultStorageBox.isSelected());
+        browseBtn.setEnabled(enableDefaultStorageBox.isSelected());
+        java.awt.event.ItemListener enableDefaultStorageListener = e -> {
+            boolean enabled = enableDefaultStorageBox.isSelected();
+            pathField.setEnabled(enabled);
+            browseBtn.setEnabled(enabled);
+            //MetalLookAndFeel没有关于disabledBackground或者类似的属性……所以只能在这里硬改了
+            if (!enabled) {
+                pathField.setBackground(config.enableDarkMode?ColorConsts.DARK_MODE_DISABLED_BACKGROUND:ColorConsts.LIGHT_MODE_DISABLED_BACKGROUND);
+                pathField.setForeground(config.enableDarkMode?ColorConsts.DARK_MODE_DISABLED_FOREGROUND:ColorConsts.LIGHT_MODE_DISABLED_FOREGROUND);
+            } else {
+                pathField.setBackground(config.enableDarkMode?ColorConsts.DARK_MODE_PANEL_BACKGROUND:ColorConsts.LIGHT_MODE_PANEL_BACKGROUND);
+                pathField.setForeground(config.enableDarkMode?ColorConsts.DARK_MODE_PANEL_FOREGROUND:ColorConsts.LIGHT_MODE_PANEL_FOREGROUND);
+            }
+        };
+        enableDefaultStorageBox.addItemListener(enableDefaultStorageListener);
+        enableDefaultStorageListener.itemStateChanged(null);
         JPanel pathPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pathPanel.add(pathLabel);
         pathPanel.add(Box.createHorizontalStrut(10));
@@ -106,8 +141,14 @@ public class SettingsDialog extends JDialog {
         pathPanel.add(Box.createHorizontalStrut(10));
         pathPanel.add(browseBtn);
         pathPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // 新增：加缩进
+        JPanel pathIndentPanel = new JPanel();
+        pathIndentPanel.setLayout(new BoxLayout(pathIndentPanel, BoxLayout.Y_AXIS));
+        pathIndentPanel.setBorder(BorderFactory.createEmptyBorder(0, 32, 0, 0)); // 四个空格缩进
+        pathIndentPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pathIndentPanel.add(pathPanel);
         content.add(Box.createVerticalStrut(10));
-        content.add(pathPanel);
+        content.add(pathIndentPanel);
 
         // 热键自定义 + 关于作者 + 更新日志 三列按钮
         JButton hotkeyBtn = new JButton(Localizer.get("settings.custom_hotkey"));
@@ -133,6 +174,7 @@ public class SettingsDialog extends JDialog {
             config.lang = (String) langCombo.getSelectedItem();
             config.defaultMmcStoragePath = pathField.getText();
             config.enableDarkMode = darkModeBox.isSelected();
+            config.enableDefaultStorage = enableDefaultStorageBox.isSelected(); // 新增保存
             // 热键配置保存到config.keyMap（假设已有相关逻辑）
             ConfigManager.saveConfig(config);
             ConfigManager.reloadConfig();
@@ -171,10 +213,8 @@ public class SettingsDialog extends JDialog {
         add(savePanel, BorderLayout.SOUTH);
         // 此处是初始化时设置暗色
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-
-        pack();
-        SizeCache.SIZE = getSize();
+        ComponentUtil.applyWindowSizeCache(this, "settings", 521, 359);
         setLocationRelativeTo(this);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        addWindowListener(new WindowClosingAdapter());
     }
 }

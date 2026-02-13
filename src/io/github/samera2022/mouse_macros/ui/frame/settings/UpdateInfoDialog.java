@@ -2,9 +2,11 @@ package io.github.samera2022.mouse_macros.ui.frame.settings;
 
 import io.github.samera2022.mouse_macros.Localizer;
 import io.github.samera2022.mouse_macros.UpdateInfo;
+import io.github.samera2022.mouse_macros.adapter.WindowClosingAdapter;
 import io.github.samera2022.mouse_macros.cache.SizeCache;
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
 import io.github.samera2022.mouse_macros.util.ComponentUtil;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +16,7 @@ import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
 public class UpdateInfoDialog extends JDialog {
     public UpdateInfoDialog() {
         setTitle(Localizer.get("settings.update_info"));
+        setName("settings.update_info");
         setModal(true);
         setLayout(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -37,12 +40,14 @@ public class UpdateInfoDialog extends JDialog {
         comboPanel.add(Box.createHorizontalStrut(8));
 
         JComboBox<String> infoCombo = getJComboBox();
+        int length = UpdateInfo.values().length;
+        infoCombo.setSelectedIndex(length-1);
         comboPanel.add(infoCombo);
         content.add(Box.createVerticalStrut(10));
         content.add(comboPanel);
 
-        // JTextArea显示内容，初始为第一个内容
-        String firstContent = UpdateInfo.values().length > 0 ? UpdateInfo.values()[0].getFormattedLog() : "";
+        // JTextArea显示内容，初始为最后一个内容
+        String firstContent = UpdateInfo.values().length > 0 ? UpdateInfo.values()[length-1].getFormattedLog() : "";
         JTextArea updateInfoArea = new JTextArea(firstContent);
         updateInfoArea.setEditable(false);
         updateInfoArea.setLineWrap(true);
@@ -63,10 +68,9 @@ public class UpdateInfoDialog extends JDialog {
 
         add(content, BorderLayout.CENTER);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(SizeCache.SIZE);
+        ComponentUtil.applyWindowSizeCache(this, "settings.update_info", 521, 361);
         setLocationRelativeTo(this);
+        addWindowListener(new WindowClosingAdapter());
     }
     //要求JComboBox的宽度恰好能显示list中最长的元素
     private static JComboBox<String> getJComboBox() {
