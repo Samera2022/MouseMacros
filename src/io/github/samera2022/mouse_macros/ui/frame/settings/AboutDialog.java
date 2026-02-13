@@ -46,7 +46,6 @@ public class AboutDialog extends JDialog{
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         JButton githubButton = new JButton("GitHub");
         githubButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        githubButton.setToolTipText(Localizer.get("settings.about_author.github_badge.tooltip"));
         githubButton.addActionListener(e -> {
             try {
                 Desktop.getDesktop().browse(new java.net.URI("https://github.com/Samera2022/MouseMacros"));
