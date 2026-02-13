@@ -1,6 +1,8 @@
 package io.github.samera2022.mouse_macros.util;
 
 import io.github.samera2022.mouse_macros.constant.OtherConsts;
+import io.github.samera2022.mouse_macros.manager.CacheManager;
+import io.github.samera2022.mouse_macros.manager.ConfigManager;
 import io.github.samera2022.mouse_macros.ui.component.CustomScrollBarUI;
 
 import javax.swing.*;
@@ -9,14 +11,36 @@ import java.awt.*;
 import static io.github.samera2022.mouse_macros.constant.ColorConsts.*;
 
 public class ComponentUtil {
-    // 自动调整窗体宽度
-    public static void adjustFrameWidth(JFrame jf,JButton... btns) {
-        int padding = 80; // 额外边距
-        // 两行分组
-        int row1 = btns[0].getPreferredSize().width + btns[1].getPreferredSize().width + btns[2].getPreferredSize().width + 40;
-        int row2 = btns[3].getPreferredSize().width + btns[4].getPreferredSize().width + 20;
-        int maxWidth = Math.max(row1, row2) + padding;
-        jf.setSize(maxWidth, jf.getHeight());
+    // 这里加入hAdjust的主要原因是很多窗体有额外加进去的Box占位符，导致行与行之间的距离被直接忽略了。因此需要手动加调整h的修正量
+    // 得到刚好撑满的3:2的比例
+    private static int[] getProperSize(int hAdjust, JComponent[]... comps2) {
+        int width_max = 0;
+        int height_max = 0;
+        for (int i = 1; i <= comps2.length; i++) {
+            JComponent[] comps = comps2[i-1];
+            int width_len = 0;
+            int height_len = 0;
+            for (JComponent comp : comps) {
+                width_len += comp.getPreferredSize().width;
+                height_len += comp.getPreferredSize().height;
+            }
+            width_max = Math.max(width_max, width_len);
+            height_max = Math.max(height_max, height_len);
+        }
+        int finalWidth = width_max+80+20;
+        int finalHeight = height_max+hAdjust+20;
+        return fitSize(finalWidth, finalHeight);
+    }
+
+
+    private static int[] fitSize(int width, int height) {
+        int targetH = height;
+        int targetW = (int) Math.ceil(height * 3.0 / 2.0);
+        if (targetW < width) {
+            targetW = width;
+            targetH = (int) Math.ceil(width * 2.0 / 3.0);
+        }
+        return new int[]{targetW, targetH};
     }
 
     public static void setMode(Component root, int mode){
@@ -44,12 +68,6 @@ public class ComponentUtil {
     // 递归设置风格
     private static void setComponent(Component comp, int mode, Color bg, Color fg, Color pbg, Color pfg, Color bbg, Color bfg, Color lbg, Color lfg, Color caret) {
         if (comp != null)
-//            if (comp instanceof Container && (!(comp instanceof JScrollPane)) && (!(comp instanceof CustomFileChooser))) {
-//                comp.setBackground(bg);
-//                comp.setForeground(fg);
-//            } else if (comp instanceof CustomFileChooser) {
-//                ((CustomFileChooser) comp).setMode(mode);
-//            } else
                 if (comp instanceof JScrollPane) {
                 comp.setBackground(pbg);
                 setComponent(((JScrollPane) comp).getVerticalScrollBar(),mode);
@@ -132,41 +150,47 @@ public class ComponentUtil {
 
     }
 
-    public static void setCorrectSize(Component c, int x, int y){ c.setSize((int)(x/SystemUtil.getScale()[0]), (int)(y/SystemUtil.getScale()[1])); }
-
-    public static void applyWindowSizeCache(Window window, String key, int defaultW, int defaultH) {
-        io.github.samera2022.mouse_macros.manager.CacheManager.reloadCache(); // 每次都重新读取cache.json
-        String sizeStr = io.github.samera2022.mouse_macros.manager.CacheManager.cache.windowSizeMap.get(key);
-        if (sizeStr != null) {
-            String[] arr = null;
-            if (sizeStr.matches("\\d+,\\d+")) {
-                arr = sizeStr.split(",");
-            } else if (sizeStr.matches("\\d+\\*\\d+")) {
-                arr = sizeStr.split("\\*");
-            }
-            if (arr != null && arr.length == 2) {
-                try {
-                    int w = Integer.parseInt(arr[0]);
-                    int h = Integer.parseInt(arr[1]);
-                    window.setSize(w, h);
-                } catch (Exception e) {
-                    setCorrectSize(window, defaultW, defaultH);
-                }
-            } else {
-                setCorrectSize(window, defaultW, defaultH);
-            }
-        } else {
-            setCorrectSize(window, defaultW, defaultH);
+    private static int[] parseWindowSize(String sizeStr) {
+        if (sizeStr == null) return null;
+        String[] arr = null;
+        if (sizeStr.matches("\\d+,\\d+")) {
+            arr = sizeStr.split(",");
+        } else if (sizeStr.matches("\\d+\\*\\d+")) {
+            arr = sizeStr.split("\\*");
         }
-        // 监听关闭事件，写入最新大小
-        window.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                int w = window.getWidth();
-                int h = window.getHeight();
-                io.github.samera2022.mouse_macros.manager.CacheManager.cache.windowSizeMap.put(key, w + "," + h);
-                io.github.samera2022.mouse_macros.manager.CacheManager.saveCache();
+        if (arr != null && arr.length == 2) {
+            try {
+                int w = Integer.parseInt(arr[0]);
+                int h = Integer.parseInt(arr[1]);
+                return new int[]{w, h};
+            } catch (Exception e) {
+                return null;
             }
-        });
+        }
+        return null;
+    }
+
+    public static void adjustFrameWithCache(Window window, int hAdjust, JComponent[]... comps ){
+        String rawSizeString = CacheManager.cache.windowSizeMap.get(window.getName());
+        int[] properSize = getProperSize(hAdjust, comps);
+        if (rawSizeString==null) {
+            int[] fitSize = fitSize(properSize[0], properSize[1]);
+            window.setSize(fitSize[0], fitSize[1]);
+        }
+        else {
+            int[] cacheSize = parseWindowSize(rawSizeString);
+            switch (ConfigManager.config.readjustFrameMode) {
+                case ConfigManager.RFM_MIXED:
+                    int[] fitSize = fitSize(Math.max(properSize[0], cacheSize[0]), Math.max(properSize[1], cacheSize[1]));
+                    window.setSize(fitSize[0], fitSize[1]);
+                    break;
+                case ConfigManager.RFM_STANDARDIZED:
+                    window.setSize(properSize[0],properSize[1]);
+                    break;
+                case ConfigManager.RFM_MEMORIZED:
+                    window.setSize(cacheSize[0], cacheSize[1]);
+                    break;
+            }
+        }
     }
 }

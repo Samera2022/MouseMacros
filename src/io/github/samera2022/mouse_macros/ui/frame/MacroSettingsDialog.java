@@ -52,14 +52,14 @@ public class MacroSettingsDialog extends JDialog {
         subSettingsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         subSettingsPanel.setFocusable(true);
 
-        JLabel repeatLabel = new JLabel(Localizer.get("macro_settings.repeat_times") + ": ");
-        JTextField repeatField = new JTextField(String.valueOf(config.repeatTime));
-        repeatField.setColumns(7); // 10位数字
+        JLabel repeatTimesLabel = new JLabel(Localizer.get("macro_settings.repeat_times") + ": ");
+        JTextField repeatTimesField = new JTextField(String.valueOf(config.repeatTime));
+        repeatTimesField.setColumns(7); // 10位数字
         // 计算能完全显示2147483647所需的宽度
         // 先临时设置字体，确保FontMetrics获取准确
-        repeatField.setFont(repeatField.getFont());
+        repeatTimesField.setFont(repeatTimesField.getFont());
         // 只允许输入全体正整数，或唯一允许的负数为-1，允许输入"-"便于编辑
-        ((javax.swing.text.AbstractDocument) repeatField.getDocument()).setDocumentFilter(new DocumentInputFilter() {
+        ((javax.swing.text.AbstractDocument) repeatTimesField.getDocument()).setDocumentFilter(new DocumentInputFilter() {
             @Override
             public boolean isValidContent(String text) {
                 // 只允许-1，正整数，空字符串，或单独一个负号（便于输入-1）
@@ -79,10 +79,10 @@ public class MacroSettingsDialog extends JDialog {
             }
         });
 
-        JPanel repeatPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        repeatPanel.add(repeatLabel);
-        repeatPanel.add(repeatField);
-        repeatPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JPanel repeatTimesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        repeatTimesPanel.add(repeatTimesLabel);
+        repeatTimesPanel.add(repeatTimesField);
+        repeatTimesPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // repeatDelay 同级同缩进
         JPanel repeatDelayPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -90,7 +90,9 @@ public class MacroSettingsDialog extends JDialog {
         repeatDelayPanel.add(repeatDelayField);
         repeatDelayPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        subSettingsPanel.add(repeatPanel);
+        subSettingsPanel.add(Box.createVerticalStrut(10));
+        subSettingsPanel.add(repeatTimesPanel);
+        subSettingsPanel.add(Box.createVerticalStrut(10));
         subSettingsPanel.add(repeatDelayPanel);
         subSettingsPanel.add(Box.createHorizontalStrut(10));
         content.add(subSettingsPanel);
@@ -98,7 +100,7 @@ public class MacroSettingsDialog extends JDialog {
         // 保存按钮单独底部居中
         JButton saveSettingsBtn = new JButton(Localizer.get("macro_settings.save_settings"));
         saveSettingsBtn.addActionListener(e -> {
-            String text = repeatField.getText();
+            String text = repeatTimesField.getText();
             String delayText = repeatDelayField.getText();
             if (!text.isEmpty()) {
                 config.enableCustomMacroSettings = enableCustomSettingsBox.isSelected();
@@ -125,10 +127,10 @@ public class MacroSettingsDialog extends JDialog {
         //联动
         java.awt.event.ItemListener followSysListener = e -> {
             boolean enabled = enableCustomSettingsBox.isSelected();
-            repeatField.setEnabled(enabled);
+            repeatTimesField.setEnabled(enabled);
             repeatDelayField.setEnabled(enabled);
             if (!enabled) {
-                repeatField.setText("1");
+                repeatTimesField.setText("1");
                 repeatDelayField.setText("0");
             }
         };
@@ -138,7 +140,12 @@ public class MacroSettingsDialog extends JDialog {
         add(content, BorderLayout.CENTER);
         add(savePanel, BorderLayout.SOUTH);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "macro_settings", 280, 181);
+        ComponentUtil.adjustFrameWithCache(this, 170,
+            new JComponent[]{macroSettingsTitle},
+            new JComponent[]{enableCustomSettingsPanel},
+            new JComponent[]{subSettingsPanel}, // 缩进行整体用panel
+            new JComponent[]{saveSettingsBtn}
+        );
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }

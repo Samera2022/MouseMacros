@@ -8,6 +8,8 @@
   "main_frame.abort_macro_operation": "작업 중단",
 
   "settings": "설정",
+  "settings.appearance_section": "외관",
+  "settings.system_section": "시스템",
   "settings.follow_system_settings": "시스템 설정 따르기",
   "settings.switch_lang": "언어 전환",
   "settings.enable_dark_mode": "다크 모드 활성화",
@@ -21,12 +23,15 @@
   "settings.save_settings": "모든 설정 저장 및 적용",
   "settings.enable_quick_mode": "빠른 모드 활성화",
   "settings.allow_long_str": "긴 툴팁을 줄 바꿈 없이 표시 허용",
+  "settings.readjust_frame_mode": "창 크기 조정 방식",
+
   "settings.switch_lang.disabled.tooltip": "이 옵션을 편집하려면 먼저 시스템 설정 따르기를 비활성화해야 합니다.",
   "settings.enable_dark_mode.disabled.tooltip": "이 옵션을 편집하려면 먼저 시스템 설정 따르기를 비활성화해야 합니다.",
   "settings.default_mmc_storage_path.disabled.tooltip": "이 경로를 편집하려면 먼저 기본 저장소 모드를 활성화해야 합니다.",
   "settings.default_mmc_storage_path.tooltip": "이 경로는 매크로 저장/불러오기 기본 폴더입니다. 활성화 시 캐시 경로 기억 기능이 비활성화됩니다.",
   "settings.enable_quick_mode.tooltip": "이 모드에서는 MouseMacros가 마우스와 키보드 동작 순서만 재현하며, 중간의 모든 정지 시간을 무시합니다.",
   "settings.allow_long_str.tooltip": "활성화하면 MouseMacros가 긴 툴팁을 줄 바꿈 없이 표시하려고 시도합니다.",
+  "settings.readjust_frame_mode.tooltip": "이 옵션은 언어 설정 변경 후 MouseMacros가 '이전 창 크기(c)'와 '권장 창 크기(p)'를 처리하는 방식에 영향을 줍니다.\nMIXED는 혼합 모드로, c와 p 중 더 큰 값을 사용하여 최소 3:2 창 크기를 계산합니다.\nSTANDARDIZED는 표준 모드로, p만 사용하여 최소 3:2 창 크기를 계산합니다.\nMEMORIZED는 기억 모드로, '이전 창 크기(c)'를 직접 사용합니다.",
 
   "settings.about_author": "저자 정보",
   "settings.about_author.github.tooltip": "Github 프로젝트 메인 페이지 방문",
@@ -37,6 +42,7 @@
   "macro_settings.repeat_times": "실행 반복 횟수",
   "macro_settings.repeat_delay": "실행 반복 지연(초)",
   "macro_settings.save_settings": "모든 매크로 설정 저장 및 적용",
+
   "macro_settings.repeat_times.disabled.tooltip": "이 옵션을 편집하려면 먼저 사용자 지정 매크로를 활성화해야 합니다.",
   "macro_settings.repeat_delay.tooltip": "다음 반복 실행까지 필요한 대기 시간(최대 소수점 3자리, 밀리초까지 지원)",
   "macro_settings.repeat_delay.disabled.tooltip": "이 옵션을 편집하려면 먼저 사용자 지정 매크로를 활성화해야 합니다.",

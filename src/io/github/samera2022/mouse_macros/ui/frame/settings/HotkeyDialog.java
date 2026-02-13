@@ -11,10 +11,7 @@ import io.github.samera2022.mouse_macros.util.ComponentUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.Objects;
 
 import static io.github.samera2022.mouse_macros.manager.ConfigManager.config;
@@ -32,10 +29,10 @@ public class HotkeyDialog extends JDialog {
         setModal(true);
 
         // 界面组件初始化
-        JLabel l1 = new JLabel(Localizer.get("start_record") + ":");
-        JLabel l2 = new JLabel(Localizer.get("stop_record") + ":");
-        JLabel l3 = new JLabel(Localizer.get("play_macro") + ":");
-        JLabel l4 = new JLabel(Localizer.get("abort_macro_operation") + ":");
+        JLabel l1 = new JLabel(Localizer.get("main_frame.start_record") + ":");
+        JLabel l2 = new JLabel(Localizer.get("main_frame.stop_record") + ":");
+        JLabel l3 = new JLabel(Localizer.get("main_frame.play_macro") + ":");
+        JLabel l4 = new JLabel(Localizer.get("main_frame.abort_macro_operation") + ":");
 
         JTextField t1 = new JTextField();
         JTextField t2 = new JTextField();
@@ -162,9 +159,15 @@ public class HotkeyDialog extends JDialog {
 
         // 窗体收尾工作
         ComponentUtil.setMode(getContentPane(), config.enableDarkMode ? OtherConsts.DARK_MODE : OtherConsts.LIGHT_MODE);
+        pack();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        ComponentUtil.applyWindowSizeCache(this, "settings.custom_hotkey", 250, 225);
         setLocationRelativeTo(null); // 居中
         addWindowListener(new WindowClosingAdapter());
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {inHotKeyDialog = false;}
+            @Override
+            public void windowClosing(WindowEvent e) {inHotKeyDialog = false;}
+        });
     }
 }

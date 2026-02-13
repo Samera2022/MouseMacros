@@ -40,7 +40,15 @@ public class SettingsDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(new JSeparator());
 
-        // 跟随系统设置（文字在左，勾选框在右）
+        JLabel appearanceTitle = new JLabel(Localizer.get("settings.appearance_section"));
+        appearanceTitle.setFont(settingTitle.getFont().deriveFont(Font.BOLD, 16f));
+        appearanceTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(appearanceTitle);
+        content.add(Box.createVerticalStrut(3));
+
+        // --- 外观相关选项 ---
+
+        // 1. 跟随系统设置 (一级)
         JPanel followSysPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel followSysLabel = new JLabel(Localizer.get("settings.follow_system_settings"));
         JCheckBox followSysBox = new JCheckBox(IconConsts.CHECK_BOX);
@@ -52,13 +60,13 @@ public class SettingsDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(followSysPanel);
 
-        // 二级设置面板（缩进）
+        // 缩进的子面板 (仅包含语言和暗色模式)
         JPanel subSettingsPanel = new JPanel();
         subSettingsPanel.setLayout(new BoxLayout(subSettingsPanel, BoxLayout.Y_AXIS));
-        subSettingsPanel.setBorder(BorderFactory.createEmptyBorder(0, 32, 0, 0)); // 四个空格缩进
+        subSettingsPanel.setBorder(BorderFactory.createEmptyBorder(0, 32, 0, 0)); // 保持缩进
         subSettingsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // 语言选择
+        // 语言选择 (二级，保持缩进)
         JLabel langLabel = new JLabel(Localizer.get("settings.switch_lang"));
         String[] langs = ConfigManager.getAvailableLangs();
         JComboBox<String> langCombo = new JComboBox<>(langs);
@@ -72,7 +80,7 @@ public class SettingsDialog extends JDialog {
         subSettingsPanel.add(langPanel);
         subSettingsPanel.add(Box.createVerticalStrut(10));
 
-        // 暗色模式（文字在左，勾选框在右）
+        // 暗色模式 (二级，保持缩进)
         JPanel darkModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel darkModeLabel = new JLabel(Localizer.get("settings.enable_dark_mode"));
         JCheckBox darkModeBox = new JCheckBox(IconConsts.CHECK_BOX);
@@ -83,33 +91,67 @@ public class SettingsDialog extends JDialog {
         darkModePanel.add(darkModeBox);
         darkModePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         subSettingsPanel.add(darkModePanel);
-        subSettingsPanel.add(Box.createVerticalStrut(10));
 
+        // 将 subSettingsPanel 添加到 content
         content.add(subSettingsPanel);
 
-        // 联动逻辑：根据followSysBox状态控制langCombo和darkModeBox可编辑性，并同步系统设置
-        java.awt.event.ItemListener followSysListener = e -> {
-            boolean enabled = !followSysBox.isSelected();
-            langCombo.setEnabled(enabled);
-            darkModeBox.setEnabled(enabled);
-            if (!enabled) {
-                // 跟随系统，自动设置语言和暗色模式
-                String sysLang = SystemUtil.getSystemLang(ConfigManager.getAvailableLangs());
-                boolean sysDark = SystemUtil.isSystemDarkMode();
-                langCombo.setSelectedItem(sysLang);
-                darkModeBox.setSelected(sysDark);
-            }
-        };
-        followSysBox.addItemListener(followSysListener);
-        // 初始化时同步一次
-        followSysListener.itemStateChanged(null);
+        // [修改点 1] 允许长字符串 (移出 subSettingsPanel，变回一级对齐)
+        JPanel allowLongStrPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JLabel allowLongStrLabel = new JLabel(Localizer.get("settings.allow_long_str"));
+        allowLongStrLabel.addMouseListener(new MouseCheckAdapter(Localizer.get("settings.allow_long_str.tooltip")));
+        JCheckBox allowLongStrCheckBox = new JCheckBox(IconConsts.CHECK_BOX);
+        allowLongStrCheckBox.setSelected(config.allowLongStr);
+        allowLongStrPanel.add(allowLongStrLabel);
+        allowLongStrPanel.add(Box.createHorizontalStrut(10));
+        allowLongStrPanel.add(allowLongStrCheckBox);
+        allowLongStrPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(Box.createVerticalStrut(10)); // 补充间距
+        content.add(allowLongStrPanel); // 直接添加到 content
 
-        // 默认存储路径启用开关（无缩进，文字在左，勾选框在右）
+        // [修改点 1] 调整窗体大小模式 (移出 subSettingsPanel，变回一级对齐)
+        JPanel rfmPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JLabel rfmLabel = new JLabel(Localizer.get("settings.readjust_frame_mode"));
+        rfmLabel.addMouseListener(new MouseCheckAdapter(Localizer.get("settings.readjust_frame_mode.tooltip")));
+        String[] rfmModes = {ConfigManager.RFM_MIXED, ConfigManager.RFM_STANDARDIZED, ConfigManager.RFM_MEMORIZED};
+        JComboBox<String> rfmCombo = new JComboBox<>(rfmModes);
+        rfmCombo.setSelectedItem(config.readjustFrameMode);
+        rfmPanel.add(rfmLabel);
+        rfmPanel.add(Box.createHorizontalStrut(10));
+        rfmPanel.add(rfmCombo);
+        rfmPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(rfmPanel); // 直接添加到 content
+
+        // 小分割线
+        JSeparator smallSep = new JSeparator();
+        smallSep.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+        content.add(Box.createVerticalStrut(8));
+        content.add(smallSep);
+
+        // --- 系统设置 ---
+        JLabel systemTitle = new JLabel(Localizer.get("settings.system_section"));
+        systemTitle.setFont(settingTitle.getFont().deriveFont(Font.BOLD, 16f));
+        systemTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(systemTitle);
+        content.add(Box.createVerticalStrut(3));
+
+        JPanel quickModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JLabel quickModeLabel = new JLabel(Localizer.get("settings.enable_quick_mode"));
+        quickModeLabel.addMouseListener(new MouseCheckAdapter(Localizer.get("settings.enable_quick_mode.tooltip")));
+        JCheckBox quickModeBox = new JCheckBox(IconConsts.CHECK_BOX);
+        quickModeBox.setSelected(config.enableQuickMode);
+        quickModePanel.add(quickModeLabel);
+        quickModePanel.add(Box.createHorizontalStrut(10));
+        quickModePanel.add(quickModeBox);
+        quickModePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(Box.createVerticalStrut(10));
+        content.add(quickModePanel);
+
+        // 默认存储模式 (现在在快速模式之后)
         JPanel enableDefaultStoragePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel enableDefaultStorageLabel = new JLabel(Localizer.get("settings.enable_default_storage"));
         enableDefaultStorageLabel.addMouseListener(new MouseCheckAdapter(Localizer.get("settings.default_mmc_storage_path.tooltip")));
         JCheckBox enableDefaultStorageBox = new JCheckBox(IconConsts.CHECK_BOX);
-        enableDefaultStorageBox.setSelected(config.enableDefaultStorage); // 需要在ConfigManager.config中有此字段
+        enableDefaultStorageBox.setSelected(config.enableDefaultStorage);
         enableDefaultStoragePanel.add(enableDefaultStorageLabel);
         enableDefaultStoragePanel.add(Box.createHorizontalStrut(10));
         enableDefaultStoragePanel.add(enableDefaultStorageBox);
@@ -117,13 +159,12 @@ public class SettingsDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(enableDefaultStoragePanel);
 
-        // 二级设置面板（缩进）
         JPanel subSettingsPanel2 = new JPanel();
         subSettingsPanel2.setLayout(new BoxLayout(subSettingsPanel2, BoxLayout.Y_AXIS));
-        subSettingsPanel2.setBorder(BorderFactory.createEmptyBorder(0, 32, 0, 0)); // 四个空格缩进
+        subSettingsPanel2.setBorder(BorderFactory.createEmptyBorder(0, 32, 0, 0));
         subSettingsPanel2.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // 默认存储路径
+        // 默认存储路径 (保持作为默认存储的子项缩进)
         JLabel pathLabel = new JLabel(Localizer.get("settings.default_mmc_storage_path"));
         JTextField pathField = new JTextField(config.defaultMmcStoragePath, 20);
         JButton browseBtn = new JButton(Localizer.get("settings.browse"));
@@ -137,7 +178,6 @@ public class SettingsDialog extends JDialog {
                 pathField.setText(chooser.getSelectedFile().getAbsolutePath());
             }
         });
-        // 联动逻辑：enableDefaultStorage控制pathField和browseBtn的可用性
         pathField.setEnabled(enableDefaultStorageBox.isSelected());
         pathField.addMouseListener(new MouseCheckDisabledAdapter(Localizer.get("settings.default_mmc_storage_path.disabled.tooltip")));
         browseBtn.setEnabled(enableDefaultStorageBox.isSelected());
@@ -146,7 +186,6 @@ public class SettingsDialog extends JDialog {
             boolean enabled = enableDefaultStorageBox.isSelected();
             pathField.setEnabled(enabled);
             browseBtn.setEnabled(enabled);
-            //MetalLookAndFeel没有关于disabledBackground或者类似的属性……所以只能在这里硬改了
             if (!enabled) {
                 pathField.setBackground(config.enableDarkMode?ColorConsts.DARK_MODE_DISABLED_BACKGROUND:ColorConsts.LIGHT_MODE_DISABLED_BACKGROUND);
                 pathField.setForeground(config.enableDarkMode?ColorConsts.DARK_MODE_DISABLED_FOREGROUND:ColorConsts.LIGHT_MODE_DISABLED_FOREGROUND);
@@ -168,30 +207,6 @@ public class SettingsDialog extends JDialog {
         content.add(Box.createVerticalStrut(10));
         content.add(subSettingsPanel2);
 
-        JPanel quickModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        JLabel quickModeLabel = new JLabel(Localizer.get("settings.enable_quick_mode"));
-        quickModeLabel.addMouseListener(new MouseCheckAdapter(Localizer.get("settings.enable_quick_mode.tooltip")));
-        JCheckBox quickModeBox = new JCheckBox(IconConsts.CHECK_BOX);
-        quickModeBox.setSelected(config.enableQuickMode);
-        quickModePanel.add(quickModeLabel);
-        quickModePanel.add(Box.createHorizontalStrut(10));
-        quickModePanel.add(quickModeBox);
-        quickModePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        content.add(Box.createVerticalStrut(10));
-        content.add(quickModePanel);
-
-        // 允许长字符串勾选框
-        JPanel allowLongStrPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        JLabel allowLongStrLabel = new JLabel(Localizer.get("settings.allow_long_str"));
-        allowLongStrLabel.addMouseListener(new MouseCheckAdapter(Localizer.get("settings.allow_long_str.tooltip")));
-        JCheckBox allowLongStrCheckBox = new JCheckBox(IconConsts.CHECK_BOX);
-        allowLongStrCheckBox.setSelected(config.allowLongStr);
-        allowLongStrPanel.add(allowLongStrLabel);
-        allowLongStrPanel.add(Box.createHorizontalStrut(10));
-        allowLongStrPanel.add(allowLongStrCheckBox);
-        allowLongStrPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        content.add(Box.createVerticalStrut(10));
-        content.add(allowLongStrPanel);
 
         // 热键自定义 + 关于作者 + 更新日志 三列按钮
         JButton hotkeyBtn = new JButton(Localizer.get("settings.custom_hotkey"));
@@ -220,6 +235,7 @@ public class SettingsDialog extends JDialog {
             config.enableDefaultStorage = enableDefaultStorageBox.isSelected();
             config.enableQuickMode = quickModeBox.isSelected();
             config.allowLongStr = allowLongStrCheckBox.isSelected();
+            config.readjustFrameMode = (String) rfmCombo.getSelectedItem();
             ConfigManager.saveConfig(config);
             ConfigManager.reloadConfig();
             Localizer.load(config.lang);
@@ -229,7 +245,6 @@ public class SettingsDialog extends JDialog {
             // 但是似乎用到ContentPane就已经把能看到的组件都设置好了
             ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
             ComponentUtil.setMode(MAIN_FRAME.getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-            MainFrame.adjustFrameWidth();
             dispose();
         });
         JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -240,7 +255,18 @@ public class SettingsDialog extends JDialog {
         add(savePanel, BorderLayout.SOUTH);
         // 此处是初始化时设置暗色
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
-        ComponentUtil.applyWindowSizeCache(this, "settings", 521, 359);
+        ComponentUtil.adjustFrameWithCache(this, 430,
+                new JComponent[]{settingTitle},
+                new JComponent[]{followSysLabel, followSysBox},
+                new JComponent[]{subSettingsPanel},
+                new JComponent[]{enableDefaultStorageLabel, enableDefaultStorageBox},
+                new JComponent[]{subSettingsPanel2},
+                new JComponent[]{quickModeLabel, quickModeBox},
+                new JComponent[]{allowLongStrLabel, allowLongStrCheckBox},
+                new JComponent[]{rfmLabel, rfmCombo},
+                new JComponent[]{hotkeyBtn, aboutBtn, updateInfoBtn},
+                new JComponent[]{saveSettingsBtn}
+        );
         setLocationRelativeTo(this);
         addWindowListener(new WindowClosingAdapter());
     }

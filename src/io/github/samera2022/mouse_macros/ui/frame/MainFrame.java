@@ -27,8 +27,7 @@ import java.util.logging.Logger;
 
 public class MainFrame extends JFrame{
     public static JTextArea logArea;
-    public final JButton startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn, abortBtn, macroSettingsBtn;
-
+    private final JButton startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn, abortBtn, macroSettingsBtn;
     // 热键自定义
     public static int keyRecord = NativeKeyEvent.VC_F2;
     public static int keyStop = NativeKeyEvent.VC_F3;
@@ -115,7 +114,7 @@ public class MainFrame extends JFrame{
         add(southContainer, BorderLayout.SOUTH);
 
         // 自动调整窗体宽度
-        ComponentUtil.adjustFrameWidth(this, startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn);
+//        ComponentUtil.adjustFrameWidth(this, startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn);
 
         startBtn.addActionListener(e -> {if ((!MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.startRecording();});
         stopBtn.addActionListener(e -> {if ((MacroManager.isRecording())&&(!HotkeyDialog.inHotKeyDialog)) MacroManager.stopRecording(); else log(Localizer.get("log.macro_not_recording"));});
@@ -142,7 +141,8 @@ public class MainFrame extends JFrame{
         GlobalScreen.addNativeMouseMotionListener(GML);
         ComponentUtil.setMode(getContentPane(),config.enableDarkMode?OtherConsts.DARK_MODE:OtherConsts.LIGHT_MODE);
         // 统一应用窗体大小缓存（优先cache.json，无则默认）
-        ComponentUtil.applyWindowSizeCache(this, "main_frame", 430, 330);
+//        ComponentUtil.applyWindowSizeCache(this, "main_frame", 430, 330);
+        ComponentUtil.adjustFrameWithCache(this, 0, new JComponent[]{logArea}, new JComponent[]{startBtn, stopBtn, playBtn}, new JComponent[]{abortBtn,saveBtn, loadBtn, settingsBtn, macroSettingsBtn});
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         addWindowListener(new WindowClosingAdapter());
@@ -181,7 +181,7 @@ public class MainFrame extends JFrame{
             }
         }
         // 如有其它需要本地化的组件，也可在此统一刷新
-        ComponentUtil.adjustFrameWidth(this, startBtn, stopBtn, playBtn, saveBtn, loadBtn, settingsBtn, abortBtn, macroSettingsBtn);
+        ComponentUtil.adjustFrameWithCache(this, 0, new JComponent[]{logArea}, new JComponent[]{startBtn, stopBtn, playBtn}, new JComponent[]{abortBtn,saveBtn, loadBtn, settingsBtn, macroSettingsBtn});
     }
 
     public void refreshSpecialTexts(){
@@ -195,11 +195,6 @@ public class MainFrame extends JFrame{
     private String getStopBtnText() {return Localizer.get("main_frame.stop_record") + " (" + OtherUtil.getNativeKeyDisplayText(keyStop) + ")";}
     private String getPlayBtnText() {return Localizer.get("main_frame.play_macro") + " (" + OtherUtil.getNativeKeyDisplayText(keyPlay) + ")";}
     private String getAbortBtnText() {return Localizer.get("main_frame.abort_macro_operation") + " (" + OtherUtil.getNativeKeyDisplayText(keyAbort) + ")";}
-
-    public static void adjustFrameWidth(){
-        MAIN_FRAME.pack();
-        MAIN_FRAME.setSize(MAIN_FRAME.getWidth(),(int) (660/SystemUtil.getScale()[1]));
-    }
 
     private void initTrayIcon() {
         if (!SystemTray.isSupported()) return;
