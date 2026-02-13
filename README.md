@@ -35,6 +35,12 @@
 * **Smart Memory**: Remembers window sizes, last-used directories, and custom configurations across sessions.
 * **Floating Tooltip**: Shows helpful instructions and tips near the cursor for easier operation.
 
+## Security & Binary Integrity
+To ensure the safety and authenticity of our Windows binaries, MouseMacros is currently integrating with SignPath Foundation for free code signing.
+- Status: Application in progress / Integration pending.
+- Future Releases: Once approved, all Windows installers (.msi) and executables (.exe) will be digitally signed by SignPath Foundation.
+![alt text](https://img.shields.io/badge/Code%20Signing-SignPath.io-blue)
+
 ## Getting Started
 
 ### Quick Launch

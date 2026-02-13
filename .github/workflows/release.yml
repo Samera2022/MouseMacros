@@ -1,0 +1,115 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '[0-9]*'
+
+env:
+  JAVA_VERSION: '11.0.27'
+  JAVA_DIST: 'liberica'
+
+jobs:
+  build-and-release:
+    name: Build All Formats and Release
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Calculate Versioning Logic
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $displayVersion = $tag
+          
+          $parts = $tag -split '[-.]'
+          $major = $parts[0]
+          $minor = $parts[1]
+          $patch = $parts[2]
+          
+          $lastChar = $tag.Substring($tag.Length - 1).ToLower()
+          if ($lastChar -match "[a-z]") {
+              $letterValue = [int][char]$lastChar - 96
+              $serVersion = "$major.$minor.$patch.$letterValue"
+          } else {
+              $serVersion = "$major.$minor.$patch"
+          }
+          
+          Write-Host "Display Version: $displayVersion"
+          Write-Host "Serial Version: $serVersion"
+          
+          "APP_DISPLAY_VERSION=$displayVersion" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "APP_SERIAL_VERSION=$serVersion" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DIST }}
+          cache: 'maven'
+
+      - name: Install Build Tools (WiX & Enigma)
+        shell: pwsh
+        run: |
+          "C:\Program Files (x86)\WiX Toolset v3.11\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+          choco install wixtoolset --ignore-checksums -y
+          choco install enigmavirtualbox --no-progress --ignore-checksums -y
+
+      - name: Update POM and Build
+        shell: pwsh
+        run: |
+          mvn versions:set "-DnewVersion=${{ env.APP_SERIAL_VERSION }}" -DgenerateBackupPoms=false
+          mvn clean package -DskipTests "-Dapp.semantic.version=${{ env.APP_SERIAL_VERSION }}" "-Dapp.display.version=${{ env.APP_DISPLAY_VERSION }}"
+
+      - name: Execute Packaging Scripts
+        shell: pwsh
+        env:
+          APP_DISPLAY_VERSION: ${{ env.APP_DISPLAY_VERSION }}
+          APP_SERIAL_VERSION: ${{ env.APP_SERIAL_VERSION }}
+          MSI_WIN_UPGRADE_UUID: ${{ secrets.MSI_WIN_UPGRADE_UUID }}
+        run: |
+          Write-Host "Starting Multi-format Packaging for version $env:APP_DISPLAY_VERSION..." -ForegroundColor Magenta
+          
+          "jar", "zip", "exe", "msi" | ForEach-Object {
+              Write-Host "--> Packaging format: $_" -ForegroundColor Cyan
+              ./.build/build.ps1 -Type $_
+          }
+
+      - name: Generate Changelog
+        id: changelog_gen
+        shell: pwsh
+        run: |
+          $jsonPath = "src/main/resources/updates.json"
+          $ver = "${{ env.APP_DISPLAY_VERSION }}"
+          $logFile = "release_body.txt"
+          
+          if (Test-Path $jsonPath) {
+              $updates = Get-Content $jsonPath -Raw | ConvertFrom-Json
+              $entry = $updates."$ver"
+              if ($entry) {
+                  $body = "[$($entry.releaseDate)] $ver`n`n$($entry.description)"
+                  [System.IO.File]::WriteAllLines("$(Get-Location)/$logFile", $body, (New-Object System.Text.UTF8Encoding $False))
+                  return
+              }
+          }
+          "Release for version $ver" | Out-File -FilePath $logFile -Encoding utf8
+
+      - name: Publish Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ env.APP_DISPLAY_VERSION }}
+          body_path: release_body.txt
+          draft: false
+          prerelease: ${{ contains(env.APP_DISPLAY_VERSION, '-') }}
+          files: |
+            output/*.jar
+            output/*.zip
+            output/*.exe
+            output/*.msi
+            output/*.msix
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
