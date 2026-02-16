@@ -39,7 +39,6 @@
   "settings.readjust_frame_mode.2": "STANDARDIZED",
   "settings.readjust_frame_mode.3": "MEMORIZED",
 
-
   "settings.default_mmc_storage_path.tooltip": "该路径为保存/加载宏的默认文件夹打开路径，启用后将禁用cache的路径记忆功能。",
   "settings.enable_quick_mode.tooltip": "MouseMacros在此模式下只按照鼠标和键盘操作的先后顺序进行复现，忽略中间所有停顿时间。",
   "settings.allow_long_str.tooltip": "启用后，MouseMacros将尝试把长的悬浮说明不换行地显示。",
@@ -96,7 +95,6 @@
   "exit.minimize_to_tray": "最小化到托盘",
   "exit.remember_this_option": "记住我的选择",
   "exit.finish": "确定",
-
 
   "lang.tooltip.disabled.default": "欲启用本选项，首先需要切换“%s”的状态。"
 }
