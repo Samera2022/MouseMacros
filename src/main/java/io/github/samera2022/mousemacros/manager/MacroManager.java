@@ -29,6 +29,9 @@ public class MacroManager {
     private static int currentLoop = 0;
     private static int currentActionIndex = 0;
 
+    // 标记当前是否正在执行回放产生的输入
+    private static volatile boolean isReplayingInput = false;
+
     private static void preciseSleep(long millis) throws InterruptedException {
         if (millis <= 0) {
             return;
@@ -108,7 +111,12 @@ public class MacroManager {
                             long sleepTime = ConfigManager.getBoolean("enable_quick_mode") ? 0 : action.delay;
                             preciseSleep(sleepTime);
 
-                            action.perform();
+                            isReplayingInput = true;
+                            try {
+                                action.perform();
+                            } finally {
+                                isReplayingInput = false;
+                            }
                         }
                     }
                 } catch (InterruptedException e) {
@@ -122,6 +130,9 @@ public class MacroManager {
                     paused = false;
                     synchronized (playThreadLock) {
                         playThread = null;
+                    }
+                    if (abortReason.equals("COMPLETED")) {
+                        log(Localizer.get("log.playback_complete"));
                     }
                     SwingUtilities.invokeLater(MainFrame.MAIN_FRAME::refreshSpecialTexts);
                 }
@@ -140,6 +151,10 @@ public class MacroManager {
 
     public static boolean isPaused() {
         return paused;
+    }
+
+    public static boolean isReplayingInput() {
+        return isReplayingInput;
     }
 
     public static void pause() {

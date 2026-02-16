@@ -24,6 +24,8 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent e) {
+        if (MacroManager.isReplayingInput()) return;
+
         if (e.getKeyCode() == keyRecord && (!MacroManager.isRecording()) && (!HotkeyDialog.inHotKeyDialog)) {
             MacroManager.startRecording();
         } else if (e.getKeyCode() == keyStop && MacroManager.isRecording() && (!HotkeyDialog.inHotKeyDialog)) {
@@ -53,6 +55,8 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
 
     @Override
     public void nativeKeyReleased(NativeKeyEvent e) {
+        if (MacroManager.isReplayingInput()) return;
+
         if (MacroManager.isRecording() && (!HotkeyDialog.inHotKeyDialog)) {
             long now = System.currentTimeMillis();
             long delay = now - MacroManager.getLastTime();
@@ -68,6 +72,8 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
 
     @Override
     public void nativeMousePressed(NativeMouseEvent e) {
+        if (MacroManager.isReplayingInput()) return;
+
         if (MacroManager.isRecording() && (!HotkeyDialog.inHotKeyDialog)) {
             Point p = ScreenUtil.normalizeToVirtualOrigin(e.getX(), e.getY());
             long now = System.currentTimeMillis();
@@ -84,6 +90,8 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
 
     @Override
     public void nativeMouseReleased(NativeMouseEvent e) {
+        if (MacroManager.isReplayingInput()) return;
+
         if (MacroManager.isRecording() && (!HotkeyDialog.inHotKeyDialog)) {
             Point p = ScreenUtil.normalizeToVirtualOrigin(e.getX(), e.getY());
             long now = System.currentTimeMillis();
@@ -100,6 +108,8 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
 
     @Override
     public void nativeMouseWheelMoved(NativeMouseWheelEvent e) {
+        if (MacroManager.isReplayingInput()) return;
+
         if (MacroManager.isRecording() && (!HotkeyDialog.inHotKeyDialog)) {
             Point p = ScreenUtil.normalizeToVirtualOrigin(e.getX(), e.getY());
             long now = System.currentTimeMillis();
@@ -114,6 +124,8 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
 
     @Override
     public void nativeMouseMoved(NativeMouseEvent e) {
+        if (MacroManager.isReplayingInput()) return;
+
         if (MacroManager.isRecording() && (!HotkeyDialog.inHotKeyDialog)) {
             Point p = ScreenUtil.normalizeToVirtualOrigin(e.getX(), e.getY());
             long now = System.currentTimeMillis();
