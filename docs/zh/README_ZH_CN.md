@@ -24,6 +24,16 @@
 
 </div>
 
+### 重要通知：项目升级至 saMacros
+
+**MouseMacros** 已正式进入 **长期支持（LTS）** 模式。
+我们很高兴地宣布它的继任者：**[saMacros](https://github.com/Samera2022/saMacros)**。
+
+* **saMacros**（可脚本化与高级宏）是我们的下一代平台，具备 **GraalVM JavaScript 引擎**、现代化 **FlatLaf UI** 以及模块化 API。
+* **MouseMacros** 将继续在此提供给喜欢轻量、简单工具的用户。它将获得关键的错误修复，但很少有新功能更新。
+
+👉 **[探索 saMacros 并获取最新快照](https://github.com/Samera2022/saMacros)**
+
 ## 预览
 <p align="center">
   <img src="../images/MouseMacrosMainFrame.png" width="400" alt="主界面">

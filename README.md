@@ -24,6 +24,20 @@
 
 </div>
 
+---
+
+### Important Notice: Project Evolution to saMacros
+
+**MouseMacros** has officially entered **Long-Term Support (LTS)** mode.
+We are excited to announce its successor: **[saMacros](https://github.com/Samera2022/saMacros)**.
+
+* **saMacros** (Scriptable & Advanced Macros) is our next-generation platform featuring a **GraalVM JavaScript Engine**, modern **FlatLaf UI**, and a modular API.
+* **MouseMacros** will remain available here for users who prefer a lightweight, simple tool. It will receive critical bug fixes but few new feature updates.
+
+👉 **[Explore saMacros & Get the Latest Snapshots](https://github.com/Samera2022/saMacros)**
+
+---
+
 ## Preview
 <p align="center">
   <img src="docs/images/MouseMacrosMainFrame.png" width="400" alt="Main Interface">
