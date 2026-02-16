@@ -83,7 +83,7 @@ jobs:
         id: changelog_gen
         shell: pwsh
         run: |
-          $jsonPath = "src/main/resources/updates.json"
+          $jsonPath = "src/main/resources/io/github/samera2022/mousemacros/updates.json"
           $ver = "${{ env.APP_DISPLAY_VERSION }}"
           $logFile = "release_body.txt"
           

@@ -6,7 +6,7 @@
 
     <groupId>io.github.samera2022</groupId>
     <artifactId>MouseMacros</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <packaging>jar</packaging>
 
     <name>MouseMacros</name>
@@ -54,7 +54,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>io.github.samera2022.mouse_macros.MouseMacro</mainClass>
+                            <mainClass>io.github.samera2022.mousemacros.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
