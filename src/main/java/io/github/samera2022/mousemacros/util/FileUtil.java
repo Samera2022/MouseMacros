@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileUtil {
-    // 读取文件内容，返回字符串，若不存在返回null
+
     public static String readFile(String path) throws IOException {
         File file = new File(path);
         if (!file.exists()) return null;
@@ -22,7 +22,6 @@ public class FileUtil {
         }
     }
 
-    // 写入内容到文件，自动创建父目录
     public static void writeFile(String path, String content) throws IOException {
         File file = new File(path);
         File parent = file.getParentFile();
@@ -32,7 +31,6 @@ public class FileUtil {
         }
     }
 
-    // 新增：读取目录下所有文件名（不含路径）
     public static String[] listFileNames(String dirPath) {
         File dir = new File(dirPath);
         if (!dir.exists() || !dir.isDirectory()) return new String[0];
@@ -45,7 +43,6 @@ public class FileUtil {
         return names;
     }
 
-    // 获取本地存储路径
     public static Path getLocalStoragePath() {
         String os = System.getProperty("os.name").toLowerCase();
 

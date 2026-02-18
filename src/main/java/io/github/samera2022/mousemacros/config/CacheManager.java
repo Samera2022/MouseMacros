@@ -1,4 +1,4 @@
-package io.github.samera2022.mousemacros.manager;
+package io.github.samera2022.mousemacros.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

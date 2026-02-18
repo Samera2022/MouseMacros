@@ -2,10 +2,9 @@ package io.github.samera2022.mousemacros.ui.frame;
 
 
 import io.github.samera2022.mousemacros.Localizer;
-import io.github.samera2022.mousemacros.adapter.CompMouseAdapter;
-import io.github.samera2022.mousemacros.adapter.WindowClosingAdapter;
+import io.github.samera2022.mousemacros.ui.adapter.CompMouseAdapter;
+import io.github.samera2022.mousemacros.ui.adapter.WindowClosingAdapter;
 import io.github.samera2022.mousemacros.config.ConfigManager;
-import io.github.samera2022.mousemacros.constant.IconConsts;
 import io.github.samera2022.mousemacros.constant.OtherConsts;
 import io.github.samera2022.mousemacros.ui.component.DocumentInputFilter;
 import io.github.samera2022.mousemacros.ui.frame.settings.*;
@@ -128,7 +127,7 @@ public class SettingsDialog extends JDialog {
     private JComponent createCheckBox(SettingsRegistry setting) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel label = new JLabel(Localizer.getS(setting.i18nKey));
-        JCheckBox checkBox = new JCheckBox(IconConsts.CHECK_BOX);
+        JCheckBox checkBox = new JCheckBox(OtherConsts.CHECK_BOX_ICON);
         checkBox.setName(setting.i18nKey);
 
         addTooltip(label, checkBox, setting);

@@ -18,10 +18,7 @@ public class Localizer {
     private static boolean runtimeSwitch = false;
 
     static {
-        // 1. Always load en_us as a permanent fallback map.
         fallbackTranslations = loadLanguageMap("en_us");
-
-        // 2. Detect system language and load it.
         String sysLang = java.util.Locale.getDefault().toString().toLowerCase();
         sysLang = sysLang.replace('-', '_');
         if (sysLang.startsWith("zh")) {

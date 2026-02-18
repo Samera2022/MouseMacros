@@ -4,7 +4,7 @@ import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 import io.github.samera2022.mousemacros.Localizer;
-import io.github.samera2022.mousemacros.adapter.WindowClosingAdapter;
+import io.github.samera2022.mousemacros.ui.adapter.WindowClosingAdapter;
 import io.github.samera2022.mousemacros.constant.OtherConsts;
 import io.github.samera2022.mousemacros.config.ConfigManager;
 import io.github.samera2022.mousemacros.util.ComponentUtil;

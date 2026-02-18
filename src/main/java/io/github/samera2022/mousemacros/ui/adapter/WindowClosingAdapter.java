@@ -1,6 +1,6 @@
-package io.github.samera2022.mousemacros.adapter;
+package io.github.samera2022.mousemacros.ui.adapter;
 
-import io.github.samera2022.mousemacros.manager.CacheManager;
+import io.github.samera2022.mousemacros.config.CacheManager;
 
 import java.awt.event.WindowAdapter;
 

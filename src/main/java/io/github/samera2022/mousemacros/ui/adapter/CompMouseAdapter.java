@@ -1,4 +1,4 @@
-package io.github.samera2022.mousemacros.adapter;
+package io.github.samera2022.mousemacros.ui.adapter;
 
 import io.github.samera2022.mousemacros.config.ConfigManager;
 import io.github.samera2022.mousemacros.constant.OtherConsts;

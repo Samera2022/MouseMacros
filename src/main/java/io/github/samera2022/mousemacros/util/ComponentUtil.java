@@ -1,7 +1,7 @@
 package io.github.samera2022.mousemacros.util;
 
 import io.github.samera2022.mousemacros.constant.OtherConsts;
-import io.github.samera2022.mousemacros.manager.CacheManager;
+import io.github.samera2022.mousemacros.config.CacheManager;
 import io.github.samera2022.mousemacros.config.ConfigManager;
 import io.github.samera2022.mousemacros.ui.component.CustomScrollBarUI;
 

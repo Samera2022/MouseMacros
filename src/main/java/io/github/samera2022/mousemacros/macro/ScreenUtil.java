@@ -1,4 +1,4 @@
-package io.github.samera2022.mousemacros.util;
+package io.github.samera2022.mousemacros.macro;
 
 import java.awt.*;
 

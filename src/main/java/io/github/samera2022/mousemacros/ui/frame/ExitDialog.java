@@ -1,16 +1,16 @@
 package io.github.samera2022.mousemacros.ui.frame;
 
 import io.github.samera2022.mousemacros.Localizer;
-import io.github.samera2022.mousemacros.adapter.WindowClosingAdapter;
+import io.github.samera2022.mousemacros.ui.adapter.WindowClosingAdapter;
 import io.github.samera2022.mousemacros.config.ConfigManager;
-import io.github.samera2022.mousemacros.manager.CacheManager;
+import io.github.samera2022.mousemacros.config.CacheManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
 import io.github.samera2022.mousemacros.constant.OtherConsts;
-import io.github.samera2022.mousemacros.constant.IconConsts;
+
 import io.github.samera2022.mousemacros.util.ComponentUtil;
 import io.github.samera2022.mousemacros.ui.component.CustomRadioButton;
 
@@ -55,7 +55,7 @@ public class ExitDialog extends JDialog {
 
         // 记住选项区（整体居中，勾选框在左，文字在右）
         JPanel rememberPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        JCheckBox rememberOptionBox = new JCheckBox(IconConsts.CHECK_BOX);
+        JCheckBox rememberOptionBox = new JCheckBox(OtherConsts.CHECK_BOX_ICON);
         JLabel rememberLabel = new JLabel(Localizer.get("exit.remember_this_option"));
         rememberPanel.add(rememberOptionBox);
         rememberPanel.add(rememberLabel);

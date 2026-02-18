@@ -1,8 +1,15 @@
 package io.github.samera2022.mousemacros.constant;
 
+import io.github.samera2022.mousemacros.ui.icon.ContrastCheckboxIcon;
+
+import javax.swing.*;
+import java.awt.*;
+
 public class OtherConsts {
     public static final int DARK_MODE = 0;
     public static final int LIGHT_MODE = 1;
+
+    public static final Icon CHECK_BOX_ICON = new ContrastCheckboxIcon(15, Color.BLUE);
 
     public static final String APP_NAME = "MouseMacros";
 

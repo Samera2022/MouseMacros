@@ -1,12 +1,12 @@
-package io.github.samera2022.mousemacros.manager;
+package io.github.samera2022.mousemacros.macro;
 
-import io.github.samera2022.mousemacros.action.MouseAction;
 import io.github.samera2022.mousemacros.Localizer;
 import io.github.samera2022.mousemacros.config.ConfigManager;
-import io.github.samera2022.mousemacros.constant.FileConsts;
+import io.github.samera2022.mousemacros.config.CacheManager;
 import io.github.samera2022.mousemacros.ui.frame.MainFrame;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +25,10 @@ public class MacroManager {
     private static long lastTime = 0;
     private static Thread playThread = null;
     private static final Object playThreadLock = new Object();
+    public static final FileNameExtensionFilter MMC_FILTER = new FileNameExtensionFilter(
+            "Mouse Macro Files (*.mmc)",  // 描述文本
+            "mmc"                   // 后缀名
+    );
 
     private static int currentLoop = 0;
     private static int currentActionIndex = 0;
@@ -229,7 +233,7 @@ public class MacroManager {
                 chooser.setCurrentDirectory(dir);
             }
         }
-        chooser.setFileFilter(FileConsts.MMC_FILTER);
+        chooser.setFileFilter(MMC_FILTER);
 
         if (chooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
@@ -273,7 +277,7 @@ public class MacroManager {
                 chooser.setCurrentDirectory(dir);
             }
         }
-        chooser.setFileFilter(FileConsts.MMC_FILTER);
+        chooser.setFileFilter(MMC_FILTER);
 
         if (chooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();

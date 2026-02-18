@@ -24,7 +24,7 @@
 
 </div>
 
-### 重要通知：项目升级至 saMacros
+## 重要通知：项目升级至 saMacros
 
 **MouseMacros** 已正式进入 **长期支持（LTS）** 模式。
 我们很高兴地宣布它的继任者：**[saMacros](https://github.com/Samera2022/saMacros)**。

@@ -1,4 +1,4 @@
-package io.github.samera2022.mousemacros.listener;
+package io.github.samera2022.mousemacros.macro;
 
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
@@ -7,11 +7,8 @@ import com.github.kwhat.jnativehook.mouse.NativeMouseInputListener;
 import com.github.kwhat.jnativehook.mouse.NativeMouseWheelEvent;
 import com.github.kwhat.jnativehook.mouse.NativeMouseWheelListener;
 import io.github.samera2022.mousemacros.Localizer;
-import io.github.samera2022.mousemacros.action.MouseAction;
-import io.github.samera2022.mousemacros.manager.MacroManager;
 import io.github.samera2022.mousemacros.ui.frame.settings.HotkeyDialog;
 import io.github.samera2022.mousemacros.util.OtherUtil;
-import io.github.samera2022.mousemacros.util.ScreenUtil;
 
 import java.awt.*;
 

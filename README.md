@@ -26,7 +26,7 @@
 
 ---
 
-### Important Notice: Project Evolution to saMacros
+## Important Notice: Project Evolution to saMacros
 
 **MouseMacros** has officially entered **Long-Term Support (LTS)** mode.
 We are excited to announce its successor: **[saMacros](https://github.com/Samera2022/saMacros)**.
@@ -62,7 +62,7 @@ We are excited to announce its successor: **[saMacros](https://github.com/Samera
 To ensure the safety and authenticity of our Windows binaries, MouseMacros is currently integrating with SignPath Foundation for free code signing.
 - Status: Application in progress / Integration pending.
 - Future Releases: Once approved, all Windows installers (.msi) and executables (.exe) will be digitally signed by SignPath Foundation.
-![alt text](https://img.shields.io/badge/Code%20Signing-SignPath.io-blue)
+  ![alt text](https://img.shields.io/badge/Code%20Signing-SignPath.io-blue)
 
 ## Getting Started
 
