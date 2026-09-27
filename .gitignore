@@ -1,0 +1,36 @@
+﻿# Maven build output
+target/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+*.swp
+*~
+
+# Build artifacts
+*.class
+*.jar
+!.build/*.jar
+
+# Test outputs
+copyright_code_output.txt
+output.mp4
+
+# Runtime files
+run.bat
+
+# Application data (if needed to be ignored)
+# application/
+# avatars/
