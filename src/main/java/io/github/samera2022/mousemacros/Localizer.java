@@ -1,8 +1,11 @@
 package io.github.samera2022.mousemacros;
 
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import io.github.samera2022.mousemacros.config.ConfigManager;
 import io.github.samera2022.mousemacros.constant.OtherConsts;
+import io.github.samera2022.mousemacros.util.SystemUtil;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,15 +21,16 @@ public class Localizer {
     private static boolean runtimeSwitch = false;
 
     static {
+        // 1. Always load en_us as a permanent fallback map.
         fallbackTranslations = loadLanguageMap("en_us");
-        String sysLang = java.util.Locale.getDefault().toString().toLowerCase();
-        sysLang = sysLang.replace('-', '_');
-        if (sysLang.startsWith("zh")) {
-            sysLang = "zh_cn";
-        } else {
-            sysLang = "en_us"; // Default to en_us if not Chinese
+        // 2. Detect system language and load it.
+        load(SystemUtil.getSystemLang(ConfigManager.getAvailableLangs()));
+        String sysLang = java.util.Locale.getDefault().getLanguage();
+        for (int i = 1; i <= ConfigManager.getAvailableLangs().length; i++) {
+            String lang = ConfigManager.getAvailableLangs()[i-1];
+            if (lang.contains(sysLang)) load(lang);
+            else if (i==ConfigManager.getAvailableLangs().length) load("en_us");
         }
-        load(sysLang);
     }
 
     /**
@@ -94,6 +98,14 @@ public class Localizer {
 
     public static boolean hasKey(String key) {
         return translations.containsKey(key) || fallbackTranslations.containsKey(key);
+    }
+
+    /**
+     * Gets the current language code.
+     * @return Current language code (e.g., "en_us", "zh_cn")
+     */
+    public static String getCurrentLanguage() {
+        return currentLang != null ? currentLang : "en_us";
     }
 
     public static void setRuntimeSwitch(boolean enable) {
