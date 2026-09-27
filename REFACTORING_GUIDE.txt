@@ -1,0 +1,128 @@
+﻿MouseMacros 多模块架构重构文档
+===============================
+
+已创建完整的重构参考文档和代码模板。
+
+📚 文档索引
+----------
+
+docs/
+├── REFACTORING_INDEX.md              # 文档导航（推荐首先阅读）
+├── ARCHITECTURE_COMPARISON.md        # 架构对比总览
+├── MULTI_MODULE_REFACTORING_PLAN.md  # 详细重构计划
+├── EVENT_SYSTEM_DESIGN.md            # 事件系统设计参考
+└── code-templates/                   # 代码模板目录
+    ├── README.md                     # 模板使用指南
+    ├── parent-pom.xml                # 父项目 POM
+    ├── api-pom.xml                   # API 模块 POM
+    ├── app-pom.xml                   # App 模块 POM
+    ├── Event.java                    # 基础事件类
+    ├── Cancellable.java              # 可取消接口
+    └── EventPriority.java            # 事件优先级枚举
+
+🎯 文档说明
+----------
+
+1. REFACTORING_INDEX.md (总导航)
+   - 所有文档的入口
+   - 快速查找指引
+   - 重构收益总结
+
+2. ARCHITECTURE_COMPARISON.md (架构对比)
+   - 单模块 vs 多模块对比表
+   - 包结构演进图
+   - 事件系统架构图
+   - 迁移路径和时间估算
+
+3. MULTI_MODULE_REFACTORING_PLAN.md (重构计划)
+   - 当前架构分析
+   - 目标架构设计
+   - 5个阶段的详细步骤
+   - POM 配置示例
+
+4. EVENT_SYSTEM_DESIGN.md (事件系统)
+   - 核心组件设计
+   - 14种事件类型完整定义
+   - EventManager 实现代码
+   - 使用示例
+
+5. code-templates/ (代码模板)
+   - 可直接使用的 POM 文件
+   - 事件系统基础类
+   - PowerShell 快速创建命令
+
+📊 参考来源
+----------
+
+所有设计基于 saMacros 2.0.0 (commit 67a4545, 2026-02-16)
+
+saMacros 项目路径:
+D:\Users\_S_A_M\Project\IdeaProjects\saMacros
+
+关键特性:
+- 从 MouseMacros 分叉
+- 实现了完整的多模块架构
+- 包含成熟的事件系统
+- 支持 GraalVM 脚本引擎
+- 已通过生产验证
+
+🚀 快速开始
+----------
+
+1. 阅读文档索引
+   docs/REFACTORING_INDEX.md
+
+2. 了解架构对比
+   docs/ARCHITECTURE_COMPARISON.md
+
+3. 查看代码模板
+   docs/code-templates/README.md
+
+4. 执行重构步骤
+   docs/MULTI_MODULE_REFACTORING_PLAN.md
+
+⏱️ 预计时间
+-----------
+
+完整重构: 15-22 小时
+
+阶段划分:
+- 模块结构创建: 1-2 小时
+- API 模块开发: 3-4 小时  
+- App 模块重组: 2-3 小时
+- 事件系统实现: 4-6 小时
+- 集成和测试: 3-4 小时
+- 文档编写: 2-3 小时
+
+✅ 重构收益
+----------
+
+- 清晰的关注点分离
+- 支持第三方扩展开发
+- API 可独立发布到 Maven
+- 更好的可测试性
+- 符合现代 Java 项目标准
+- 为脚本系统打下基础
+
+⚠️ 注意事项
+-----------
+
+1. 建议打 tag: v1.4.0-last-single-module
+2. 在 feature 分支进行: feature/multi-module-refactor
+3. 版本号升级到 2.0.0 (重大架构变更)
+4. 包路径会从 mousemacros 变为 mousemacros.app
+5. 充分测试后再合并到主分支
+
+📞 支持
+------
+
+如有疑问，请参考:
+- docs/REFACTORING_INDEX.md 中的"快速开始"部分
+- saMacros 源码作为实现参考
+- EVENT_SYSTEM_DESIGN.md 中的使用示例
+
+---
+
+文档创建日期: 2026-09-28
+基于版本: MouseMacros 1.4.0
+参考项目: saMacros 2.0.0
