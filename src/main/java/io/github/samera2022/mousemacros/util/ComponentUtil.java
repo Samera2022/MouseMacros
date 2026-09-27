@@ -173,11 +173,25 @@ public class ComponentUtil {
     public static void adjustFrameWithCache(Window window, int hAdjust, JComponent[]... comps) {
         String rawSizeString = CacheManager.cache.windowSizeMap.get(window.getName());
         int[] properSize = getProperSize(hAdjust, comps);
+        
+        // Ensure properSize is valid
+        if (properSize == null || properSize[0] <= 0 || properSize[1] <= 0) {
+            // Fallback to a reasonable default size
+            properSize = new int[]{600, 400};
+        }
+        
         if (rawSizeString == null) {
             int[] fitSize = fitSize(properSize[0], properSize[1]);
             window.setSize(fitSize[0], fitSize[1]);
         } else {
             int[] cacheSize = parseWindowSize(rawSizeString);
+            // If cache size is invalid, fall back to proper size
+            if (cacheSize == null || cacheSize[0] <= 0 || cacheSize[1] <= 0) {
+                int[] fitSize = fitSize(properSize[0], properSize[1]);
+                window.setSize(fitSize[0], fitSize[1]);
+                return;
+            }
+            
             switch (ConfigManager.getInt("readjust_frame_mode")) {
                 case ConfigManager.RFM_MIXED:
                     int[] fitSize = fitSize(Math.max(properSize[0], cacheSize[0]), Math.max(properSize[1], cacheSize[1]));
@@ -188,6 +202,11 @@ public class ComponentUtil {
                     break;
                 case ConfigManager.RFM_MEMORIZED:
                     window.setSize(cacheSize[0], cacheSize[1]);
+                    break;
+                default:
+                    // Fallback to proper size if mode is invalid
+                    int[] defaultFitSize = fitSize(properSize[0], properSize[1]);
+                    window.setSize(defaultFitSize[0], defaultFitSize[1]);
                     break;
             }
         }
