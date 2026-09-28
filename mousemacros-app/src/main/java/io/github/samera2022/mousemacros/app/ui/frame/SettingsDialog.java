@@ -281,6 +281,12 @@ public class SettingsDialog extends JDialog {
     }
     
     private JPanel createOtherButtonsPanel() {
+                JButton wizardBtn = new JButton(Localizer.get("settings.show_welcome_wizard"));
+        wizardBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+            io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog dialog = 
+                new io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog(MAIN_FRAME);
+            dialog.setVisible(true);
+        }));
         JButton hotkeyBtn = new JButton(Localizer.get("settings.custom_hotkey"));
         hotkeyBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new HotkeyDialog().setVisible(true)));
         JButton scriptBtn = new JButton(Localizer.get("settings.scripts_manager"));
@@ -328,6 +334,8 @@ public class SettingsDialog extends JDialog {
         });
         JPanel hotkeyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         hotkeyPanel.add(hotkeyBtn);
+        hotkeyPanel.add(wizardBtn);
+        hotkeyPanel.add(Box.createHorizontalStrut(10));
         hotkeyPanel.add(Box.createHorizontalStrut(10));
         hotkeyPanel.add(scriptBtn);
         hotkeyPanel.add(Box.createHorizontalStrut(10));
