@@ -8,7 +8,6 @@
   "main_frame.pause_macro": "暂停宏",
   "main_frame.resume_macro": "继续执行",
   "main_frame.abort_macro_operation": "中止宏",
-
   "settings": "设置",
   "settings.appearance_section": "外观",
   "settings.follow_system_settings": "跟随系统设置",
@@ -34,28 +33,22 @@
   "settings.save_settings": "保存并应用所有配置",
   "settings.allow_long_str": "允许长悬浮说明不换行显示",
   "settings.readjust_frame_mode": "调整窗体大小的方式",
-
   "settings.readjust_frame_mode.1": "MIXED",
   "settings.readjust_frame_mode.2": "STANDARDIZED",
   "settings.readjust_frame_mode.3": "MEMORIZED",
-
   "settings.default_mmc_storage_path.tooltip": "该路径为保存/加载宏的默认文件夹打开路径，启用后将禁用cache的路径记忆功能。",
   "settings.enable_quick_mode.tooltip": "MouseMacros在此模式下只按照鼠标和键盘操作的先后顺序进行复现，忽略中间所有停顿时间。",
   "settings.allow_long_str.tooltip": "启用后，MouseMacros将尝试把长的悬浮说明不换行地显示。",
-  "settings.readjust_frame_mode.tooltip": "该选项会影响“调整语言设定”之后MouseMacros处理“历史窗体大小(c)”与“建议窗体大小(p)”的行为模式。\nMIXED为混合模式，在c和p中取大以计算最小3:2窗体的大小。\nSTANDARDIZED为标准模式，仅取p计算最小3:2窗体的大小。\nMEMORIZED为记忆模式，直接采用“历史窗体大小(c)”。",
+  "settings.readjust_frame_mode.tooltip": "该选项会影响"调整语言设定"之后MouseMacros处理"历史窗体大小(c)"与"建议窗体大小(p)"的行为模式。\nMIXED为混合模式，在c和p中取大以计算最小3:2窗体的大小。\nSTANDARDIZED为标准模式，仅取p计算最小3:2窗体的大小。\nMEMORIZED为记忆模式，直接采用"历史窗体大小(c)"。",
   "settings.repeat_delay.tooltip": "下一次重复执行的所需要等待的时长，最高支持三位小数（具体至毫秒）",
-
   "settings.success": "成功",
   "settings.error": "错误",
-
   "settings.about_author": "关于作者",
   "about_author.github.tooltip": "访问 Github 项目主页",
   "about_author.browser_opening_failed": "无法打开浏览器",
   "about_author.content": "    你好，我是MouseMacros的作者Samera2022。首先非常感谢能够使用本程序，谨在此致以最为诚挚的欢迎。\n    你可以通过B站UID: 583460263 / QQ: 1084262691来找到我来反馈各类使用问题，当然闲聊之类的也是肯定可以的！不过反馈使用问题还是建议在Github提交Issues，这样我能更及时看得到。\n    噢，还没有介绍这个项目的Github地址！但是想必聪明的你已经猜出来这个项目应该就是Samera2022/MouseMacros了。没错！本项目的地址为https://github.com/Samera2022/MouseMacros。如果帮到你的话还请不要吝啬你的star啦！",
-
   "settings.scripts_manager.not_available.message": "<html><b style='font-size:14px;'>脚本功能已迁移</b><br><br>为了追求轻量化与响应速度，MouseMacros 不会内置复杂的脚本引擎。<br><br>如果您需要 JavaScript 脚本支持、更高级的逻辑判定或跨平台功能，请移步我们的另一个项目：<b>saMacros</b>。它承载了原有的脚本系统并进行了彻底的性能重构。<br><br>是否前往 GitHub 查看 saMacros？</html>",
   "settings.scripts_manager.not_available.title": "脚本管理 不可用",
-
   "log.start_recording": "开始录制...",
   "log.recording_mouse_pressed": "记录：鼠标按下",
   "log.recording_mouse_released": "记录：鼠标松开",
@@ -85,16 +78,33 @@
   "log.macro_not_recording": "宏未被录制",
   "log.adding_tray_failed": "添加系统托盘失败",
   "log.hook_registration_failed": "全局钩子注册失败：",
-
   "tray.show_main_menu": "显示主界面",
   "tray.exit": "退出",
-
   "exit": "退出",
   "exit.title": "确要退出 MouseMacros 吗？",
-  "exit.exit_on_close": "直接退出程序",
+  "exit.on_close": "直接退出程序",
   "exit.minimize_to_tray": "最小化到托盘",
   "exit.remember_this_option": "记住我的选择",
   "exit.finish": "确定",
-
-  "lang.tooltip.disabled.default": "欲启用本选项，首先需要切换“%s”的状态。"
+  "lang.tooltip.disabled.default": "欲启用本选项，首先需要切换"%s"的状态。",
+  "hotkey.warning.media_key": "警告：媒体键（音量、播放等）可能无法被正确录制，这些按键通常由硬件直接处理。建议使用常规按键组合。",
+  "hotkey.warning.fn_key": "提示：该按键在笔记本电脑上可能需要Fn键配合使用，录制效果因设备而异。",
+  "hotkey.help.recording_failure": "部分按键无法录制的原因：\n• 媒体键（音量、播放控制）由硬件直接处理\n• Fn功能键在不同笔记本上实现不同\n• 系统级快捷键被操作系统拦截\n\n建议使用：\n• 字母键 + Ctrl/Shift/Alt组合\n• F1-F12功能键\n• 数字键盘",
+  "hotkey.help.recommended_keys": "推荐使用的快捷键类型：\n✓ 字母键（A-Z）\n✓ 数字键（0-9）\n✓ 功能键（F1-F12）\n✓ 组合键（Ctrl/Shift/Alt + 其他键）\n✓ 方向键\n\n不推荐：\n✗ 媒体键（音量、播放控制）\n✗ 电源键\n✗ Fn功能键",
+  "hotkey.validation.duplicate": "热键冲突：该按键已被其他功能使用",
+  "hotkey.validation.invalid": "无效按键：无法识别该按键",
+  "welcome.title": "欢迎使用 MouseMacros",
+  "welcome.header": "欢迎使用",
+  "welcome.page": "页面",
+  "welcome.next": "下一步",
+  "welcome.previous": "上一步",
+  "welcome.finish": "完成",
+  "welcome.dont_show_again": "不再显示此向导",
+  "welcome.page1.content": "欢迎使用 MouseMacros！这是一款免费、开源的鼠标和键盘宏录制工具。\n\n通过录制您的操作，MouseMacros 可以帮助您：\n• 自动化重复性任务\n• 提高工作效率\n• 减少手动操作错误\n\n本向导将引导您快速了解基本功能。点击"下一步"继续。",
+  "welcome.page2.title": "基本操作",
+  "welcome.page2.content": "使用 MouseMacros 非常简单：\n\n1️⃣ 录制宏：\n   • 按下录制快捷键（默认 F9）\n   • 执行您想要录制的鼠标和键盘操作\n   • 按停止录制快捷键（默认 F10）\n\n2️⃣ 执行宏：\n   • 按下执行快捷键（默认 F11）\n   • 程序将自动重复您录制的操作\n   • 按中止快捷键（默认 F12）可随时停止\n\n3️⃣ 保存/加载：\n   • 使用主界面的"保存宏"和"加载宏"按钮\n   • 可以保存多个不同的宏文件",
+  "welcome.page3.title": "快捷键设置",
+  "welcome.page3.content": "您可以自定义所有快捷键：\n\n• 点击主界面的"设置"按钮\n• 选择"自定义热键"\n• 点击输入框，然后按下您想要设置的按键\n• 点击"确定"保存\n\n⚠️ 注意事项：\n• 避免使用媒体键（音量、播放等），这些按键可能无法正常录制\n• 推荐使用 F1-F12 或字母键 + Ctrl/Shift/Alt 组合\n• 确保快捷键不与其他程序冲突",
+  "welcome.page4.title": "开始使用",
+  "welcome.page4.content": "您已准备好开始使用 MouseMacros！\n\n💡 提示：\n• 首次录制建议使用简单操作测试\n• 可在设置中启用"快速模式"来忽略操作间隔\n• 遇到问题可查看日志或访问 GitHub 提交反馈\n\n📚 更多帮助：\n• GitHub: github.com/Samera2022/MouseMacros\n• B站: UID 583460263\n\n感谢您选择 MouseMacros！"
 }
