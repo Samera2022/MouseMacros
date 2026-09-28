@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static io.github.samera2022.mousemacros.app.ui.frame.MainFrame.*;
-import static io.github.samera2022.mousemacros.util.OtherUtil.getNativeKeyDisplayText;
+import static io.github.samera2022.mousemacros.app.util.OtherUtil.getNativeKeyDisplayText;
 
 public class HotkeyDialog extends JDialog {
     public static boolean inHotKeyDialog = false;
