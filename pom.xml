@@ -5,73 +5,120 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.samera2022</groupId>
-    <artifactId>MouseMacros</artifactId>
-    <version>1.4.0</version>
-    <packaging>jar</packaging>
+    <artifactId>mousemacros-parent</artifactId>
+    <version>2.0.0</version>
+    <packaging>pom</packaging>
 
-    <name>MouseMacros</name>
-    <description>MouseMacros Project</description>
+    <name>MouseMacros Parent</name>
+    <description>MouseMacros Project - Multi-module architecture</description>
+
+    <modules>
+        <module>mousemacros-api</module>
+        <module>mousemacros-app</module>
+    </modules>
 
     <properties>
-        <app.display.version>0.0.0.0</app.display.version>
-        <app.semantic.version>0.0.0</app.semantic.version>
+        <app.display.version>2.0.0.0</app.display.version>
+        <app.semantic.version>2.0.0</app.semantic.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- Dependency versions -->
+        <gson.version>2.11.0</gson.version>
+        <jnativehook.version>2.2.2</jnativehook.version>
+        <junit.version>5.8.1</junit.version>
     </properties>
 
     <dependencies>
+        <!-- Testing dependencies for all modules -->
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.11.0</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.kwhat</groupId>
-            <artifactId>jnativehook</artifactId>
-            <version>2.2.2</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Internal module dependency -->
+            <dependency>
+                <groupId>io.github.samera2022</groupId>
+                <artifactId>mousemacros-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
+            <!-- External dependencies -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.kwhat</groupId>
+                <artifactId>jnativehook</artifactId>
+                <version>${jnativehook.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.6.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>io.github.samera2022.mousemacros.Main</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <appendAssemblyId>false</appendAssemblyId>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.2.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <doclint>none</doclint>
+                        <failOnError>false</failOnError>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
+
 </project>
