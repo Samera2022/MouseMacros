@@ -109,6 +109,20 @@ public class WelcomeDialog extends JDialog {
         text.setFont(text.getFont().deriveFont(14f));
         
         panel.add(text, BorderLayout.CENTER);
+
+        // Add tooltip usage tip
+        JTextArea tipText = new JTextArea(Localizer.get("welcome.tooltip_tip"));
+        tipText.setWrapStyleWord(true);
+        tipText.setLineWrap(true);
+        tipText.setEditable(false);
+        tipText.setOpaque(false);
+        tipText.setFont(tipText.getFont().deriveFont(Font.ITALIC, 12f));
+        tipText.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(100, 100, 100), 1),
+            BorderFactory.createEmptyBorder(8, 8, 8, 8)
+        ));
+        
+        panel.add(tipText, BorderLayout.SOUTH);
         
         return panel;
     }
