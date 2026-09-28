@@ -1,6 +1,7 @@
 package io.github.samera2022.mousemacros.app;
 
 import io.github.samera2022.mousemacros.app.config.ConfigManager;
+import io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog;
 
 import javax.swing.*;
 
@@ -13,6 +14,15 @@ public class Main {
         java.io.File libDir = new java.io.File(configDir+"/libs/", dllName);
         if (!libDir.exists()) libDir.mkdirs();
         System.setProperty("jnativehook.lib.path", libDir.getAbsolutePath());
-        SwingUtilities.invokeLater(() -> MAIN_FRAME.setVisible(true));
+        
+        SwingUtilities.invokeLater(() -> {
+            MAIN_FRAME.setVisible(true);
+            
+            // Show welcome dialog on first launch
+            if (WelcomeDialog.shouldShow()) {
+                WelcomeDialog dialog = new WelcomeDialog(MAIN_FRAME);
+                dialog.setVisible(true);
+            }
+        });
     }
 }

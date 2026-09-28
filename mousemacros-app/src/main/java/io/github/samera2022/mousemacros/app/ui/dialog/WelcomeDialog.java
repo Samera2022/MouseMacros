@@ -11,7 +11,6 @@ import java.util.Objects;
 
 /**
  * Welcome wizard shown on first launch to help new users get started.
- * Provides quick tutorial on basic functionality and hotkey setup.
  */
 public class WelcomeDialog extends JDialog {
     
@@ -27,8 +26,13 @@ public class WelcomeDialog extends JDialog {
     
     public WelcomeDialog(Frame parent) {
         super(parent, Localizer.get("welcome.title"), true);
-        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(
-            OtherConsts.RELATIVE_PATH + "icons/MouseMacros.png"))).getImage());
+        
+        try {
+            setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(
+                OtherConsts.RELATIVE_PATH + "icons/MouseMacros.png"))).getImage());
+        } catch (Exception e) {
+            // Icon loading failed, continue without icon
+        }
         
         initComponents();
         setSize(600, 450);
@@ -39,7 +43,7 @@ public class WelcomeDialog extends JDialog {
     private void initComponents() {
         setLayout(new BorderLayout(10, 10));
         
-        // Header with title and icon
+        // Header
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
         
@@ -97,11 +101,6 @@ public class WelcomeDialog extends JDialog {
     private JPanel createPage1() {
         JPanel panel = new JPanel(new BorderLayout(0, 15));
         
-        JLabel icon = new JLabel(new ImageIcon(Objects.requireNonNull(
-            getClass().getResource(OtherConsts.RELATIVE_PATH + "icons/MouseMacros.png"))
-                .getPath().substring(1)));
-        icon.setHorizontalAlignment(SwingConstants.CENTER);
-        
         JTextArea text = new JTextArea(Localizer.get("welcome.page1.content"));
         text.setWrapStyleWord(true);
         text.setLineWrap(true);
@@ -109,7 +108,6 @@ public class WelcomeDialog extends JDialog {
         text.setOpaque(false);
         text.setFont(text.getFont().deriveFont(14f));
         
-        panel.add(icon, BorderLayout.NORTH);
         panel.add(text, BorderLayout.CENTER);
         
         return panel;
@@ -170,7 +168,7 @@ public class WelcomeDialog extends JDialog {
         dontShowAgain.addActionListener(e -> 
             ConfigManager.set("welcome_shown", dontShowAgain.isSelected()));
         
-        JPanel bottomPanel = new JPanel(new BorderLayout());
+        JPanel bottomPanel = new JPanel(new BorderLayout(0, 10));
         bottomPanel.add(text, BorderLayout.CENTER);
         bottomPanel.add(dontShowAgain, BorderLayout.SOUTH);
         
