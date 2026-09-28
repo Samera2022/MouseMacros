@@ -50,6 +50,11 @@ public class ConfigManager {
             }
             Type type = new TypeToken<Map<String, Object>>() {}.getType();
             Map<String, Object> loadedSettings = gson.fromJson(json, type);
+
+            // Migrate old config keys before merging
+            if (loadedSettings != null) {
+                migrateLoadedSettings(loadedSettings);
+            }
             settings.clear();
             settings.putAll(loadedSettings);
         } catch (IOException e) {
@@ -57,6 +62,55 @@ public class ConfigManager {
             saveConfig();
         }
     }
+    /**
+     * Migrate old config keys to new format in loaded settings map.
+     */
+    private static void migrateLoadedSettings(Map<String, Object> loadedSettings) {
+        Map<String, String> migrations = new HashMap<>();
+        migrations.put("followSystemSettings", "follow_system_settings");
+        migrations.put("switchLang", "switch_lang");
+        migrations.put("enableDarkMode", "enable_dark_mode");
+        migrations.put("allowLongStr", "allow_long_str");
+        migrations.put("readjustFrameMode", "readjust_frame_mode");
+        migrations.put("enableDefaultStorage", "enable_default_storage");
+        migrations.put("defaultMmcStoragePath", "default_mmc_storage_path");
+        migrations.put("enableQuickMode", "enable_quick_mode");
+        migrations.put("enableCustomMacroSettings", "enable_custom_macro_settings");
+        migrations.put("repeatTime", "repeat_times");
+        migrations.put("repeatDelay", "repeat_delay");
+
+        // Migrate old keys
+        for (Map.Entry<String, String> entry : migrations.entrySet()) {
+            if (loadedSettings.containsKey(entry.getKey())) {
+                loadedSettings.put(entry.getValue(), loadedSettings.get(entry.getKey()));
+                loadedSettings.remove(entry.getKey());
+            }
+        }
+
+        // Convert readjust_frame_mode from string to integer
+        Object readjustValue = loadedSettings.get("readjust_frame_mode");
+        if (readjustValue instanceof String) {
+            String strValue = (String) readjustValue;
+            if ("MIXED".equals(strValue)) {
+                loadedSettings.put("readjust_frame_mode", 1);
+            } else if ("STANDARDIZED".equals(strValue)) {
+                loadedSettings.put("readjust_frame_mode", 2);
+            } else if ("MEMORIZED".equals(strValue)) {
+                loadedSettings.put("readjust_frame_mode", 3);
+            }
+        }
+        // Also handle incorrect numeric types (e.g. 0.0 should become 0 or use default 2)
+        else if (readjustValue instanceof Number) {
+            int intValue = ((Number) readjustValue).intValue();
+            if (intValue < 1 || intValue > 3) {
+                // Invalid value, use default
+                loadedSettings.put("readjust_frame_mode", 2);
+            } else {
+                loadedSettings.put("readjust_frame_mode", intValue);
+            }
+        }
+    }
+
 
     public static void saveConfig() {
         try {
@@ -93,6 +147,12 @@ public class ConfigManager {
         if (value instanceof Boolean) {
             return (Boolean) value;
         }
+        // If not found in config, try to get default value from SettingsRegistry
+        for (SettingsRegistry setting : SettingsRegistry.values()) {
+            if (setting.i18nKey.equals(key) && setting.defaultValue instanceof Boolean) {
+                return (Boolean) setting.defaultValue;
+            }
+        }
         return false;
     }
 
@@ -109,12 +169,24 @@ public class ConfigManager {
         if (value instanceof Number) {
             return ((Number) value).doubleValue();
         }
+        // If not found in config, try to get default value from SettingsRegistry
+        for (SettingsRegistry setting : SettingsRegistry.values()) {
+            if (setting.i18nKey.equals(key) && setting.defaultValue instanceof Number) {
+                return ((Number) setting.defaultValue).doubleValue();
+            }
+        }
         return 0.0;
     }
 
     public static String getString(String key) {
         Object value = settings.get(key);
         if (value == null) {
+            // Try to get default value from SettingsRegistry
+            for (SettingsRegistry setting : SettingsRegistry.values()) {
+                if (setting.i18nKey.equals(key) && setting.defaultValue != null) {
+                    return setting.defaultValue.toString();
+                }
+            }
             return null;
         }
         return value.toString();

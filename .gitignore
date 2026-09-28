@@ -1,4 +1,4 @@
-﻿# Maven build output
+# Maven build output
 target/
 
 # IDE files
@@ -34,3 +34,7 @@ run.bat
 # Application data (if needed to be ignored)
 # application/
 # avatars/
+
+# Temporary screenshots and files
+screenshot*.png
+temp_*.txt
