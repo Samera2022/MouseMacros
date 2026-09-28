@@ -110,5 +110,8 @@
   "hotkey.warning.impossible_key": "错误：该按键无法被录制！\n\n原因：此按键（如媒体键、电源键）在键盘硬件层面处理，操作系统和应用程序完全无法检测到。\n\n请选择其他按键。",
   "hotkey.warning.problematic_key": "警告：该按键可能无法在所有系统上正常工作。\n\n原因：此按键（如浏览器控制键、F13-F24）的实现因设备而异，在某些键盘上可能无法录制。\n\n建议：优先使用F1-F12或字母键组合。",
   "settings.show_welcome_wizard": "打开向导",
-  "welcome.tooltip_tip": "💡 小提示：当你对设置中的某个功能感到困惑时，可以将鼠标移动到该功能的名字上，这将会显示一个浮窗以进行说明。"
+  "welcome.tooltip_tip": "💡 小提示：当你对设置中的某个功能感到困惑时，可以将鼠标移动到该功能的名字上，这将会显示一个浮窗以进行说明。",
+  "settings.section.quick_actions": "快速操作",
+  "settings.section.information": "信息与帮助",
+  "settings.section.advanced": "高级功能"
 }

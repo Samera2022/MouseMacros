@@ -110,5 +110,8 @@
   "hotkey.warning.impossible_key": "ERROR: This key CANNOT be recorded!\n\nReason: This key (such as media keys, power keys) is processed at the keyboard firmware level, and is completely invisible to the operating system and applications.\n\nPlease choose a different key.",
   "hotkey.warning.problematic_key": "WARNING: This key may not work on all systems.\n\nReason: This key (such as browser control keys, F13-F24) varies by device implementation and may not be capturable on some keyboards.\n\nRecommendation: Prefer F1-F12 or letter key combinations.",
   "settings.show_welcome_wizard": "Show Welcome Wizard",
-  "welcome.tooltip_tip": "Tip: When you are confused about a feature in Settings, hover your mouse over the feature name to see a tooltip with explanation."
+  "welcome.tooltip_tip": "Tip: When you are confused about a feature in Settings, hover your mouse over the feature name to see a tooltip with explanation.",
+  "settings.section.quick_actions": "Quick Actions",
+  "settings.section.information": "Information & Help",
+  "settings.section.advanced": "Advanced"
 }
