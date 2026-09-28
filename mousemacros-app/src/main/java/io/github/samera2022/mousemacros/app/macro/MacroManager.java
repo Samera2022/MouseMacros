@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static io.github.samera2022.mousemacros.app.manager.LogManager.log;
+import io.github.samera2022.mousemacros.api.event.events.*;
+import io.github.samera2022.mousemacros.app.event.EventManager;
 
 public class MacroManager {
     private static boolean recording;
@@ -54,6 +56,12 @@ public class MacroManager {
     }
 
     public static void startRecording() {
+        long startTime = System.currentTimeMillis();
+        Point initialMousePos = MouseInfo.getPointerInfo().getLocation();
+        BeforeRecordStartEvent event = new BeforeRecordStartEvent(startTime, initialMousePos);
+        EventManager.callEvent(event);
+        if (event.isCancelled()) return;
+
         actions.clear();
         recording = true;
         lastTime = System.currentTimeMillis();
@@ -62,6 +70,7 @@ public class MacroManager {
 
     public static void stopRecording() {
         recording = false;
+        EventManager.callEvent(new AfterRecordStopEvent(new ArrayList<>(actions)));
         log(Localizer.get("log.stop_recording_msg1") + actions.size() + Localizer.get("log.stop_recording_msg2"));
     }
 
@@ -80,14 +89,20 @@ public class MacroManager {
 
         int repeatTime = ConfigManager.getInt("repeat_times");
         if (repeatTime <= 0) repeatTime = 1;
+        
+        int finalRepeatTime = repeatTime;
+        BeforePlaybackStartEvent playbackEvent = new BeforePlaybackStartEvent(new ArrayList<>(actions), finalRepeatTime);
+        EventManager.callEvent(playbackEvent);
+        if (playbackEvent.isCancelled()) {
+            log(Localizer.get("log.playback_cancelled"));
+            return;
+        }
 
         log(Localizer.get("log.start_playback"));
         playing = true;
         paused = false;
         currentLoop = 0;
         currentActionIndex = 0;
-
-        int finalRepeatTime = repeatTime;
         synchronized (playThreadLock) {
             playThread = new Thread(() -> {
                 String abortReason = "COMPLETED";
@@ -115,9 +130,16 @@ public class MacroManager {
                             long sleepTime = ConfigManager.getBoolean("enable_quick_mode") ? 0 : action.delay;
                             preciseSleep(sleepTime);
 
+                            BeforeStepExecuteEvent beforeEvent = new BeforeStepExecuteEvent(j, action, j == actions.size() - 1);
+                            EventManager.callEvent(beforeEvent);
+                            if (beforeEvent.isCancelled()) {
+                                continue;
+                            }
+
                             isReplayingInput = true;
                             try {
                                 action.perform();
+                                EventManager.callEvent(new AfterStepExecuteEvent(j, "SUCCESS"));
                             } finally {
                                 isReplayingInput = false;
                             }
