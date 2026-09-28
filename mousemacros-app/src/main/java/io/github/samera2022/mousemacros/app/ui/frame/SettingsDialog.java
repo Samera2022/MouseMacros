@@ -279,6 +279,120 @@ public class SettingsDialog extends JDialog {
     }
     
 
+
+
+    private JPanel createExpandableMacroSection() {
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        // Main toggle row
+        JPanel toggleRow = new JPanel(new GridBagLayout());
+        toggleRow.setAlignmentX(Component.LEFT_ALIGNMENT);
+        toggleRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        
+        JLabel label = new JLabel(Localizer.getS("enable_custom_macro_settings"));
+        label.setFont(label.getFont().deriveFont(Font.PLAIN, 14f));
+        gbc.gridx = 0;
+        gbc.weightx = 1.0;
+        toggleRow.add(label, gbc);
+        
+        JCheckBox toggle = new JCheckBox(OtherConsts.CHECK_BOX_ICON);
+        toggle.setName("enable_custom_macro_settings");
+        toggle.setPreferredSize(new Dimension(44, 24));
+        gbc.gridx = 1;
+        gbc.weightx = 0;
+        toggleRow.add(toggle, gbc);
+        
+        container.add(toggleRow);
+        
+        // Expandable content (repeat time and delay)
+        JPanel expandedContent = new JPanel();
+        expandedContent.setLayout(new BoxLayout(expandedContent, BoxLayout.Y_AXIS));
+        expandedContent.setAlignmentX(Component.LEFT_ALIGNMENT);
+        expandedContent.setBorder(BorderFactory.createEmptyBorder(8, 24, 0, 0));
+        
+        JComponent repeatTimePanel = createSpecificTextField(SettingsRegistry.REPEAT_TIME);
+        repeatTimePanel.setBorder(null); // Remove the nested indent
+        expandedContent.add(repeatTimePanel);
+        expandedContent.add(Box.createVerticalStrut(8));
+        
+        JComponent repeatDelayPanel = createSpecificTextField(SettingsRegistry.REPEAT_DELAY);
+        repeatDelayPanel.setBorder(null);
+        expandedContent.add(repeatDelayPanel);
+        
+        expandedContent.setVisible(ConfigManager.getBoolean("enable_custom_macro_settings"));
+        container.add(expandedContent);
+        
+        toggle.addActionListener(e -> {
+            boolean selected = toggle.isSelected();
+            ConfigManager.set("enable_custom_macro_settings", selected);
+            expandedContent.setVisible(selected);
+            container.revalidate();
+            container.repaint();
+            refreshUI(false);
+        });
+        
+        componentMap.put("enable_custom_macro_settings", toggle);
+        componentMap.put("macro_expanded_panel", expandedContent);
+        
+        return container;
+    }
+
+    private JPanel createExpandableStorageSection() {
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        // Main toggle row
+        JPanel toggleRow = new JPanel(new GridBagLayout());
+        toggleRow.setAlignmentX(Component.LEFT_ALIGNMENT);
+        toggleRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        
+        JLabel label = new JLabel(Localizer.getS("enable_default_storage"));
+        label.setFont(label.getFont().deriveFont(Font.PLAIN, 14f));
+        gbc.gridx = 0;
+        gbc.weightx = 1.0;
+        toggleRow.add(label, gbc);
+        
+        JCheckBox toggle = new JCheckBox(OtherConsts.CHECK_BOX_ICON);
+        toggle.setName("enable_default_storage");
+        toggle.setPreferredSize(new Dimension(44, 24));
+        gbc.gridx = 1;
+        gbc.weightx = 0;
+        toggleRow.add(toggle, gbc);
+        
+        container.add(toggleRow);
+        
+        // Expandable content (file chooser)
+        JComponent expandedContent = createFileChooserComponent(SettingsRegistry.DEFAULT_MMC_STORAGE_PATH);
+        expandedContent.setBorder(BorderFactory.createEmptyBorder(8, 24, 0, 0));
+        expandedContent.setVisible(ConfigManager.getBoolean("enable_default_storage"));
+        container.add(expandedContent);
+        
+        toggle.addActionListener(e -> {
+            boolean selected = toggle.isSelected();
+            ConfigManager.set("enable_default_storage", selected);
+            expandedContent.setVisible(selected);
+            container.revalidate();
+            container.repaint();
+            refreshUI(false);
+        });
+        
+        componentMap.put("enable_default_storage", toggle);
+        componentMap.put("storage_expanded_panel", expandedContent);
+        
+        return container;
+    }
+
     private JPanel createThemeCombo() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
