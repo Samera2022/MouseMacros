@@ -19,7 +19,7 @@
 
 <div align="center">
 
-| <sub>EN</sub> [English](./README.md) | <sub>ZH</sub> [中文](docs/zh/README_ZH_CN.md) |
+| <sub>EN</sub> [English](./README.md) | <sub>ZH</sub> [涓枃](docs/zh/README_ZH_CN.md) |
 |--------------------------------------|------------------------------------------|
 
 </div>
@@ -34,7 +34,7 @@ We are excited to announce its successor: **[saMacros](https://github.com/Samera
 * **saMacros** (Scriptable & Advanced Macros) is our next-generation platform featuring a **GraalVM JavaScript Engine**, modern **FlatLaf UI**, and a modular API.
 * **MouseMacros** will remain available here for users who prefer a lightweight, simple tool. It will receive critical bug fixes but few new feature updates.
 
-👉 **[Explore saMacros & Get the Latest Snapshots](https://github.com/Samera2022/saMacros)**
+馃憠 **[Explore saMacros & Get the Latest Snapshots](https://github.com/Samera2022/saMacros)**
 
 ---
 
@@ -64,7 +64,18 @@ To ensure the safety and authenticity of our Windows binaries, MouseMacros is cu
 - Future Releases: Once approved, all Windows installers (.msi) and executables (.exe) will be digitally signed by SignPath Foundation.
   ![alt text](https://img.shields.io/badge/Code%20Signing-SignPath.io-blue)
 
-## Getting Started
+
+
+---
+
+## 📚 Documentation
+
+- **[Quick Start Guide](docs/QUICK_START.md)** - Get started in 5 minutes
+- **[FAQ](docs/FAQ.md)** - Frequently Asked Questions
+- **[Manual Uninstall Guide](docs/MANUAL_UNINSTALL.md)** - How to completely remove MouseMacros
+- **[User Feedback Analysis](docs/improvements/USER_FEEDBACK_ANALYSIS.md)** - Current improvements based on user feedback
+
+---## Getting Started
 
 ### Quick Launch
 I. Jar User
