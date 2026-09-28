@@ -281,36 +281,24 @@ public class SettingsDialog extends JDialog {
     }
     
     private JPanel createOtherButtonsPanel() {
-                JButton wizardBtn = new JButton(Localizer.get("settings.show_welcome_wizard"));
+        // Create buttons with consistent styling and emojis
+        JButton hotkeyBtn = createStyledButton("⌨️ " + Localizer.get("settings.custom_hotkey"));
+        hotkeyBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new HotkeyDialog().setVisible(true)));
+        
+        JButton wizardBtn = createStyledButton("🧭 " + Localizer.get("settings.show_welcome_wizard"));
         wizardBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> {
             io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog dialog = 
                 new io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog(MAIN_FRAME);
             dialog.setVisible(true);
         }));
-        JButton hotkeyBtn = new JButton(Localizer.get("settings.custom_hotkey"));
-        hotkeyBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new HotkeyDialog().setVisible(true)));
-        JButton scriptBtn = new JButton(Localizer.get("settings.scripts_manager"));
-        scriptBtn.addActionListener(e -> {
-            JPanel panel = new JPanel(new BorderLayout());
-            String message = String.format(
-                    "<html><div style='width:%dpx;'>%s</div></html>",
-                    350,
-                    Localizer.get("settings.scripts_manager.not_available.message")
-            );
-            panel.add(new JLabel(Localizer.get(message)), BorderLayout.CENTER);
-
-            int option = JOptionPane.showConfirmDialog(this, panel, Localizer.get("settings.scripts_manager.not_available.title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-            if (option == JOptionPane.OK_OPTION) {
-                try {
-                    Desktop.getDesktop().browse(new java.net.URI("https://github.com/Samera2022/saMacros"));
-                } catch (Exception ignored) {}
-            }
-        });
-        JButton aboutBtn = new JButton(Localizer.get("settings.about_author"));
+        
+        JButton aboutBtn = createStyledButton("ℹ️ " + Localizer.get("settings.about_author"));
         aboutBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new AboutDialog().setVisible(true)));
-        JButton updateInfoBtn = new JButton(Localizer.get("settings.update_info"));
+        
+        JButton updateInfoBtn = createStyledButton("🔄 " + Localizer.get("settings.update_info"));
         updateInfoBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new UpdateInfoDialog().setVisible(true)));
-        JButton exportLogBtn = new JButton(Localizer.get("settings.export_log"));
+        
+        JButton exportLogBtn = createStyledButton("📄 " + Localizer.get("settings.export_log"));
         exportLogBtn.addActionListener(e -> {
             try {
                 String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -332,34 +320,107 @@ public class SettingsDialog extends JDialog {
                 JOptionPane.showMessageDialog(this, new JLabel(message), Localizer.getS("settings.error"), JOptionPane.ERROR_MESSAGE);
             }
         });
-        // Create main container with better layout
+        
+        JButton scriptBtn = createStyledButton("🔧 " + Localizer.get("settings.scripts_manager"));
+        scriptBtn.addActionListener(e -> {
+            JPanel panel = new JPanel(new BorderLayout());
+            String message = String.format(
+                    "<html><div style=''width:%dpx;''>%s</div></html>",
+                    350,
+                    Localizer.get("settings.scripts_manager.not_available.message")
+            );
+            panel.add(new JLabel(Localizer.get(message)), BorderLayout.CENTER);
+
+            int option = JOptionPane.showConfirmDialog(this, panel, Localizer.get("settings.scripts_manager.not_available.title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (option == JOptionPane.OK_OPTION) {
+                try {
+                    Desktop.getDesktop().browse(new java.net.URI("https://github.com/Samera2022/saMacros"));
+                } catch (Exception ignored) {}
+            }
+        });
+        
+        // Create main container with modern card-style layout
         JPanel container = new JPanel();
-        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(8, 0, 8, 0);
+        gbc.weightx = 1.0;
+        gbc.gridx = 0;
         
-        // Row 1: Hotkey & Wizard (most frequently used)
-        JPanel row1 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        row1.add(hotkeyBtn);
-        row1.add(wizardBtn);
-        row1.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // Quick Actions Card
+        JPanel quickActionsCard = createActionCard(
+            Localizer.get("settings.section.quick_actions"),
+            new JButton[]{hotkeyBtn, wizardBtn}
+        );
+        gbc.gridy = 0;
+        container.add(quickActionsCard, gbc);
         
-        // Row 2: Info & Tools
-        JPanel row2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        row2.add(aboutBtn);
-        row2.add(updateInfoBtn);
-        row2.add(exportLogBtn);
-        row2.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // Information Card
+        JPanel infoCard = createActionCard(
+            Localizer.get("settings.section.information"),
+            new JButton[]{aboutBtn, updateInfoBtn, exportLogBtn}
+        );
+        gbc.gridy = 1;
+        container.add(infoCard, gbc);
         
-        // Row 3: Scripts (deprecated feature)
-        JPanel row3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        row3.add(scriptBtn);
-        row3.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // Advanced Card
+        JPanel advancedCard = createActionCard(
+            Localizer.get("settings.section.advanced"),
+            new JButton[]{scriptBtn}
+        );
+        gbc.gridy = 2;
+        container.add(advancedCard, gbc);
         
-        container.add(row1);
-        container.add(row2);
-        container.add(row3);
         container.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         return container;
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFocusPainted(false);
+        button.setFont(button.getFont().deriveFont(13f));
+        button.setPreferredSize(new Dimension(180, 32));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
+    }
+
+    private JPanel createActionCard(String title, JButton[] buttons) {
+        JPanel card = new JPanel();
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true),
+            BorderFactory.createEmptyBorder(12, 15, 12, 15)
+        ));
+        
+        // Title label
+        JLabel titleLabel = new JLabel(title);
+        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 14f));
+        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        card.add(titleLabel);
+        card.add(Box.createVerticalStrut(10));
+        
+        // Buttons panel with grid layout
+        JPanel buttonsPanel = new JPanel(new GridLayout(0, 2, 10, 8));
+        buttonsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        for (JButton button : buttons) {
+            buttonsPanel.add(button);
+        }
+        
+        // If odd number of buttons, add empty space
+        if (buttons.length % 2 != 0) {
+            buttonsPanel.add(Box.createHorizontalGlue());
+        }
+        
+        buttonsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, buttonsPanel.getPreferredSize().height));
+        card.add(buttonsPanel);
+        
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
+        return card;
+
     }
 
     private JPanel createSavePanel() {
