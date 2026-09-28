@@ -78,20 +78,18 @@ public class SettingsDialog extends JDialog {
 
         for (SettingsRegistry setting : SettingsRegistry.values()) {
             if (setting.type == OtherConsts.SECTION) {
-                content.add(Box.createVerticalStrut(10));
-                content.add(new JSeparator());
-                content.add(Box.createVerticalStrut(10));
+                content.add(Box.createVerticalStrut(28));
                 JLabel sectionTitle = new JLabel(Localizer.getS(setting.i18nKey));
                 sectionTitle.setFont(settingTitle.getFont().deriveFont(Font.BOLD, 16f));
                 sectionTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
                 content.add(sectionTitle);
-                content.add(Box.createVerticalStrut(3));
+                content.add(Box.createVerticalStrut(16));
             } else {
                 content.add(createSettingComponent(setting));
             }
         }
         
-        content.add(Box.createVerticalStrut(10));
+        content.add(Box.createVerticalStrut(28));
         content.add(createOtherButtonsPanel());
 
         return content;
@@ -280,6 +278,61 @@ public class SettingsDialog extends JDialog {
         return panel;
     }
     
+
+    private JPanel createThemeCombo() {
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        
+        JLabel label = new JLabel("Theme");
+        label.setFont(label.getFont().deriveFont(Font.PLAIN, 14f));
+        gbc.gridx = 0;
+        gbc.weightx = 1.0;
+        panel.add(label, gbc);
+        
+        Vector<String> themes = new Vector<>();
+        themes.add("System");
+        themes.add("Light");
+        themes.add("Dark");
+        
+        JComboBox<String> combo = new JComboBox<>(themes);
+        combo.setName("theme_combo");
+        combo.setPreferredSize(new Dimension(160, 32));
+        combo.setFont(combo.getFont().deriveFont(Font.PLAIN, 13f));
+        
+        // Set initial value
+        boolean followSystem = ConfigManager.getBoolean("follow_system_settings");
+        if (followSystem) {
+            combo.setSelectedItem("System");
+        } else {
+            boolean darkMode = ConfigManager.getBoolean("enable_dark_mode");
+            combo.setSelectedItem(darkMode ? "Dark" : "Light");
+        }
+        
+        combo.addActionListener(e -> {
+            String selected = (String) combo.getSelectedItem();
+            if ("System".equals(selected)) {
+                ConfigManager.set("follow_system_settings", true);
+            } else {
+                ConfigManager.set("follow_system_settings", false);
+                ConfigManager.set("enable_dark_mode", "Dark".equals(selected));
+            }
+            refreshUI(false);
+        });
+        
+        gbc.gridx = 1;
+        gbc.weightx = 0;
+        panel.add(combo, gbc);
+        
+        componentMap.put("theme_combo", combo);
+        
+        return panel;
+    }
+
     private JPanel createOtherButtonsPanel() {
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
