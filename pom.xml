@@ -52,19 +52,19 @@
             <dependency>
                 <groupId>io.github.samera2022</groupId>
                 <artifactId>mousemacros-api</artifactId>
-                <version>${junit.version}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <!-- External dependencies -->
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
-                <version>${junit.version}</version>
+                <version>${gson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.kwhat</groupId>
                 <artifactId>jnativehook</artifactId>
-                <version>${junit.version}</version>
+                <version>${jnativehook.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
