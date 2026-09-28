@@ -88,7 +88,7 @@
   "exit.finish": "确定",
   "lang.tooltip.disabled.default": "欲启用本选项，首先需要切换“%s”的状态。",
   "hotkey.warning.media_key": "警告：媒体键（音量、播放等）可能无法被正确录制，这些按键通常由硬件直接处理。建议使用常规按键组合。",
-  "hotkey.warning.fn_key": "提示：该按键在笔记本电脑上可能需要Fn键配合使用，录制效果因设备而异。",
+  "hotkey.warning.fn_key": "注意：Fn键本身无法被录制。\n\nFn键在键盘固件层面处理，不会产生系统可见的按键事件。任何看似Fn+X的功能实际上是键盘直接发送其他键码，而非Fn键组合。",
   "hotkey.help.recording_failure": "部分按键无法录制的原因：\n・媒体键（音量、播放控制）由硬件直接处理\n・Fn功能键在不同笔记本上实现不同\n・系统级快捷键被操作系统拦截\n\n建议使用：\n・字母键 + Ctrl/Shift/Alt组合\n・F1-F12功能键\n・数字键盘",
   "hotkey.help.recommended_keys": "推荐使用的快捷键类型：\n+ 字母键（A-Z）\n+ 数字键（0-9）\n+ 功能键（F1-F12）\n+ 组合键（Ctrl/Shift/Alt + 其他键）\n+ 方向键\n\n不推荐：\n- 媒体键（音量、播放控制）\n- 电源键\n- Fn功能键",
   "hotkey.validation.duplicate": "热键冲突：该按键已被其他功能使用",
@@ -106,5 +106,7 @@
   "welcome.page3.title": "快捷键设置",
   "welcome.page3.content": "您可以自定义所有快捷键：\n\n・点击主界面的设置按钮\n・选择自定义热键\n・点击输入框，然后按下您想要设置的按键\n・点击确定保存\n\n注意事项：\n・避免使用媒体键（音量、播放等），这些按键可能无法正常录制\n・推荐使用 F1-F12 或字母键 + Ctrl/Shift/Alt 组合\n・确保快捷键不与其他程序冲突",
   "welcome.page4.title": "开始使用",
-  "welcome.page4.content": "您已准备好开始使用 MouseMacros！\n\n提示：\n・首次录制建议使用简单操作测试\n・可在设置中启用快速模式来忽略操作间隔\n・遇到问题可查看日志或访问 GitHub 提交反馈\n\n更多帮助：\n・GitHub: github.com/Samera2022/MouseMacros\n・B站: UID 583460263\n\n感谢您选择 MouseMacros！"
+  "welcome.page4.content": "您已准备好开始使用 MouseMacros！\n\n提示：\n・首次录制建议使用简单操作测试\n・可在设置中启用快速模式来忽略操作间隔\n・遇到问题可查看日志或访问 GitHub 提交反馈\n\n更多帮助：\n・GitHub: github.com/Samera2022/MouseMacros\n・B站: UID 583460263\n\n感谢您选择 MouseMacros！",
+  "hotkey.warning.impossible_key": "错误：该按键无法被录制！\n\n原因：此按键（如媒体键、电源键）在键盘硬件层面处理，操作系统和应用程序完全无法检测到。\n\n请选择其他按键。",
+  "hotkey.warning.problematic_key": "警告：该按键可能无法在所有系统上正常工作。\n\n原因：此按键（如浏览器控制键、F13-F24）的实现因设备而异，在某些键盘上可能无法录制。\n\n建议：优先使用F1-F12或字母键组合。"
 }

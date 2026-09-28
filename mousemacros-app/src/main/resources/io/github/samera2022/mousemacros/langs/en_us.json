@@ -88,7 +88,7 @@
   "exit.finish": "Confirm",
   "lang.tooltip.disabled.default": "To enable this option, you must first switch the status of '%s'.",
   "hotkey.warning.media_key": "Warning: Media keys (volume, playback, etc.) may not record properly as they are often handled directly by hardware. Consider using regular key combinations instead.",
-  "hotkey.warning.fn_key": "Note: This key may require the Fn key on laptops. Recording reliability varies by device.",
+  "hotkey.warning.fn_key": "NOTE: The Fn key itself CANNOT be recorded.\n\nThe Fn key is processed at the keyboard firmware level and does not generate system-visible key events. Any Fn+X functionality is actually the keyboard directly sending other keycodes, not an Fn key combination.",
   "hotkey.help.recording_failure": "Why some keys cannot be recorded:\n* Media keys (volume, playback) are handled by hardware\n* Fn function keys vary across laptop models\n* System-level hotkeys are intercepted by the OS\n\nRecommended:\n* Letter keys + Ctrl/Shift/Alt combinations\n* F1-F12 function keys\n* Numpad keys",
   "hotkey.help.recommended_keys": "Recommended hotkey types:\n+ Letter keys (A-Z)\n+ Number keys (0-9)\n+ Function keys (F1-F12)\n+ Combinations (Ctrl/Shift/Alt + other keys)\n+ Arrow keys\n\nNot recommended:\n- Media keys (volume, playback)\n- Power key\n- Fn function keys",
   "hotkey.validation.duplicate": "Hotkey conflict: This key is already used by another function",
@@ -106,5 +106,7 @@
   "welcome.page3.title": "Hotkey Setup",
   "welcome.page3.content": "You can customize all hotkeys:\n\n* Click the Settings button in the main interface\n* Select Custom Hotkey\n* Click the input field, then press the key you want to set\n* Click Confirm to save\n\nNotes:\n* Avoid using media keys (volume, playback, etc.), as they may not record properly\n* Recommended: F1-F12 or letter keys + Ctrl/Shift/Alt combinations\n* Ensure hotkeys don't conflict with other programs",
   "welcome.page4.title": "Get Started",
-  "welcome.page4.content": "You're ready to start using MouseMacros!\n\nTips:\n* For your first recording, try simple actions as a test\n* Enable Quick Mode in settings to ignore action delays\n* Check logs or visit GitHub for support if you encounter issues\n\nMore Help:\n* GitHub: github.com/Samera2022/MouseMacros\n* Bilibili: UID 583460263\n\nThank you for choosing MouseMacros!"
+  "welcome.page4.content": "You're ready to start using MouseMacros!\n\nTips:\n* For your first recording, try simple actions as a test\n* Enable Quick Mode in settings to ignore action delays\n* Check logs or visit GitHub for support if you encounter issues\n\nMore Help:\n* GitHub: github.com/Samera2022/MouseMacros\n* Bilibili: UID 583460263\n\nThank you for choosing MouseMacros!",
+  "hotkey.warning.impossible_key": "ERROR: This key CANNOT be recorded!\n\nReason: This key (such as media keys, power keys) is processed at the keyboard firmware level, and is completely invisible to the operating system and applications.\n\nPlease choose a different key.",
+  "hotkey.warning.problematic_key": "WARNING: This key may not work on all systems.\n\nReason: This key (such as browser control keys, F13-F24) varies by device implementation and may not be capturable on some keyboards.\n\nRecommendation: Prefer F1-F12 or letter key combinations."
 }

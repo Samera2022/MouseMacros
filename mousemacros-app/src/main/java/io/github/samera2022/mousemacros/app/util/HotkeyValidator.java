@@ -12,27 +12,30 @@ import java.util.Set;
  */
 public class HotkeyValidator {
     
-    // Keys that are known to have issues with JNativeHook
+    // Keys that CANNOT be captured by Java applications (hardware-level processing)
+    private static final Set<Integer> IMPOSSIBLE_KEYS = new HashSet<>();
+    
+    // Keys that are problematic but may work on some systems
     private static final Set<Integer> PROBLEMATIC_KEYS = new HashSet<>();
     
     static {
-        // Function keys on some laptops (often require Fn modifier)
-        // These may not be captured correctly on all systems
+        // NOTE: Fn key itself CANNOT be detected by any Java library
+        // Fn is processed at keyboard firmware level and never reaches the OS
         
-        // Media keys (often hardware-level, may not generate events)
-        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_MEDIA_PLAY);
-        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_MEDIA_STOP);
-        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_MEDIA_PREVIOUS);
-        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_MEDIA_NEXT);
-        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_VOLUME_UP);
-        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_VOLUME_DOWN);
-        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_VOLUME_MUTE);
+        // Media keys (hardware-level, often impossible to capture)
+        IMPOSSIBLE_KEYS.add(NativeKeyEvent.VC_MEDIA_PLAY);
+        IMPOSSIBLE_KEYS.add(NativeKeyEvent.VC_MEDIA_STOP);
+        IMPOSSIBLE_KEYS.add(NativeKeyEvent.VC_MEDIA_PREVIOUS);
+        IMPOSSIBLE_KEYS.add(NativeKeyEvent.VC_MEDIA_NEXT);
+        IMPOSSIBLE_KEYS.add(NativeKeyEvent.VC_VOLUME_UP);
+        IMPOSSIBLE_KEYS.add(NativeKeyEvent.VC_VOLUME_DOWN);
+        IMPOSSIBLE_KEYS.add(NativeKeyEvent.VC_VOLUME_MUTE);
         
-        // Power keys (usually system-level)
-        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_POWER);
-        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_SLEEP);
+        // Power keys (system-level, cannot be captured)
+        IMPOSSIBLE_KEYS.add(NativeKeyEvent.VC_POWER);
+        IMPOSSIBLE_KEYS.add(NativeKeyEvent.VC_SLEEP);
         
-        // Browser/App control keys (hardware-dependent)
+        // Browser/App control keys (hardware-dependent, may work on desktop keyboards)
         PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_BROWSER_BACK);
         PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_BROWSER_FORWARD);
         PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_BROWSER_REFRESH);
@@ -41,30 +44,34 @@ public class HotkeyValidator {
         PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_BROWSER_FAVORITES);
         PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_BROWSER_HOME);
         
-        // App launch keys
+        // App launch keys (may work on some keyboards)
         PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_APP_MAIL);
         PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_APP_CALCULATOR);
         PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_APP_MUSIC);
         PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_APP_PICTURES);
+        
+        // F13-F24 often require Fn on laptops, but can work on extended keyboards
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F13);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F14);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F15);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F16);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F17);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F18);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F19);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F20);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F21);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F22);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F23);
+        PROBLEMATIC_KEYS.add(NativeKeyEvent.VC_F24);
     }
     
-    // Keys that require special modifier keys (Fn) on laptops
-    private static final Set<Integer> FN_DEPENDENT_KEYS = new HashSet<>();
-    
-    static {
-        // F13-F24 (often Fn + F1-F12 on laptops)
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F13);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F14);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F15);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F16);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F17);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F18);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F19);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F20);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F21);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F22);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F23);
-        FN_DEPENDENT_KEYS.add(NativeKeyEvent.VC_F24);
+    /**
+     * Check if a key is impossible to capture (hardware-level).
+     * @param keyCode JNativeHook key code
+     * @return true if key CANNOT be captured
+     */
+    public static boolean isImpossibleKey(int keyCode) {
+        return IMPOSSIBLE_KEYS.contains(keyCode);
     }
     
     /**
@@ -77,24 +84,15 @@ public class HotkeyValidator {
     }
     
     /**
-     * Check if a key requires Fn modifier on laptops.
-     * @param keyCode JNativeHook key code
-     * @return true if key typically requires Fn key
-     */
-    public static boolean requiresFnKey(int keyCode) {
-        return FN_DEPENDENT_KEYS.contains(keyCode);
-    }
-    
-    /**
      * Get warning message for a problematic key.
      * @param keyCode JNativeHook key code
      * @return localized warning message, or null if key is OK
      */
     public static String getKeyWarning(int keyCode) {
-        if (isProblematicKey(keyCode)) {
-            return Localizer.get("hotkey.warning.media_key");
-        } else if (requiresFnKey(keyCode)) {
-            return Localizer.get("hotkey.warning.fn_key");
+        if (isImpossibleKey(keyCode)) {
+            return Localizer.get("hotkey.warning.impossible_key");
+        } else if (isProblematicKey(keyCode)) {
+            return Localizer.get("hotkey.warning.problematic_key");
         }
         return null;
     }
