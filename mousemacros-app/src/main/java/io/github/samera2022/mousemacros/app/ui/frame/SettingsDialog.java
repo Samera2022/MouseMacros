@@ -82,7 +82,7 @@ public class SettingsDialog extends JDialog {
                 content.add(new JSeparator());
                 content.add(Box.createVerticalStrut(10));
                 JLabel sectionTitle = new JLabel(Localizer.getS(setting.i18nKey));
-                sectionTitle.setFont(settingTitle.getFont().deriveFont(Font.BOLD, 18f));
+                sectionTitle.setFont(settingTitle.getFont().deriveFont(Font.BOLD, 16f));
                 sectionTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
                 content.add(sectionTitle);
                 content.add(Box.createVerticalStrut(3));
@@ -282,23 +282,23 @@ public class SettingsDialog extends JDialog {
     
     private JPanel createOtherButtonsPanel() {
         // Create buttons with consistent styling and emojis
-        JButton hotkeyBtn = createStyledButton("⌨️ " + Localizer.get("settings.custom_hotkey"));
+        JButton hotkeyBtn = createStyledButton("鈱笍 " + Localizer.get("settings.custom_hotkey"));
         hotkeyBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new HotkeyDialog().setVisible(true)));
         
-        JButton wizardBtn = createStyledButton("🧭 " + Localizer.get("settings.show_welcome_wizard"));
+        JButton wizardBtn = createStyledButton("馃Л " + Localizer.get("settings.show_welcome_wizard"));
         wizardBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> {
             io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog dialog = 
                 new io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog(MAIN_FRAME);
             dialog.setVisible(true);
         }));
         
-        JButton aboutBtn = createStyledButton("ℹ️ " + Localizer.get("settings.about_author"));
+        JButton aboutBtn = createStyledButton("鈩癸笍 " + Localizer.get("settings.about_author"));
         aboutBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new AboutDialog().setVisible(true)));
         
-        JButton updateInfoBtn = createStyledButton("🔄 " + Localizer.get("settings.update_info"));
+        JButton updateInfoBtn = createStyledButton("馃攧 " + Localizer.get("settings.update_info"));
         updateInfoBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new UpdateInfoDialog().setVisible(true)));
         
-        JButton exportLogBtn = createStyledButton("📄 " + Localizer.get("settings.export_log"));
+        JButton exportLogBtn = createStyledButton("馃搫 " + Localizer.get("settings.export_log"));
         exportLogBtn.addActionListener(e -> {
             try {
                 String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -321,7 +321,7 @@ public class SettingsDialog extends JDialog {
             }
         });
         
-        JButton scriptBtn = createStyledButton("🔧 " + Localizer.get("settings.scripts_manager"));
+        JButton scriptBtn = createStyledButton("馃敡 " + Localizer.get("settings.scripts_manager"));
         scriptBtn.addActionListener(e -> {
             JPanel panel = new JPanel(new BorderLayout());
             String message = String.format(
