@@ -281,147 +281,163 @@ public class SettingsDialog extends JDialog {
     }
     
     private JPanel createOtherButtonsPanel() {
-        // Create buttons with consistent styling and emojis
-        JButton hotkeyBtn = createStyledButton("鈱笍 " + Localizer.get("settings.custom_hotkey"));
-        hotkeyBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new HotkeyDialog().setVisible(true)));
-        
-        JButton wizardBtn = createStyledButton("馃Л " + Localizer.get("settings.show_welcome_wizard"));
-        wizardBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> {
-            io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog dialog = 
-                new io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog(MAIN_FRAME);
-            dialog.setVisible(true);
-        }));
-        
-        JButton aboutBtn = createStyledButton("鈩癸笍 " + Localizer.get("settings.about_author"));
-        aboutBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new AboutDialog().setVisible(true)));
-        
-        JButton updateInfoBtn = createStyledButton("馃攧 " + Localizer.get("settings.update_info"));
-        updateInfoBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> new UpdateInfoDialog().setVisible(true)));
-        
-        JButton exportLogBtn = createStyledButton("馃搫 " + Localizer.get("settings.export_log"));
-        exportLogBtn.addActionListener(e -> {
-            try {
-                String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-                String fileName = "report-" + timeStamp + ".txt";
-                String filePath = REPORTS_DIR.getAbsolutePath() + File.separator + fileName;
-                FileUtil.writeFile(filePath, ConsoleOutputCapturer.getOutput());
-                String message = "<html>" + Localizer.get("settings.export_log.success") + "<br>" + filePath + "</html>";
-                JOptionPane.showMessageDialog(this, new JLabel(message), Localizer.get("settings.success"), JOptionPane.INFORMATION_MESSAGE);
-
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        Desktop.getDesktop().open(REPORTS_DIR);
-                    } catch (IOException openEx) {
-                        System.err.println("Failed to open reports directory: " + openEx.getMessage());
-                    }
-                }
-            } catch (IOException ex) {
-                String message = "<html>" + Localizer.get("settings.export_log.failed") + "<br>" + ex.getMessage() + "</html>";
-                JOptionPane.showMessageDialog(this, new JLabel(message), Localizer.getS("settings.error"), JOptionPane.ERROR_MESSAGE);
-            }
-        });
-        
-        JButton scriptBtn = createStyledButton("馃敡 " + Localizer.get("settings.scripts_manager"));
-        scriptBtn.addActionListener(e -> {
-            JPanel panel = new JPanel(new BorderLayout());
-            String message = String.format(
-                    "<html><div style=''width:%dpx;''>%s</div></html>",
-                    350,
-                    Localizer.get("settings.scripts_manager.not_available.message")
-            );
-            panel.add(new JLabel(Localizer.get(message)), BorderLayout.CENTER);
-
-            int option = JOptionPane.showConfirmDialog(this, panel, Localizer.get("settings.scripts_manager.not_available.title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-            if (option == JOptionPane.OK_OPTION) {
-                try {
-                    Desktop.getDesktop().browse(new java.net.URI("https://github.com/Samera2022/saMacros"));
-                } catch (Exception ignored) {}
-            }
-        });
-        
-        // Create main container with modern card-style layout
         JPanel container = new JPanel();
-        container.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(8, 0, 8, 0);
-        gbc.weightx = 1.0;
-        gbc.gridx = 0;
-        
-        // Quick Actions Card
-        JPanel quickActionsCard = createActionCard(
-            Localizer.get("settings.section.quick_actions"),
-            new JButton[]{hotkeyBtn, wizardBtn}
-        );
-        gbc.gridy = 0;
-        container.add(quickActionsCard, gbc);
-        
-        // Information Card
-        JPanel infoCard = createActionCard(
-            Localizer.get("settings.section.information"),
-            new JButton[]{aboutBtn, updateInfoBtn, exportLogBtn}
-        );
-        gbc.gridy = 1;
-        container.add(infoCard, gbc);
-        
-        // Advanced Card
-        JPanel advancedCard = createActionCard(
-            Localizer.get("settings.section.advanced"),
-            new JButton[]{scriptBtn}
-        );
-        gbc.gridy = 2;
-        container.add(advancedCard, gbc);
-        
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        // Shortcuts Section
+        JLabel shortcutsLabel = new JLabel("Shortcuts");
+        shortcutsLabel.setFont(shortcutsLabel.getFont().deriveFont(Font.BOLD, 16f));
+        shortcutsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        container.add(shortcutsLabel);
+        container.add(Box.createVerticalStrut(12));
+        
+        container.add(createActionRow("Keyboard shortcut", "Configure", 
+            () -> SwingUtilities.invokeLater(() -> new HotkeyDialog().setVisible(true))));
+        container.add(Box.createVerticalStrut(8));
+        
+        container.add(createActionRow("Welcome wizard", "Open", 
+            () -> SwingUtilities.invokeLater(() -> {
+                io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog dialog = 
+                    new io.github.samera2022.mousemacros.app.ui.dialog.WelcomeDialog(MAIN_FRAME);
+                dialog.setVisible(true);
+            })));
+        container.add(Box.createVerticalStrut(24));
+        
+        // About Section
+        JLabel aboutLabel = new JLabel("About");
+        aboutLabel.setFont(aboutLabel.getFont().deriveFont(Font.BOLD, 16f));
+        aboutLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        container.add(aboutLabel);
+        container.add(Box.createVerticalStrut(12));
+        
+        container.add(createNavRow("Author", 
+            () -> SwingUtilities.invokeLater(() -> new AboutDialog().setVisible(true))));
+        container.add(Box.createVerticalStrut(8));
+        
+        container.add(createNavRow("Update information", 
+            () -> SwingUtilities.invokeLater(() -> new UpdateInfoDialog().setVisible(true))));
+        container.add(Box.createVerticalStrut(8));
+        
+        container.add(createNavRow("Export log", this::handleExportLog));
+        container.add(Box.createVerticalStrut(24));
+        
+        // Advanced Section
+        JLabel advancedLabel = new JLabel("Advanced");
+        advancedLabel.setFont(advancedLabel.getFont().deriveFont(Font.BOLD, 16f));
+        advancedLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        container.add(advancedLabel);
+        container.add(Box.createVerticalStrut(12));
+        
+        container.add(createNavRow("Script manager", this::handleScriptManager));
         
         return container;
     }
-
-    private JButton createStyledButton(String text) {
-        JButton button = new JButton(text);
+    
+    private JPanel createActionRow(String labelText, String buttonText, Runnable action) {
+        JPanel row = new JPanel(new GridBagLayout());
+        row.setAlignmentX(Component.LEFT_ALIGNMENT);
+        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        
+        JLabel label = new JLabel(labelText);
+        label.setFont(label.getFont().deriveFont(Font.PLAIN, 14f));
+        gbc.gridx = 0;
+        gbc.weightx = 1.0;
+        row.add(label, gbc);
+        
+        JButton button = new JButton(buttonText);
+        button.setPreferredSize(new Dimension(100, 32));
+        button.setFont(button.getFont().deriveFont(Font.PLAIN, 13f));
         button.setFocusPainted(false);
-        button.setFont(button.getFont().deriveFont(13f));
-        button.setPreferredSize(new Dimension(180, 32));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        return button;
+        button.addActionListener(e -> action.run());
+        
+        gbc.gridx = 1;
+        gbc.weightx = 0;
+        row.add(button, gbc);
+        
+        return row;
+    }
+    
+    private JPanel createNavRow(String labelText, Runnable action) {
+        JPanel row = new JPanel(new GridBagLayout());
+        row.setAlignmentX(Component.LEFT_ALIGNMENT);
+        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+        row.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        JLabel label = new JLabel(labelText);
+        label.setFont(label.getFont().deriveFont(Font.PLAIN, 14f));
+        gbc.gridx = 0;
+        gbc.weightx = 1.0;
+        row.add(label, gbc);
+        
+        JLabel arrow = new JLabel(">");
+        arrow.setFont(arrow.getFont().deriveFont(Font.PLAIN, 18f));
+        gbc.gridx = 1;
+        gbc.weightx = 0;
+        row.add(arrow, gbc);
+        
+        row.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                action.run();
+            }
+        });
+        
+        return row;
+    }
+    
+    private void handleExportLog() {
+        try {
+            String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+            String fileName = "report-" + timeStamp + ".txt";
+            String filePath = REPORTS_DIR.getAbsolutePath() + File.separator + fileName;
+            FileUtil.writeFile(filePath, ConsoleOutputCapturer.getOutput());
+            String message = "<html>" + Localizer.get("settings.export_log.success") + "<br>" + filePath + "</html>";
+            JOptionPane.showMessageDialog(this, new JLabel(message), 
+                Localizer.get("settings.success"), JOptionPane.INFORMATION_MESSAGE);
+
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().open(REPORTS_DIR);
+                } catch (IOException openEx) {
+                    System.err.println("Failed to open reports directory: " + openEx.getMessage());
+                }
+            }
+        } catch (IOException ex) {
+            String message = "<html>" + Localizer.get("settings.export_log.failed") + "<br>" + ex.getMessage() + "</html>";
+            JOptionPane.showMessageDialog(this, new JLabel(message), 
+                Localizer.getS("settings.error"), JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void handleScriptManager() {
+        JPanel panel = new JPanel(new BorderLayout());
+        String message = String.format(
+                "<html><div style='width:%dpx;'>%s</div></html>",
+                350,
+                Localizer.get("settings.scripts_manager.not_available.message")
+        );
+        panel.add(new JLabel(Localizer.get(message)), BorderLayout.CENTER);
+
+        int option = JOptionPane.showConfirmDialog(this, panel, 
+            Localizer.get("settings.scripts_manager.not_available.title"), 
+            JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                Desktop.getDesktop().browse(new java.net.URI("https://github.com/Samera2022/saMacros"));
+            } catch (Exception ignored) {}
+        }
     }
 
-    private JPanel createActionCard(String title, JButton[] buttons) {
-        JPanel card = new JPanel();
-        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true),
-            BorderFactory.createEmptyBorder(12, 15, 12, 15)
-        ));
-        
-        // Title label
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 14f));
-        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        card.add(titleLabel);
-        card.add(Box.createVerticalStrut(10));
-        
-        // Buttons panel with grid layout
-        JPanel buttonsPanel = new JPanel(new GridLayout(0, 2, 10, 8));
-        buttonsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
-        for (JButton button : buttons) {
-            buttonsPanel.add(button);
-        }
-        
-        // If odd number of buttons, add empty space
-        if (buttons.length % 2 != 0) {
-            buttonsPanel.add(Box.createHorizontalGlue());
-        }
-        
-        buttonsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, buttonsPanel.getPreferredSize().height));
-        card.add(buttonsPanel);
-        
-        card.setAlignmentX(Component.LEFT_ALIGNMENT);
-        return card;
-
-    }
 
     private JPanel createSavePanel() {
         JButton saveSettingsBtn = new JButton(Localizer.get("settings.save_settings"));
