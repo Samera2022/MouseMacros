@@ -332,20 +332,34 @@ public class SettingsDialog extends JDialog {
                 JOptionPane.showMessageDialog(this, new JLabel(message), Localizer.getS("settings.error"), JOptionPane.ERROR_MESSAGE);
             }
         });
-        JPanel hotkeyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        hotkeyPanel.add(hotkeyBtn);
-        hotkeyPanel.add(wizardBtn);
-        hotkeyPanel.add(Box.createHorizontalStrut(10));
-        hotkeyPanel.add(Box.createHorizontalStrut(10));
-        hotkeyPanel.add(scriptBtn);
-        hotkeyPanel.add(Box.createHorizontalStrut(10));
-        hotkeyPanel.add(aboutBtn);
-        hotkeyPanel.add(Box.createHorizontalStrut(10));
-        hotkeyPanel.add(updateInfoBtn);
-        hotkeyPanel.add(Box.createHorizontalStrut(10));
-        hotkeyPanel.add(exportLogBtn);
-        hotkeyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        return hotkeyPanel;
+        // Create main container with better layout
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        
+        // Row 1: Hotkey & Wizard (most frequently used)
+        JPanel row1 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        row1.add(hotkeyBtn);
+        row1.add(wizardBtn);
+        row1.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        // Row 2: Info & Tools
+        JPanel row2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        row2.add(aboutBtn);
+        row2.add(updateInfoBtn);
+        row2.add(exportLogBtn);
+        row2.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        // Row 3: Scripts (deprecated feature)
+        JPanel row3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        row3.add(scriptBtn);
+        row3.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        container.add(row1);
+        container.add(row2);
+        container.add(row3);
+        container.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        return container;
     }
 
     private JPanel createSavePanel() {
