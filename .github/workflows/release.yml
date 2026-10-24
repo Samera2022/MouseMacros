@@ -67,7 +67,21 @@ jobs:
             }
           }
           Install-ReleaseTool @('install', 'wixtoolset', '--version=3.14.1.20250415', '-y')
-          Install-ReleaseTool @('install', 'enigmavirtualbox', '--no-progress', '-y')
+          # Chocolatey's Enigma 9.20 metadata points to a mutable upstream URL.
+          # Use the official installer only after Windows validates its signature.
+          $installer = Join-Path $env:RUNNER_TEMP 'enigmavb.exe'
+          Invoke-WebRequest 'https://enigmaprotector.com/assets/files/enigmavb.exe' -OutFile $installer
+          $signature = Get-AuthenticodeSignature $installer
+          if ($signature.Status -ne 'Valid') {
+            throw "Official Enigma installer signature is not valid: $($signature.Status) ($($signature.StatusMessage))"
+          }
+          Write-Host "Verified installer publisher: $($signature.SignerCertificate.Subject)"
+          Get-FileHash $installer -Algorithm SHA256
+          $install = Start-Process $installer -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', '/SP-' -Wait -PassThru
+          if ($install.ExitCode -notin @(0, 3010)) { throw "Enigma installer failed: $($install.ExitCode)" }
+          if (-not (Test-Path 'C:/Program Files (x86)/Enigma Virtual Box/enigmavbconsole.exe')) {
+            throw 'Enigma console executable was not installed at the expected path'
+          }
           $wix = Get-ChildItem "${env:ProgramFiles(x86)}/WiX Toolset v3*/bin/candle.exe" |
             Sort-Object FullName -Descending | Select-Object -First 1
           if (-not $wix) { throw 'WiX v3 candle.exe not found' }
