@@ -4,6 +4,7 @@ Choose the instructions for the file you downloaded. An EXE launcher is not nece
 
 | Distribution | Installation | Removal |
 | --- | --- | --- |
+| Microsoft Store / `.msix` | Install through Store (or a trusted, signed MSIX) | Windows Settings → Apps → MouseMacros → Uninstall; do not run portable scripts |
 | `.msi` | Run the installer | Windows Settings → Apps → MouseMacros → Uninstall (Windows Installer) |
 | `.zip` | Extract the complete folder and run `MouseMacros.exe` | Close the app and delete the extracted folder; optional Windows registration is described below |
 | Standalone `.exe` | Run the portable executable | Close the app (including its tray icon), then delete that executable |

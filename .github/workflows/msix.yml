@@ -1,0 +1,49 @@
+name: Validate MSIX
+on:
+  push:
+    branches: [feature/table-ui-redesign]
+    paths:
+      - ".build/**"
+      - ".github/workflows/msix.yml"
+      - "pom.xml"
+      - "mousemacros-app/**"
+      - "mousemacros-api/**"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.build/**'
+      - '.github/workflows/msix.yml'
+      - 'pom.xml'
+      - 'mousemacros-app/**'
+      - 'mousemacros-api/**'
+
+permissions:
+  contents: read
+
+jobs:
+  msix:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: liberica
+          java-version: '21'
+          architecture: x64
+          cache: maven
+      - name: Build application
+        run: mvn -B -ntp package -DskipTests
+      - name: Build and validate Store package with Windows SDK
+        shell: pwsh
+        env:
+          APP_DISPLAY_VERSION: '2.0.0-ci'
+          APP_SERIAL_VERSION: '2.0.0'
+        run: |
+          ./.build/build.ps1 -Type msix
+          $package = Get-Item output/MouseMacros-2.0.0-ci.msix
+          if ($package.Length -eq 0) { throw 'Empty MSIX package' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MouseMacros-msix-unsigned
+          path: output/*.msix
+          if-no-files-found: error

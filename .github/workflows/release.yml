@@ -50,6 +50,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DIST }}
+          architecture: x64
           cache: 'maven'
 
       - name: Install Build Tools (WiX & Enigma)
@@ -74,7 +75,7 @@ jobs:
         run: |
           Write-Host "Starting Multi-format Packaging for version $env:APP_DISPLAY_VERSION..." -ForegroundColor Magenta
           
-          "jar", "zip", "exe", "msi" | ForEach-Object {
+          "jar", "zip", "exe", "msi", "msix" | ForEach-Object {
               Write-Host "--> Packaging format: $_" -ForegroundColor Cyan
               ./.build/build.ps1 -Type $_
           }

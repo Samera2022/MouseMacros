@@ -1,6 +1,6 @@
 Param(
     [Parameter(Mandatory=$true)]
-    [ValidateSet("msi", "exe", "jar", "zip")]
+    [ValidateSet("msi", "exe", "jar", "zip", "msix")]
     [string]$Type
 )
 
@@ -58,6 +58,10 @@ if (-not (Test-Path "custom-jre")) {
 }
 
 switch ($Type) {
+    "msix" {
+        & "$PSScriptRoot/build-msix.ps1" -ProjectRoot "$PROJECT_ROOT"
+    }
+
 
     "jar" {
         Copy-Item $MAVEN_JAR "$OUT_DIR\$FullName.jar"

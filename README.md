@@ -72,6 +72,7 @@ To ensure the safety and authenticity of our Windows binaries, MouseMacros is cu
 
 - **[Quick Start Guide](docs/QUICK_START.md)** - Get started in 5 minutes
 - **[FAQ](docs/FAQ.md)** - Frequently Asked Questions
+- **[Microsoft Store / MSIX](docs/MSIX.md)** - Build and update the Store package
 - **[Manual Uninstall Guide](docs/MANUAL_UNINSTALL.md)** - How to completely remove MouseMacros
 - **[User Feedback Analysis](docs/improvements/USER_FEEDBACK_ANALYSIS.md)** - Current improvements based on user feedback
 
