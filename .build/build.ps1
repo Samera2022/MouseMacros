@@ -115,15 +115,22 @@ switch ($Type) {
         Copy-Item "$newCfgPath" "$IMAGE_ROOT\$newCfgName" -Force
 
         if (Test-Path $EVB_TEMPLATE) {
-            $evbContent = Get-Content $EVB_TEMPLATE -Raw
             $finalExePath = "$OUT_DIR\$FullName.exe"
-            $evbContent = $evbContent -replace '<OutputFile>.*?</OutputFile>', "<OutputFile>$finalExePath</OutputFile>"
-            $evbContent = $evbContent -replace "$BaseName.cfg", "$newCfgName"
-            $evbContent | Set-Content $TEMP_EVB -Encoding UTF8
-
-            if (Test-Path $EVB_CONSOLE) {
-                Push-Location "$PROJECT_ROOT\.build"
-                & $EVB_CONSOLE "temp_build.evb"
+            & "$PSScriptRoot/new-evb-project.ps1" -ImageRoot $IMAGE_ROOT -OutputFile $finalExePath -ProjectFile $TEMP_EVB -Template $EVB_TEMPLATE
+            if (-not (Test-Path $EVB_CONSOLE)) { throw "Enigma console not found: $EVB_CONSOLE" }
+            Push-Location "$PROJECT_ROOT\.build"
+            try {
+                $PSNativeCommandUseErrorActionPreference = $false
+                $evbLog = & $EVB_CONSOLE $TEMP_EVB 2>&1
+                $evbExit = $LASTEXITCODE
+                $evbLog | Write-Host
+                if ($evbExit -ne 0) {
+                    $detail = (($evbLog | Select-Object -Last 25) -join "`n").Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A')
+                    Write-Host "::error title=Enigma packaging failed::$detail"
+                    throw "Enigma failed: $evbExit"
+                }
+            } finally {
+                $PSNativeCommandUseErrorActionPreference = $true
                 Pop-Location
             }
             Remove-Item $TEMP_EVB -ErrorAction SilentlyContinue
