@@ -63,15 +63,18 @@ public class MacroManager {
         if (event.isCancelled()) return;
 
         actions.clear();
+        MainFrame.clearTimeline();
         recording = true;
         lastTime = System.currentTimeMillis();
         log(Localizer.get("log.start_recording"));
+        SwingUtilities.invokeLater(MainFrame.MAIN_FRAME::refreshRuntimeState);
     }
 
     public static void stopRecording() {
         recording = false;
         EventManager.callEvent(new AfterRecordStopEvent(new ArrayList<>(actions)));
         log(Localizer.get("log.stop_recording_msg1") + actions.size() + Localizer.get("log.stop_recording_msg2"));
+        SwingUtilities.invokeLater(MainFrame.MAIN_FRAME::refreshRuntimeState);
     }
 
     public static void play() {
@@ -224,6 +227,7 @@ public class MacroManager {
     public static void recordAction(MouseAction action) {
         actions.add(action);
         lastTime = System.currentTimeMillis();
+        MainFrame.appendAction(action);
     }
 
     public static long getLastTime() {
@@ -359,7 +363,9 @@ public class MacroManager {
                         log(Localizer.get("log.macro_loading_line_error") + lineNum + ": " + ex.getMessage());
                     }
                 }
+                MainFrame.replaceTimelineWithActions(actions);
                 log(Localizer.get("log.macro_loaded_msg1") + selectedFile.getAbsolutePath() + " (" + actions.size() + " " + Localizer.get("log.macro_loaded_msg2") + ")");
+                SwingUtilities.invokeLater(MainFrame.MAIN_FRAME::refreshRuntimeState);
             } catch (Exception ex) {
                 log(Localizer.get("log.macro_loading_failed") + ex.getMessage());
             }

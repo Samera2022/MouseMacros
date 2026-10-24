@@ -6,13 +6,10 @@ import com.github.kwhat.jnativehook.mouse.NativeMouseEvent;
 import com.github.kwhat.jnativehook.mouse.NativeMouseInputListener;
 import com.github.kwhat.jnativehook.mouse.NativeMouseWheelEvent;
 import com.github.kwhat.jnativehook.mouse.NativeMouseWheelListener;
-import io.github.samera2022.mousemacros.app.Localizer;
 import io.github.samera2022.mousemacros.app.ui.frame.settings.HotkeyDialog;
-import io.github.samera2022.mousemacros.app.util.OtherUtil;
 
 import java.awt.*;
 
-import static io.github.samera2022.mousemacros.app.manager.LogManager.log;
 import static io.github.samera2022.mousemacros.app.ui.frame.MainFrame.*;
 
 public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputListener, NativeMouseWheelListener {
@@ -46,7 +43,6 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
             int awtKeyCode = toAwtKeyCode(e.getKeyCode());
             MacroManager.recordAction(new MouseAction(0, 0, 10, 0, delay, 0, e.getKeyCode(), awtKeyCode));
             MacroManager.setLastTime(now);
-            log(Localizer.get("log.recording_key_pressed") + OtherUtil.getNativeKeyDisplayText(e.getKeyCode()));
         }
     }
 
@@ -61,7 +57,6 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
             int awtKeyCode = toAwtKeyCode(e.getKeyCode());
             MacroManager.recordAction(new MouseAction(0, 0, 11, 0, delay, 0, e.getKeyCode(), awtKeyCode));
             MacroManager.setLastTime(now);
-            log(Localizer.get("log.recording_key_released") + OtherUtil.getNativeKeyDisplayText(e.getKeyCode()));
         }
     }
 
@@ -78,10 +73,8 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
             int btn = e.getButton();
             int macroBtn = btn == 2 ? 3 : btn == 3 ? 2 : btn;
 
-            String btnName = macroBtn == 1 ? Localizer.get("log.mouse_left") : macroBtn == 2 ? Localizer.get("log.mouse_middle") : Localizer.get("log.mouse_right");
             MacroManager.recordAction(new MouseAction(p.x, p.y, 1, macroBtn, delay));
             MacroManager.setLastTime(now);
-            log(Localizer.get("log.recording_mouse_pressed")+" ["+btnName+"] (" + p.x + "," + p.y + ")");
         }
     }
 
@@ -96,10 +89,8 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
             int btn = e.getButton();
             int macroBtn = btn == 2 ? 3 : btn == 3 ? 2 : btn;
 
-            String btnName = macroBtn == 1 ? Localizer.get("log.mouse_left") : macroBtn == 2 ? Localizer.get("log.mouse_middle") : Localizer.get("log.mouse_right");
             MacroManager.recordAction(new MouseAction(p.x, p.y, 2, macroBtn, delay));
             MacroManager.setLastTime(now);
-            log(Localizer.get("log.recording_mouse_released")+" ["+btnName+"] (" + p.x + "," + p.y + ")");
         }
     }
 
@@ -115,7 +106,6 @@ public class GlobalMouseListener implements NativeKeyListener, NativeMouseInputL
 
             MacroManager.recordAction(new MouseAction(p.x, p.y, 3, 0, delay, wheelAmount));
             MacroManager.setLastTime(now);
-            log(Localizer.get("log.recording_scroll_msg1") + " ("+ Localizer.get("log.recording_scroll_msg2") + wheelAmount + ")");
         }
     }
 
