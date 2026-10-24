@@ -104,7 +104,15 @@ jobs:
           
           "jar", "zip", "exe", "msi", "msix" | ForEach-Object {
               Write-Host "--> Packaging format: $_" -ForegroundColor Cyan
-              ./.build/build.ps1 -Type $_
+              $format = $_
+              $packageLog = @()
+              try {
+                & ./.build/build.ps1 -Type $format *>&1 | Tee-Object -Variable packageLog
+              } catch {
+                $detail = ((@($_.Exception.Message) + @($packageLog | Select-Object -Last 25)) -join "`n").Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A')
+                Write-Host "::error title=Packaging $format failed::$detail"
+                throw
+              }
           }
 
       - name: Verify all release artifacts
