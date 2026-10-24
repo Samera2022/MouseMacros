@@ -4,6 +4,9 @@ Param(
     [string]$Type
 )
 
+$ErrorActionPreference = 'Stop'
+$PSNativeCommandUseErrorActionPreference = $true
+
 $PROJECT_ROOT = $env:GITHUB_WORKSPACE
 if ($null -eq $PROJECT_ROOT) { $PROJECT_ROOT = Get-Location }
 Set-Location $PROJECT_ROOT
@@ -22,6 +25,7 @@ $OUT_DIR = New-Item -ItemType Directory -Path "$PROJECT_ROOT\output" -Force
 $IconPath = "$PROJECT_ROOT\.build\${BaseName}.ico"
 
 $MAVEN_JAR = "$PROJECT_ROOT\target\${BaseName}.jar"
+if (-not (Test-Path $MAVEN_JAR -PathType Leaf)) { throw "Build the application JAR before packaging: $MAVEN_JAR" }
 $CLEAN_INPUT = New-Item -ItemType Directory -Path "$PROJECT_ROOT\target\dist" -Force
 if (Test-Path $MAVEN_JAR) {
     Copy-Item $MAVEN_JAR $CLEAN_INPUT
@@ -69,7 +73,17 @@ switch ($Type) {
         $icoInZip = "$ZIP_TEMP/$BaseName/$BaseName.ico"
         if (Test-Path $icoInZip) { Remove-Item $icoInZip -Force }
 
-        Compress-Archive -Path "$ZIP_TEMP/$BaseName" -DestinationPath "$OUT_DIR\$FullName.zip" -Force
+        # Include the optional registration/uninstaller beside the app-image.
+        $packageScripts = New-Item -ItemType Directory -Path "$ZIP_TEMP/$BaseName/scripts" -Force
+        foreach ($script in @('install.ps1', 'uninstall.ps1', 'package-common.ps1')) {
+            Copy-Item "$PROJECT_ROOT/scripts/$script" $packageScripts -Force
+        }
+        Copy-Item "$PROJECT_ROOT/docs/MANUAL_UNINSTALL.md" "$ZIP_TEMP/$BaseName/UNINSTALL.md" -Force
+        $zipPath = Join-Path $OUT_DIR "$FullName.zip"
+        if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+        [System.IO.Compression.ZipFile]::CreateFromDirectory(
+            (Resolve-Path "$ZIP_TEMP/$BaseName").Path, $zipPath,
+            [System.IO.Compression.CompressionLevel]::Optimal, $true)
     }
 
     "exe" {

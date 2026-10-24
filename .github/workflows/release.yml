@@ -6,7 +6,7 @@ on:
       - '[0-9]*'
 
 env:
-  JAVA_VERSION: '11.0.27'
+  JAVA_VERSION: '21'
   JAVA_DIST: 'liberica'
 
 jobs:

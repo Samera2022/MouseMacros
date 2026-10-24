@@ -3,21 +3,22 @@
 ## Installation & Uninstallation
 
 ### Q: How do I install MouseMacros?
-**A:** MouseMacros is portable and doesn't require installation. Simply:
-1. Extract the ZIP file to any folder
-2. Run `MouseMacros.jar` with Java (double-click or `java -jar MouseMacros.jar`)
-3. *Optional*: Run `scripts\install.ps1` to register in Windows (adds to Add/Remove Programs)
+**A:** Choose the instructions for your download:
+1. **MSI**: Run the Windows installer.
+2. **Windows ZIP**: Extract the complete folder and run `MouseMacros.exe`; Java is bundled. Optionally run `scripts\install.ps1` for a Start Menu shortcut and Windows Settings entry.
+3. **Standalone EXE**: Run the portable executable.
+4. **JAR**: Install Java 11+ and run `java -jar MouseMacros.jar`.
 
 ### Q: How do I uninstall MouseMacros?
 **A:** Three methods:
-1. **Automated (Recommended)**: Run `scripts\uninstall.ps1` in PowerShell
-2. **Windows Settings**: Settings > Apps > MouseMacros > Uninstall (if you ran install.ps1)
-3. **Manual**: Delete the installation folder and `%USERPROFILE%\.mousemacros` directory
+1. **MSI**: Windows Settings > Apps > MouseMacros > Uninstall.
+2. **Registered ZIP/JAR**: Use Windows Settings, or run `scripts\uninstall.ps1`.
+3. **Portable EXE/JAR/ZIP**: Close the app and delete its executable/JAR or extracted folder. Settings removal is optional.
 
 See `docs/MANUAL_UNINSTALL.md` for detailed manual uninstallation steps.
 
 ### Q: Will uninstalling remove my saved macros?
-**A:** By default, NO. Configuration files (including saved macros) are preserved in `%USERPROFILE%\.mousemacros`. To also remove these files, run:
+**A:** By default, NO. Settings are preserved in `%LOCALAPPDATA%\MouseMacros`. To also remove these files, run:
 ```powershell
 .\scripts\uninstall.ps1 -RemoveConfig
 ```
@@ -37,7 +38,7 @@ See `docs/MANUAL_UNINSTALL.md` for detailed manual uninstallation steps.
 
 **Recommended keys:**
 - ✓ F1-F12 function keys
-- ✓ Letter keys (A-Z) + Ctrl/Shift/Alt
+- ✓ Single letter keys (A-Z); modifier combinations are not supported
 - ✓ Number keys (0-9)
 - ✓ Arrow keys
 - ✓ Numpad keys
@@ -75,7 +76,7 @@ Try using different key combinations or check Settings > Custom Hotkey for confl
 3. **Timing issues**: Application response times vary. Add manual delays in your macro if needed.
 
 ### Q: How do I stop a running macro?
-**A:** Press the "Abort Macro" hotkey (default: F12). If unresponsive:
+**A:** Press the pause/abort hotkey (default: F5) once to pause and again to abort. If unresponsive:
 1. Press Ctrl+Alt+Del to open Task Manager
 2. End the `javaw.exe` or `MouseMacros` process
 
@@ -85,20 +86,20 @@ Try using different key combinations or check Settings > Custom Hotkey for confl
 
 ### Q: Where are my settings/macros stored?
 **A:** 
-- **Settings**: `%USERPROFILE%\.mousemacros\config.json`
-- **Saved macros**: Default location is `%USERPROFILE%\.mousemacros\macros\` (unless you changed it in Settings)
-- **Logs**: `%USERPROFILE%\.mousemacros\logs\`
+- **Settings**: `%LOCALAPPDATA%\MouseMacros\config.cfg`
+- **Saved macros**: The folder you selected when saving, or your configured default storage folder
+- **Logs**: `%LOCALAPPDATA%\MouseMacros\reports\`
 
 ### Q: Can I backup my macros?
 **A:** Yes! Your macros are stored as `.mmc` files. Simply:
-1. Navigate to your macro storage folder (default: `%USERPROFILE%\.mousemacros\macros\`)
+1. Navigate to the folder you selected when saving your macros
 2. Copy the `.mmc` files to a backup location
 3. To restore, copy them back and use "Load Macro" in the application
 
 ### Q: How do I reset to default settings?
 **A:** 
 1. Close MouseMacros
-2. Delete `%USERPROFILE%\.mousemacros\config.json`
+2. Delete `%LOCALAPPDATA%\MouseMacros\config.cfg`
 3. Restart MouseMacros - it will create a new config with defaults
 
 ---
@@ -145,7 +146,7 @@ Use **saMacros** instead: https://github.com/Samera2022/saMacros
    java -jar MouseMacros.jar
    ```
    Check for error messages.
-3. **Reset config**: Delete `%USERPROFILE%\.mousemacros\config.json` and try again.
+3. **Reset config**: Delete `%LOCALAPPDATA%\MouseMacros\config.cfg` and try again.
 
 ### Q: "Hook registration failed" error
 **A:** This means MouseMacros couldn't register global keyboard/mouse hooks. Causes:
@@ -293,3 +294,4 @@ All data stays on your computer.
 **Version:** 2.0.0
 
 For more help, visit: https://github.com/Samera2022/MouseMacros
+The welcome wizard opens on first launch and can be reopened from Settings → Shortcuts → Welcome wizard. It displays your current configured hotkeys; the main toolbar also shows them.

@@ -3,26 +3,27 @@
 ## 5-Minute Quick Start
 
 ### 1. Launch MouseMacros
-- Double-click `MouseMacros.jar` (requires Java 11+)
-- Or run: `java -jar MouseMacros.jar`
+- Windows ZIP: extract the full folder and run `MouseMacros.exe` (Java is bundled).
+- MSI: install, then launch MouseMacros from the Start Menu.
+- JAR: double-click `MouseMacros.jar` with Java 11+, or run `java -jar MouseMacros.jar`.
 
 First launch will show a Welcome Wizard. Follow it for a guided tour!
 
 ### 2. Record Your First Macro
 
-1. **Press F9** (default record hotkey)
+1. **Press F2** (default record hotkey)
 2. Perform some simple actions:
    - Move your mouse
    - Click a few times
    - Type some text
-3. **Press F10** to stop recording
+3. **Press F3** to stop recording
 4. You'll see recorded actions in the main window
 
 ### 3. Play Back Your Macro
 
-1. **Press F11** (default play hotkey)
+1. **Press F4** (default play hotkey)
 2. Watch your actions replay automatically!
-3. **Press F12** to abort if needed
+3. **Press F5** to pause; press F5 again to abort if needed
 
 ### 4. Save Your Macro
 
@@ -34,7 +35,7 @@ First launch will show a Welcome Wizard. Follow it for a guided tour!
 
 1. Click **"Load Macro"** button
 2. Select your `.mmc` file
-3. Press F11 to play
+3. Press F4 to play
 
 **Congratulations!** 🎉 You've mastered the basics.
 
@@ -44,11 +45,11 @@ First launch will show a Welcome Wizard. Follow it for a guided tour!
 
 | Action | Hotkey | Description |
 |--------|--------|-------------|
-| **Start Recording** | F9 | Begin capturing mouse/keyboard actions |
-| **Stop Recording** | F10 | End recording session |
-| **Play Macro** | F11 | Execute the recorded/loaded macro |
-| **Abort Macro** | F12 | Stop playback immediately |
-| **Pause/Resume** | (dynamic) | Pause and resume during playback |
+| **Start Recording** | F2 | Begin capturing mouse/keyboard actions |
+| **Stop Recording** | F3 | End recording session |
+| **Play Macro** | F4 | Execute the recorded/loaded macro |
+| **Abort Macro** | F5 | Pause playback; press again to abort |
+| **Resume** | F4 | Resume paused playback |
 
 ### Customize Hotkeys
 Settings > Custom Hotkey > Click field > Press your key > Confirm
@@ -147,23 +148,23 @@ Set a default folder for saving/loading macros. Useful if you organize macros in
 ## Keyboard Shortcut Reference
 
 ### Recommended Hotkey Combinations
-✓ **Function Keys**: F1-F12 (most reliable)  
-✓ **Ctrl combos**: Ctrl+Shift+A, Ctrl+Alt+Q  
-✓ **Number Keys**: Ctrl+1, Shift+2, Alt+3  
-✓ **Arrow Keys**: Ctrl+Up, Shift+Left  
+✓ **Function Keys**: F1-F12 (most reliable)
+✓ **Letter keys**: A-Z (one key per action)
+✓ **Number Keys**: 0-9 (one key per action)
+✓ **Arrow Keys**: Up, Down, Left, Right
 
 ### Avoid These Keys
-✗ **Media keys**: Volume, Play, Pause, Next  
-✗ **Fn keys**: Fn+F5 (laptop function layer)  
-✗ **Power keys**: Power, Sleep  
-✗ **System shortcuts**: Ctrl+Alt+Del, Win+L  
+✗ **Media keys**: Volume, Play, Pause, Next
+✗ **Fn keys**: Fn+F5 (laptop function layer)
+✗ **Power keys**: Power, Sleep
+✗ **System shortcuts**: Ctrl+Alt+Del, Win+L
 
 ---
 
 ## Troubleshooting Quick Fixes
 
 ### Problem: "Hook registration failed"
-**Solution:** 
+**Solution:**
 1. Close other macro tools
 2. Run MouseMacros as Administrator
 3. Check antivirus settings
@@ -182,7 +183,7 @@ Set a default folder for saving/loading macros. Useful if you organize macros in
 
 ### Problem: Can't uninstall
 **Solution:**
-Run `scripts\uninstall.ps1` or see `docs/MANUAL_UNINSTALL.md`
+For MSI, use Windows Settings > Apps. For portable EXE/JAR, close the app and delete the executable/JAR. Registered ZIPs also include `scripts\uninstall.ps1`. See `docs/MANUAL_UNINSTALL.md`.
 
 ---
 
@@ -218,3 +219,4 @@ If MouseMacros helps you, consider:
 - ⭐ Starring the project on GitHub
 - 🐛 Reporting bugs to help improve it
 - 💡 Suggesting features you'd like to see
+The welcome wizard opens on first launch and can be reopened from Settings → Shortcuts → Welcome wizard. It displays your current configured hotkeys; the main toolbar also shows them.

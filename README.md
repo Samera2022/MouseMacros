@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Java-1.8%2B-orange.svg" alt="Java Version">
+  <img src="https://img.shields.io/badge/Java-11%2B-orange.svg" alt="Java Version">
   <img src="https://img.shields.io/badge/License-GPL--3.0-blue.svg" alt="License">
   <img src="https://img.shields.io/github/v/release/Samera2022/MouseMacros" alt="Latest Release">
   <img src="https://img.shields.io/github/v/release/Samera2022/MouseMacros?include_prereleases&label=pre-release&color=orange" alt="Pre-Release">
@@ -79,7 +79,7 @@ To ensure the safety and authenticity of our Windows binaries, MouseMacros is cu
 
 ### Quick Launch
 I. Jar User
-1. Make sure that you have installed JRE 1.8 or above. If not, you can download [HERE](https://www.oracle.com/technetwork/cn/java/javase/downloads/jre8-downloads-2133155-zhs.html).
+1. Make sure that you have installed Java 11 or above. If not, you can download [HERE](https://www.oracle.com/technetwork/cn/java/javase/downloads/jre8-downloads-2133155-zhs.html).
 2. Download the latest `.jar` file from the [Releases](https://github.com/Samera2022/MouseMacros/releases) page.
 3. Double-click the jar file OR use cmd to run the application:
     ```bash

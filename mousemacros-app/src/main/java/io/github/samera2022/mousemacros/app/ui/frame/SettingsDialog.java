@@ -64,6 +64,8 @@ public class SettingsDialog extends JDialog {
     }
 
     public SettingsDialog() {
+        super(MAIN_FRAME);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle(Localizer.get("settings"));
         setName("settings");
 
@@ -315,7 +317,6 @@ public class SettingsDialog extends JDialog {
         addTooltip(label, checkBox, setting);
 
         checkBox.addActionListener(e -> {
-            ConfigManager.set(setting.i18nKey, checkBox.isSelected());
             refreshUI(false);
         });
 
@@ -838,7 +839,7 @@ public class SettingsDialog extends JDialog {
             JOptionPane.showMessageDialog(
                     this,
                     new JLabel(message),
-                    Localizer.getS("settings.error"),
+                    Localizer.get("settings.error"),
                     JOptionPane.ERROR_MESSAGE
             );
         }
@@ -902,7 +903,11 @@ public class SettingsDialog extends JDialog {
         );
 
         saveSettingsBtn.addActionListener(e -> {
-            saveSettings();
+            if (!saveSettings()) return;
+            if (ConfigManager.getBoolean("follow_system_settings")) {
+                ConfigManager.set("switch_lang", SystemUtil.getSystemLang(ConfigManager.getAvailableLangs()));
+                ConfigManager.set("enable_dark_mode", SystemUtil.isSystemDarkMode());
+            }
             ConfigManager.saveConfig();
 
             Localizer.load(
@@ -918,12 +923,7 @@ public class SettingsDialog extends JDialog {
                             : OtherConsts.LIGHT_MODE
             );
 
-            ComponentUtil.setMode(
-                    MAIN_FRAME.getContentPane(),
-                    ConfigManager.getBoolean("enable_dark_mode")
-                            ? OtherConsts.DARK_MODE
-                            : OtherConsts.LIGHT_MODE
-            );
+            MAIN_FRAME.applyTheme();
 
             dispose();
         });
@@ -1029,101 +1029,32 @@ public class SettingsDialog extends JDialog {
     // -------------------------------------------------------------------------
 
     private void refreshUI(boolean forceUpdateFromConfig) {
-        for (SettingsRegistry setting : SettingsRegistry.values()) {
-            if (setting.type == OtherConsts.SECTION) {
-                continue;
-            }
-
-            JComponent component =
-                    componentMap.get(setting.i18nKey);
-
-            if (component == null) {
-                continue;
-            }
-
-            boolean isEnabled = true;
-
-            if (setting.relateTo != null) {
-                boolean parentValue =
-                        ConfigManager.getBoolean(
-                                setting.relateTo
-                        );
-
-                isEnabled =
-                        "follow_system_settings"
-                                .equals(setting.relateTo)
-                                != parentValue;
-            }
-
-            component.setEnabled(isEnabled);
-
-            if (component instanceof JPanel) {
-                setEnabledRecursively(component, isEnabled);
-            }
-
-            if (forceUpdateFromConfig || !isEnabled) {
-                Object valueToSet;
-                String configKey = setting.i18nKey;
-
-                if (!isEnabled) {
-                    if (setting == SettingsRegistry.SWITCH_LANG) {
-                        valueToSet =
-                                SystemUtil.getSystemLang(
-                                        ConfigManager.getAvailableLangs()
-                                );
-
-                    } else if (
-                            setting
-                                    == SettingsRegistry.ENABLE_DARK_MODE
-                    ) {
-                        valueToSet =
-                                SystemUtil.isSystemDarkMode();
-
-                    } else {
-                        valueToSet =
-                                setting.defaultValue;
-                    }
-
+        // Populate every control first so dependencies use the current dialog state.
+        if (forceUpdateFromConfig) {
+            for (SettingsRegistry setting : SettingsRegistry.values()) {
+                if (setting.type == OtherConsts.SECTION) continue;
+                Object value;
+                if (setting.type == OtherConsts.CHECK_BOX) {
+                    value = ConfigManager.getBoolean(setting.i18nKey);
+                } else if (setting.type == OtherConsts.COMBO_BOX && setting.size != -1) {
+                    value = ConfigManager.getInt(setting.i18nKey);
                 } else {
-                    if (setting.type
-                            == OtherConsts.CHECK_BOX) {
-
-                        valueToSet =
-                                ConfigManager.getBoolean(
-                                        configKey
-                                );
-
-                    } else if (
-                            setting.type
-                                    == OtherConsts.COMBO_BOX
-                    ) {
-
-                        if (setting.size == -1) {
-                            valueToSet =
-                                    ConfigManager.getString(
-                                            configKey
-                                    );
-                        } else {
-                            valueToSet =
-                                    ConfigManager.getInt(
-                                            configKey
-                                    );
-                        }
-
-                    } else {
-                        valueToSet =
-                                ConfigManager.getString(
-                                        configKey
-                                );
-                    }
+                    value = ConfigManager.getString(setting.i18nKey);
                 }
-
-                applyValueToComponent(
-                        component,
-                        setting,
-                        valueToSet
-                );
+                applyValueToComponent(componentMap.get(setting.i18nKey), setting, value);
             }
+        }
+        for (SettingsRegistry setting : SettingsRegistry.values()) {
+            if (setting.type == OtherConsts.SECTION) continue;
+            JComponent component = componentMap.get(setting.i18nKey);
+            boolean enabled = true;
+            if (setting.relateTo != null) {
+                JPanel parent = (JPanel) componentMap.get(setting.relateTo);
+                boolean selected = ((JCheckBox) parent.getComponent(2)).isSelected();
+                enabled = "follow_system_settings".equals(setting.relateTo) ? !selected : selected;
+            }
+            component.setEnabled(enabled);
+            setEnabledRecursively(component, enabled);
         }
     }
 
@@ -1180,7 +1111,7 @@ public class SettingsDialog extends JDialog {
 
                 if (value instanceof Integer) {
                     comboBox.setSelectedIndex(
-                            (Integer) value - 1
+                            Math.max(0, Math.min(comboBox.getItemCount() - 1, (Integer) value - 1))
                     );
                 } else {
                     comboBox.setSelectedItem(value);
@@ -1191,63 +1122,50 @@ public class SettingsDialog extends JDialog {
         }
     }
 
-    private void saveSettings() {
+    private boolean saveSettings() {
+        Map<String, Object> pending = new HashMap<>();
         for (SettingsRegistry setting : SettingsRegistry.values()) {
-            if (setting.type == OtherConsts.SECTION) {
-                continue;
-            }
-
-            JComponent component =
-                    componentMap.get(setting.i18nKey);
-
-            if (component == null) {
-                continue;
-            }
-
-            if (!component.isEnabled()) {
-                continue;
-            }
-
+            if (setting.type == OtherConsts.SECTION) continue;
+            JPanel component = (JPanel) componentMap.get(setting.i18nKey);
+            if (!component.isEnabled()) continue;
+            JComponent control = (JComponent) component.getComponent(2);
             switch (setting.type) {
                 case OtherConsts.CHECK_BOX:
-                    // Checkbox state is already written by its ActionListener.
+                    pending.put(setting.i18nKey, ((JCheckBox) control).isSelected());
                     break;
-
+                case OtherConsts.SPECIFIC_TEXT_FIELD:
+                    JTextField field = (JTextField) control;
+                    try {
+                        if (setting == SettingsRegistry.REPEAT_TIME) {
+                            int count = Integer.parseInt(field.getText());
+                            if (count != -1 && count < 1) throw new NumberFormatException();
+                            pending.put(setting.i18nKey, count);
+                        } else {
+                            double delay = Double.parseDouble(field.getText());
+                            if (!Double.isFinite(delay) || delay < 0) throw new NumberFormatException();
+                            pending.put(setting.i18nKey, delay);
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(this,
+                                Localizer.getS(setting.i18nKey) + ": " + Localizer.get("settings.invalid_number"),
+                                Localizer.get("settings.error"), JOptionPane.ERROR_MESSAGE);
+                        field.requestFocusInWindow();
+                        field.selectAll();
+                        return false;
+                    }
+                    break;
                 case OtherConsts.TEXT_FIELD:
                 case OtherConsts.FILE_CHOOSER:
-                case OtherConsts.SPECIFIC_TEXT_FIELD: {
-                    JTextField textField =
-                            (JTextField) ((JPanel) component)
-                                    .getComponent(2);
-
-                    ConfigManager.set(
-                            setting.i18nKey,
-                            textField.getText()
-                    );
+                    pending.put(setting.i18nKey, ((JTextField) control).getText());
                     break;
-                }
-
-                case OtherConsts.COMBO_BOX: {
-                    JComboBox<?> comboBox =
-                            (JComboBox<?>) ((JPanel) component)
-                                    .getComponent(2);
-
-                    if (setting.size != -1) {
-                        ConfigManager.set(
-                                setting.i18nKey,
-                                comboBox.getSelectedIndex() + 1
-                        );
-                    } else {
-                        ConfigManager.set(
-                                setting.i18nKey,
-                                comboBox.getSelectedItem()
-                        );
-                    }
-
+                case OtherConsts.COMBO_BOX:
+                    JComboBox<?> combo = (JComboBox<?>) control;
+                    pending.put(setting.i18nKey, setting.size == -1 ? combo.getSelectedItem() : combo.getSelectedIndex() + 1);
                     break;
-                }
             }
         }
+        pending.forEach(ConfigManager::set);
+        return true;
     }
 
     // -------------------------------------------------------------------------

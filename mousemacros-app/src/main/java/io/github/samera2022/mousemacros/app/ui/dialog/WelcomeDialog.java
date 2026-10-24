@@ -4,6 +4,8 @@ import io.github.samera2022.mousemacros.app.Localizer;
 import io.github.samera2022.mousemacros.app.config.ConfigManager;
 import io.github.samera2022.mousemacros.app.constant.OtherConsts;
 import io.github.samera2022.mousemacros.app.util.ComponentUtil;
+import io.github.samera2022.mousemacros.app.util.OtherUtil;
+import io.github.samera2022.mousemacros.app.ui.frame.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +25,7 @@ public class WelcomeDialog extends JDialog {
     private JButton prevButton;
     private JButton finishButton;
     private JLabel pageIndicator;
+    private JCheckBox dontShowAgain;
     
     public WelcomeDialog(Frame parent) {
         super(parent, Localizer.get("welcome.title"), true);
@@ -35,9 +38,11 @@ public class WelcomeDialog extends JDialog {
         }
         
         initComponents();
-        setSize(600, 450);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setSize(680, 580);
+        setMinimumSize(new Dimension(560, 420));
         setLocationRelativeTo(parent);
-        setResizable(false);
+        setResizable(true);
     }
     
     private void initComponents() {
@@ -58,10 +63,10 @@ public class WelcomeDialog extends JDialog {
         cardPanel = new JPanel(cardLayout);
         cardPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         
-        cardPanel.add(createPage1(), "page1");
-        cardPanel.add(createPage2(), "page2");
-        cardPanel.add(createPage3(), "page3");
-        cardPanel.add(createPage4(), "page4");
+        cardPanel.add(scrollPage(createPage1()), "page1");
+        cardPanel.add(scrollPage(createPage2()), "page2");
+        cardPanel.add(scrollPage(createPage3()), "page3");
+        cardPanel.add(scrollPage(createPage4()), "page4");
         
         add(cardPanel, BorderLayout.CENTER);
         
@@ -98,6 +103,13 @@ public class WelcomeDialog extends JDialog {
             ConfigManager.getBoolean("enable_dark_mode") ? OtherConsts.DARK_MODE : OtherConsts.LIGHT_MODE);
     }
     
+    private JScrollPane scrollPage(JPanel panel) {
+        JScrollPane scroll = new JScrollPane(panel);
+        scroll.setBorder(null);
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        return scroll;
+    }
+
     private JPanel createPage1() {
         JPanel panel = new JPanel(new BorderLayout(0, 15));
         
@@ -133,7 +145,11 @@ public class WelcomeDialog extends JDialog {
         JLabel title = new JLabel(Localizer.get("welcome.page2.title"));
         title.setFont(title.getFont().deriveFont(Font.BOLD, 16f));
         
-        JTextArea text = new JTextArea(Localizer.get("welcome.page2.content"));
+        JTextArea text = new JTextArea(String.format(Localizer.get("welcome.page2.content"),
+                OtherUtil.getNativeKeyDisplayText(MainFrame.keyRecord),
+                OtherUtil.getNativeKeyDisplayText(MainFrame.keyStop),
+                OtherUtil.getNativeKeyDisplayText(MainFrame.keyPlay),
+                OtherUtil.getNativeKeyDisplayText(MainFrame.keyAbort)));
         text.setWrapStyleWord(true);
         text.setLineWrap(true);
         text.setEditable(false);
@@ -178,9 +194,8 @@ public class WelcomeDialog extends JDialog {
         text.setOpaque(false);
         text.setFont(text.getFont().deriveFont(14f));
         
-        JCheckBox dontShowAgain = new JCheckBox(Localizer.get("welcome.dont_show_again"));
-        dontShowAgain.addActionListener(e -> 
-            ConfigManager.set("welcome_shown", dontShowAgain.isSelected()));
+        dontShowAgain = new JCheckBox(Localizer.get("welcome.dont_show_again"), true);
+        dontShowAgain.setName("welcome.dont_show_again");
         
         JPanel bottomPanel = new JPanel(new BorderLayout(0, 10));
         bottomPanel.add(text, BorderLayout.CENTER);
@@ -227,7 +242,7 @@ public class WelcomeDialog extends JDialog {
     }
     
     private void finish() {
-        ConfigManager.set("welcome_shown", true);
+        ConfigManager.set("welcome_shown", dontShowAgain.isSelected());
         ConfigManager.saveConfig();
         dispose();
     }
