@@ -56,9 +56,12 @@ jobs:
       - name: Install Build Tools (WiX & Enigma)
         shell: pwsh
         run: |
-          "C:\Program Files (x86)\WiX Toolset v3.11\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
-          choco install wixtoolset --ignore-checksums -y
-          choco install enigmavirtualbox --no-progress --ignore-checksums -y
+          choco install wixtoolset --version=3.14.1 -y
+          choco install enigmavirtualbox --no-progress -y
+          $wix = Get-ChildItem "${env:ProgramFiles(x86)}/WiX Toolset v3*/bin/candle.exe" |
+            Sort-Object FullName -Descending | Select-Object -First 1
+          if (-not $wix) { throw 'WiX v3 candle.exe not found' }
+          $wix.Directory.FullName | Out-File -FilePath $env:GITHUB_PATH -Append
 
       - name: Update POM and Build
         shell: pwsh
@@ -80,11 +83,22 @@ jobs:
               ./.build/build.ps1 -Type $_
           }
 
+      - name: Verify all release artifacts
+        shell: pwsh
+        run: |
+          $version = $env:APP_DISPLAY_VERSION
+          foreach ($format in @('jar', 'zip', 'exe', 'msi', 'msix')) {
+            $path = "output/MouseMacros-$version.$format"
+            if (-not (Test-Path $path -PathType Leaf)) { throw "Missing release artifact: $path" }
+            if ((Get-Item $path).Length -eq 0) { throw "Empty release artifact: $path" }
+            Get-FileHash $path -Algorithm SHA256
+          }
+
       - name: Generate Changelog
         id: changelog_gen
         shell: pwsh
         run: |
-          $jsonPath = "src/main/resources/io/github/samera2022/mousemacros/updates.json"
+          $jsonPath = "mousemacros-app/src/main/resources/io/github/samera2022/mousemacros/updates.json"
           $ver = "${{ env.APP_DISPLAY_VERSION }}"
           $logFile = "release_body.txt"
           

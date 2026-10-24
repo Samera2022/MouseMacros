@@ -30,7 +30,7 @@ try {
     $regPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\MouseMacros'
     New-Item -Path $regPath -Force | Out-Null
     $properties = @{
-        DisplayName = 'MouseMacros'; DisplayVersion = '2.0.0'; Publisher = 'Samera2022'
+        DisplayName = 'MouseMacros'; DisplayVersion = '2.1.0'; Publisher = 'Samera2022'
         InstallLocation = $InstallDir
         UninstallString = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$uninstaller`" -Silent"
         DisplayIcon = $(if ($layout.IsAppImage) { Join-Path $InstallDir 'MouseMacros.exe' } else { $layout.Jar })

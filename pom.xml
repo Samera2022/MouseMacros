@@ -6,7 +6,7 @@
 
     <groupId>io.github.samera2022</groupId>
     <artifactId>mousemacros-parent</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <packaging>pom</packaging>
 
     <name>MouseMacros Parent</name>
@@ -18,8 +18,8 @@
     </modules>
 
     <properties>
-        <app.display.version>2.0.0.0</app.display.version>
-        <app.semantic.version>2.0.0</app.semantic.version>
+        <app.display.version>2.1.0</app.display.version>
+        <app.semantic.version>2.1.0</app.semantic.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
