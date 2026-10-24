@@ -56,8 +56,18 @@ jobs:
       - name: Install Build Tools (WiX & Enigma)
         shell: pwsh
         run: |
-          choco install wixtoolset --version=3.14.1 -y
-          choco install enigmavirtualbox --no-progress -y
+          function Install-ReleaseTool([string[]]$Arguments) {
+            $log = & choco @Arguments 2>&1
+            $code = $LASTEXITCODE
+            $log | Write-Host
+            if ($code -notin @(0, 1641, 3010)) {
+              $detail = (($log | Select-Object -Last 20) -join "`n").Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A')
+              Write-Host "::error title=Release tool installation failed::$detail"
+              throw "Chocolatey failed with exit code $code"
+            }
+          }
+          Install-ReleaseTool @('install', 'wixtoolset', '--version=3.14.1.20250415', '-y')
+          Install-ReleaseTool @('install', 'enigmavirtualbox', '--no-progress', '-y')
           $wix = Get-ChildItem "${env:ProgramFiles(x86)}/WiX Toolset v3*/bin/candle.exe" |
             Sort-Object FullName -Descending | Select-Object -First 1
           if (-not $wix) { throw 'WiX v3 candle.exe not found' }
